@@ -1,0 +1,159 @@
+# ============================================================
+# Security & Routing Configuration
+# ============================================================
+
+# --- Directory Listing ---
+Options -Indexes
+
+# --- Follow Symlinks (required for mod_rewrite) ---
+Options +FollowSymLinks
+
+# --- Entry Point (ensures / routes to index.php regardless of server config) ---
+DirectoryIndex index.php
+
+# ============================================================
+# Security Headers
+# ============================================================
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;"
+
+    # Remove server signature headers
+    Header unset X-Powered-By
+    Header always unset X-Powered-By
+    Header unset Server
+</IfModule>
+
+# --- Hide Server Signature ---
+ServerSignature Off
+
+# ============================================================
+# Block Access to Sensitive Files
+# ============================================================
+<FilesMatch "(^\.env|\.git|\.htpasswd|composer\.(json|lock)|package\.json|package-lock\.json|yarn\.lock|Makefile|Dockerfile|\.log|\.bak|\.sql|\.sh|\.config)$">
+    Require all denied
+</FilesMatch>
+
+# Block dotfiles (except .htaccess itself)
+<FilesMatch "^\.(?!htaccess)">
+    Require all denied
+</FilesMatch>
+
+# ============================================================
+# Block Malicious User Agents
+# ============================================================
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{HTTP_USER_AGENT} (masscan|nikto|sqlmap|nmap|dirbuster|gobuster|wfuzz|nuclei|acunetix|nessus|openvas|zgrab|curl/7\.[0-2]) [NC]
+    RewriteRule .* - [F,L]
+
+    # Block empty user agents
+    RewriteCond %{HTTP_USER_AGENT} ^$
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# ============================================================
+# Block Common Attack Patterns in Query Strings
+# ============================================================
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Block SQL injection attempts
+    RewriteCond %{QUERY_STRING} (union.*select|select.*from|insert.*into|drop.*table|delete.*from|update.*set|exec\(|execute\() [NC]
+    RewriteRule .* - [F,L]
+
+    # Block XSS attempts
+    RewriteCond %{QUERY_STRING} (<script|javascript:|vbscript:|onload=|onerror=|onclick=) [NC]
+    RewriteRule .* - [F,L]
+
+    # Block path traversal
+    RewriteCond %{QUERY_STRING} (\.\./|\.\.\\) [NC]
+    RewriteRule .* - [F,L]
+
+    # Block base64 encoded payloads (common in obfuscated attacks)
+    RewriteCond %{QUERY_STRING} (base64_encode|base64_decode) [NC]
+    RewriteRule .* - [F,L]
+
+    # Block PHP stream wrappers
+    RewriteCond %{QUERY_STRING} (php://|data://|zip://|expect://) [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# ============================================================
+# Block Common Attack Patterns in Request URI
+# ============================================================
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Block access to wp-admin, xmlrpc (common probe targets)
+    RewriteRule ^(wp-admin|wp-login|xmlrpc|phpmyadmin|pma|adminer) - [F,L]
+
+    # Block common shell/backdoor filenames
+    RewriteCond %{REQUEST_URI} (shell|c99|r57|webshell|backdoor|cmd|passthru|eval-stdin) [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# ============================================================
+# Limit HTTP Request Methods
+# ============================================================
+<LimitExcept GET POST PUT DELETE OPTIONS>
+    Require all denied
+</LimitExcept>
+
+# ============================================================
+# Prevent Content Type Sniffing via POST Flooding
+# ============================================================
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Reject oversized query strings (over 2000 chars — common in injection probes)
+    RewriteCond %{QUERY_STRING} .{2001,} [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# ============================================================
+# URL Rewriting — Route All Requests to index.php
+# ============================================================
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Allow direct access to real files and directories
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Route everything else to index.php
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# ============================================================
+# PHP Hardening (if PHP is running via Apache module)
+# ============================================================
+<IfModule mod_php.c>
+    php_flag display_errors Off
+    php_flag expose_php Off
+    php_flag allow_url_fopen Off
+    php_flag allow_url_include Off
+    php_value upload_max_filesize 10M
+    php_value post_max_size 12M
+    php_value max_execution_time 30
+</IfModule>
+
+# ============================================================
+# Deny Access to XML-RPC (if not needed)
+# ============================================================
+<Files xmlrpc.php>
+    Require all denied
+</Files>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php81” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php81 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

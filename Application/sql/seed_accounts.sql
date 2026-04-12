@@ -1,0 +1,23 @@
+-- =============================================================================
+-- AplosCRM — Seed Data: 15 Accounts (Fortune 500)
+-- Run after accounts table has been created.
+-- =============================================================================
+
+INSERT INTO accounts
+    (name, account_number, site, industry, type, website, ownership, employee_count, annual_revenue, status, description)
+VALUES
+    ('Walmart Inc.',            'ACC-00001', 'Bentonville, AR',   'Retail',               'Customer', 'https://www.walmart.com',       'Public',  2300000, 648125000000.00, 'Active',  'The world\'s largest retailer by revenue, operating hypermarkets, discount stores, and grocery stores.'),
+    ('Amazon.com Inc.',         'ACC-00002', 'Seattle, WA',       'Technology',           'Customer', 'https://www.amazon.com',        'Public',   1540000, 513983000000.00, 'Active',  'Global e-commerce and cloud computing leader, operating AWS, Prime, and marketplace platforms.'),
+    ('Apple Inc.',              'ACC-00003', 'Cupertino, CA',     'Technology',           'Partner',  'https://www.apple.com',         'Public',    164000, 394328000000.00, 'Active',  'Designer and manufacturer of consumer electronics, software, and services including iPhone and Mac.'),
+    ('UnitedHealth Group',      'ACC-00004', 'Minnetonka, MN',    'Healthcare',           'Customer', 'https://www.unitedhealthgroup.com', 'Public', 440000, 371622000000.00, 'Active', 'Diversified health care company offering benefits and services through UnitedHealthcare and Optum.'),
+    ('Berkshire Hathaway',      'ACC-00005', 'Omaha, NE',         'Financial Services',   'Prospect', 'https://www.berkshirehathaway.com', 'Public', 396500, 364482000000.00, 'Active', 'Multinational conglomerate holding company led by Warren Buffett with diverse subsidiaries.'),
+    ('CVS Health',              'ACC-00006', 'Woonsocket, RI',    'Healthcare',           'Customer', 'https://www.cvshealth.com',      'Public',  295000, 357776000000.00, 'Active',  'Integrated healthcare company operating pharmacies, clinics, and health insurance through Aetna.'),
+    ('ExxonMobil',              'ACC-00007', 'Spring, TX',        'Energy',               'Prospect', 'https://www.exxonmobil.com',    'Public',    062000, 398675000000.00, 'Active',  'One of the world\'s largest oil and gas companies engaged in exploration, production, and refining.'),
+    ('Alphabet Inc.',           'ACC-00008', 'Mountain View, CA', 'Technology',           'Partner',  'https://abc.xyz',               'Public',   190234, 307394000000.00, 'Active',  'Parent company of Google, operating search, advertising, cloud, and hardware businesses globally.'),
+    ('McKesson Corporation',    'ACC-00009', 'Irving, TX',        'Healthcare',           'Customer', 'https://www.mckesson.com',      'Public',    051000, 276711000000.00, 'Active',  'Leading pharmaceutical distributor providing medicines, medical supplies, and healthcare technology.'),
+    ('Chevron Corporation',     'ACC-00010', 'San Ramon, CA',     'Energy',               'Prospect', 'https://www.chevron.com',       'Public',    043846, 235717000000.00, 'Active',  'Integrated energy company engaged in oil, gas, and geothermal energy operations worldwide.'),
+    ('AmerisourceBergen',       'ACC-00011', 'Conshohocken, PA',  'Healthcare',           'Customer', 'https://www.amerisourcebergen.com', 'Public', 041500, 238587000000.00, 'Active', 'Global pharmaceutical distribution and services company, now operating as Cencora.'),
+    ('Costco Wholesale',        'ACC-00012', 'Issaquah, WA',      'Retail',               'Customer', 'https://www.costco.com',        'Public',   316000, 226954000000.00, 'Active',  'Membership-based warehouse club retailer known for bulk goods, private label Kirkland products.'),
+    ('Microsoft Corporation',   'ACC-00013', 'Redmond, WA',       'Technology',           'Partner',  'https://www.microsoft.com',     'Public',   221000, 211915000000.00, 'Active',  'Global technology company producing software, cloud services (Azure), hardware, and enterprise solutions.'),
+    ('Cardinal Health',         'ACC-00014', 'Dublin, OH',        'Healthcare',           'Customer', 'https://www.cardinalhealth.com', 'Public',  044000, 205004000000.00, 'Active',  'Distributor of pharmaceuticals and medical products serving hospitals, pharmacies, and clinics.'),
+    ('Cigna Group',             'ACC-00015', 'Bloomfield, CT',    'Healthcare',           'Prospect', 'https://www.cigna.com',         'Public',   074000, 195270000000.00, 'Active',  'Global health services company providing medical, dental, behavioral health, and pharmacy coverage.');

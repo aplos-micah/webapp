@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Bar 1: Navy (structure) -->
+  <rect x="2" y="5" width="28" height="6" rx="1" fill="#0B3D6B"/>
+  <!-- Bar 2 left: Green (product line) -->
+  <rect x="2" y="13" width="18" height="6" rx="1" fill="#2ECC71"/>
+  <!-- Bar 2 right: Orange (distinctive accent) -->
+  <rect x="21" y="13" width="9" height="6" rx="1" fill="#FF8C00"/>
+  <!-- Bar 3: Navy (structure) -->
+  <rect x="2" y="21" width="28" height="6" rx="1" fill="#0B3D6B"/>
+</svg>
