@@ -18,7 +18,17 @@
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/app.css">
 </head>
-<body>
+<body<?php if (Config::instance() === 'Test'): ?> class="has-test-banner"<?php endif; ?>>
+
+    <!-- =========================================================
+         TEST INSTANCE BANNER
+         ========================================================= -->
+    <?php if (Config::instance() === 'Test'): ?>
+    <div class="app-test-banner">
+        <i class="fa-solid fa-flask" aria-hidden="true"></i>
+        Test Instance — data entered here is not production data.
+    </div>
+    <?php endif; ?>
 
     <!-- Accessibility: skip navigation -->
     <a class="skip-link" href="#main-content">Skip to main content</a>
