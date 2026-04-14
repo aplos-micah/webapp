@@ -8,13 +8,13 @@
 -- accounts
 -- -----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS accounts (
-    id               INT             NOT NULL AUTO_INCREMENT,
+    id               INT UNSIGNED    NOT NULL AUTO_INCREMENT,
     name             VARCHAR(255)    NOT NULL,
     account_number   VARCHAR(50)     NULL DEFAULT NULL,
     site             VARCHAR(100)    NULL DEFAULT NULL,
 
     -- Self-referencing hierarchy (e.g. subsidiary → parent company)
-    parent_id        INT             NULL DEFAULT NULL,
+    parent_id        INT UNSIGNED    NULL DEFAULT NULL,
 
     industry         VARCHAR(100)    NULL DEFAULT NULL,
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS accounts (
     website          VARCHAR(255)    NULL DEFAULT NULL,
 
     -- FK to users.id — the team member responsible for this account
-    owner_id         INT             NULL DEFAULT NULL,
+    owner_id         INT UNSIGNED    NULL DEFAULT NULL,
 
     -- Active, Onboarding, Churned, etc.
     status           VARCHAR(50)     NULL DEFAULT NULL,
