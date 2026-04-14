@@ -75,29 +75,3 @@ CREATE TABLE IF NOT EXISTS opportunities (
 ) ENGINE=InnoDB
   DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_unicode_ci;
-
-
--- -----------------------------------------------------------------------------
--- Migration: add columns if upgrading an existing database
--- -----------------------------------------------------------------------------
-ALTER TABLE opportunities
-    ADD COLUMN IF NOT EXISTS opportunity_name        VARCHAR(255)   NOT NULL                             AFTER id,
-    ADD COLUMN IF NOT EXISTS opportunity_type        ENUM('New Business','Existing Business - Renewal','Existing Business - Upgrade','Existing Business - Downgrade') NULL DEFAULT NULL AFTER opportunity_name,
-    ADD COLUMN IF NOT EXISTS lead_source             ENUM('Webinar','Trade Show','Referral','Cold Outreach','Inbound Inquiry','Organic Search') NULL DEFAULT NULL AFTER opportunity_type,
-    ADD COLUMN IF NOT EXISTS account_id              INT UNSIGNED   NULL DEFAULT NULL                     AFTER lead_source,
-    ADD COLUMN IF NOT EXISTS contact_id              INT UNSIGNED   NULL DEFAULT NULL                     AFTER account_id,
-    ADD COLUMN IF NOT EXISTS owner_id                INT UNSIGNED   NULL DEFAULT NULL                     AFTER contact_id,
-    ADD COLUMN IF NOT EXISTS amount                  DECIMAL(15,2)  NULL DEFAULT NULL                     AFTER owner_id,
-    ADD COLUMN IF NOT EXISTS probability             TINYINT UNSIGNED NULL DEFAULT NULL                   AFTER amount,
-    ADD COLUMN IF NOT EXISTS forecast_category       ENUM('Omitted','Pipeline','Best Case','Commit','Closed') NULL DEFAULT NULL AFTER probability,
-    ADD COLUMN IF NOT EXISTS close_date              DATE           NULL DEFAULT NULL                     AFTER forecast_category,
-    ADD COLUMN IF NOT EXISTS stage                   ENUM('New','Building','Review','Quote','Negotiating','Closed Won','Closed Lost') NOT NULL DEFAULT 'New' AFTER close_date,
-    ADD COLUMN IF NOT EXISTS loss_reason             ENUM('Lost to Competitor','Price','Features/Functionality','No Budget','Project Cancelled','Poor Relationship') NULL DEFAULT NULL AFTER stage,
-    ADD COLUMN IF NOT EXISTS budget_confirmed        TINYINT(1)     NOT NULL DEFAULT 0                    AFTER loss_reason,
-    ADD COLUMN IF NOT EXISTS decision_timeline       ENUM('Immediately','1-3 Months','3-6 Months','6+ Months','Unknown') NULL DEFAULT NULL AFTER budget_confirmed,
-    ADD COLUMN IF NOT EXISTS stakeholders_identified TEXT           NULL DEFAULT NULL                     AFTER decision_timeline,
-    ADD COLUMN IF NOT EXISTS competitor              TEXT           NULL DEFAULT NULL                     AFTER stakeholders_identified,
-    ADD COLUMN IF NOT EXISTS plan_type               ENUM('Basic','Professional','Enterprise','Custom') NULL DEFAULT NULL AFTER competitor,
-    ADD COLUMN IF NOT EXISTS billing_term            ENUM('Monthly','Annual','Multi-Year') NULL DEFAULT NULL AFTER plan_type,
-    ADD COLUMN IF NOT EXISTS description             TEXT           NULL DEFAULT NULL                     AFTER billing_term,
-    ADD COLUMN IF NOT EXISTS bill_to_location_id     INT UNSIGNED   NULL DEFAULT NULL                     AFTER description;

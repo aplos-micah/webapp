@@ -52,21 +52,3 @@ CREATE TABLE IF NOT EXISTS opportunity_product_line_items (
 ) ENGINE=InnoDB
   DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_unicode_ci;
-
-
--- -----------------------------------------------------------------------------
--- Migration: add columns if upgrading an existing database
--- -----------------------------------------------------------------------------
-ALTER TABLE opportunity_product_line_items
-    ADD COLUMN IF NOT EXISTS opportunity_id           INT UNSIGNED   NOT NULL                      AFTER id,
-    ADD COLUMN IF NOT EXISTS product_definition_id    INT UNSIGNED   NULL DEFAULT NULL              AFTER opportunity_id,
-    ADD COLUMN IF NOT EXISTS product_name             VARCHAR(255)   NOT NULL                      AFTER product_definition_id,
-    ADD COLUMN IF NOT EXISTS unit_price               DECIMAL(15,2)  NOT NULL DEFAULT 0.00         AFTER product_name,
-    ADD COLUMN IF NOT EXISTS quantity                 DECIMAL(10,4)  NOT NULL DEFAULT 1.0000        AFTER unit_price,
-    ADD COLUMN IF NOT EXISTS discount_percentage      DECIMAL(5,2)   NOT NULL DEFAULT 0.00         AFTER quantity,
-    ADD COLUMN IF NOT EXISTS discount_amount          DECIMAL(15,2)  NOT NULL DEFAULT 0.00         AFTER discount_percentage,
-    ADD COLUMN IF NOT EXISTS total_price              DECIMAL(15,2)  NOT NULL DEFAULT 0.00         AFTER discount_amount,
-    ADD COLUMN IF NOT EXISTS service_date             DATE           NULL DEFAULT NULL              AFTER total_price,
-    ADD COLUMN IF NOT EXISTS subscription_term        INT            NULL DEFAULT NULL              AFTER service_date,
-    ADD COLUMN IF NOT EXISTS revenue_schedule_type    ENUM('One-time','Monthly','Quarterly','Annually') NOT NULL DEFAULT 'One-time' AFTER subscription_term,
-    ADD COLUMN IF NOT EXISTS ship_to_location_id      INT UNSIGNED   NULL DEFAULT NULL                     AFTER revenue_schedule_type;

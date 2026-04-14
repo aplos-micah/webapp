@@ -64,10 +64,3 @@ CREATE TABLE IF NOT EXISTS locations (
 ) ENGINE=InnoDB
   DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_unicode_ci;
-
-
--- -----------------------------------------------------------------------------
--- Migration: run if upgrading an existing locations table
--- -----------------------------------------------------------------------------
-ALTER TABLE locations
-    MODIFY COLUMN location_type ENUM('Bill To','Ship To') NULL DEFAULT NULL;

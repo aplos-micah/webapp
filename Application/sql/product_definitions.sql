@@ -59,29 +59,3 @@ CREATE TABLE IF NOT EXISTS product_definitions (
 ) ENGINE=InnoDB
   DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_unicode_ci;
-
-
--- -----------------------------------------------------------------------------
--- Migration: add columns if upgrading an existing database
--- -----------------------------------------------------------------------------
-ALTER TABLE product_definitions
-    ADD COLUMN IF NOT EXISTS product_name             VARCHAR(255)   NOT NULL                          AFTER id,
-    ADD COLUMN IF NOT EXISTS sku                      VARCHAR(100)   NULL DEFAULT NULL                 AFTER product_name,
-    ADD COLUMN IF NOT EXISTS product_description      TEXT           NULL DEFAULT NULL                 AFTER sku,
-    ADD COLUMN IF NOT EXISTS product_family           ENUM('Software','Hardware','Consulting','Training','Maintenance') NULL DEFAULT NULL AFTER product_description,
-    ADD COLUMN IF NOT EXISTS product_type             ENUM('Inventory','Non-Inventory','Service','Bundle') NULL DEFAULT NULL AFTER product_family,
-    ADD COLUMN IF NOT EXISTS is_active                TINYINT(1)     NOT NULL DEFAULT 1                AFTER product_type,
-    ADD COLUMN IF NOT EXISTS lifecycle_status         ENUM('Draft','Pending Approval','Activated','Archived') NOT NULL DEFAULT 'Draft' AFTER is_active,
-    ADD COLUMN IF NOT EXISTS list_price               DECIMAL(15,2)  NULL DEFAULT NULL                 AFTER lifecycle_status,
-    ADD COLUMN IF NOT EXISTS currency                 ENUM('USD','EUR','GBP','CAD') NOT NULL DEFAULT 'USD' AFTER list_price,
-    ADD COLUMN IF NOT EXISTS unit_cost                DECIMAL(15,2)  NULL DEFAULT NULL                 AFTER currency,
-    ADD COLUMN IF NOT EXISTS unit_of_measure          ENUM('Each','Hour','Day','License','Box','Month') NULL DEFAULT NULL AFTER unit_cost,
-    ADD COLUMN IF NOT EXISTS pricing_model            ENUM('Flat','Tiered','Volume','Usage-Based') NULL DEFAULT NULL AFTER unit_of_measure,
-    ADD COLUMN IF NOT EXISTS tax_category             ENUM('Standard','Exempt','Reduced Rate','Service Tax') NULL DEFAULT NULL AFTER pricing_model,
-    ADD COLUMN IF NOT EXISTS subscription_term_months INT            NULL DEFAULT NULL                 AFTER tax_category,
-    ADD COLUMN IF NOT EXISTS weight                   DECIMAL(10,3)  NULL DEFAULT NULL                 AFTER subscription_term_months,
-    ADD COLUMN IF NOT EXISTS dimensions               VARCHAR(100)   NULL DEFAULT NULL                 AFTER weight,
-    ADD COLUMN IF NOT EXISTS material                 VARCHAR(100)   NULL DEFAULT NULL                 AFTER dimensions,
-    ADD COLUMN IF NOT EXISTS usage_metrics            VARCHAR(255)   NULL DEFAULT NULL                 AFTER material,
-    ADD COLUMN IF NOT EXISTS competitive_notes        TEXT           NULL DEFAULT NULL                 AFTER usage_metrics,
-    ADD COLUMN IF NOT EXISTS owner_id                 INT UNSIGNED   NULL DEFAULT NULL                 AFTER competitive_notes;
