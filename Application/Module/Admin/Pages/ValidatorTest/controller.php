@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../../../../Validator.php';
+
 $tests = [];
 
 $run = function (string $group, string $label, mixed $actual, mixed $expected) use (&$tests): void {

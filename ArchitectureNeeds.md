@@ -40,12 +40,11 @@
 ## Recommended Order
 
 ```
-3 → 4 → 9 → 5 → 6
-                 → 10
-                 → 11
+4 → 9 → 5 → 6
+             → 10
+             → 11
 ```
 
-Items 3 and 4 are fully independent and can be started in parallel.
 Items 10 and 11 can both begin once 5 is complete.
 
 ---

@@ -1,15 +1,16 @@
 <?php $pageTitle = 'Validator Tests'; ?>
 
+<!-- Page header -->
 <div class="dash-header">
     <div>
         <p class="eyebrow">Admin</p>
         <h1 class="dash-header__title">Validator Tests</h1>
         <p class="dash-header__sub">
-            <?= $total ?> tests &mdash;
-            <span style="color:<?= $failed === 0 ? 'var(--color-success,#2e7d32)' : 'var(--color-danger,#c62828)' ?>;font-weight:600;">
-                <?= $passed ?> passed
-            </span>
-            <?php if ($failed > 0): ?>
+            <?= $total ?> assertions &mdash;
+            <?php if ($failed === 0): ?>
+            <span style="color:var(--color-success,#2e7d32);font-weight:600;"><?= $passed ?> passed</span>
+            <?php else: ?>
+            <span style="color:var(--color-success,#2e7d32);font-weight:600;"><?= $passed ?> passed</span>
             &mdash; <span style="color:var(--color-danger,#c62828);font-weight:600;"><?= $failed ?> failed</span>
             <?php endif; ?>
         </p>
@@ -23,8 +24,27 @@
 
 <hr class="divider--green mb-xl">
 
+<!-- Description -->
+<div class="card mb-xl">
+    <div style="padding:1rem 1.25rem;font-size:0.9rem;line-height:1.7;color:#333;">
+        <p style="margin:0 0 0.5rem;">
+            This page validates the <code>Validator</code> class at <code>Application/Validator.php</code>, which
+            provides stateless in-memory validation helpers used by all Object classes (Account, Contact, User, etc.).
+        </p>
+        <p style="margin:0 0 0.5rem;">
+            Each assertion compares the method's actual return value against what is expected.
+            A <strong style="color:var(--color-success,#2e7d32);">green check</strong> means the result matched.
+            A <strong style="color:var(--color-danger,#c62828);">red X</strong> means the method returned something unexpected — the Actual column shows what it returned instead.
+        </p>
+        <p style="margin:0;">
+            These are in-memory checks only. DB-dependent rules (duplicate email, token validity) are not tested here — those require a live database connection and will be covered under PHPUnit (#10).
+        </p>
+    </div>
+</div>
+
+<!-- Overall pass banner -->
 <?php if ($failed === 0): ?>
-<div class="card dash-panel mb-xl" style="border-left:4px solid var(--color-success,#2e7d32);">
+<div class="card mb-xl" style="border-left:4px solid var(--color-success,#2e7d32);">
     <div class="dash-panel__empty">
         <i class="fa-solid fa-circle-check" aria-hidden="true" style="color:var(--color-success,#2e7d32);"></i>
         <p>All <?= $total ?> assertions passed.</p>
@@ -32,40 +52,44 @@
 </div>
 <?php endif; ?>
 
-<?php foreach ($groups as $groupName => $groupTests): ?>
-
-<?php
-$groupPassed = count(array_filter($groupTests, fn($t) => $t['pass']));
-$groupFailed = count($groupTests) - $groupPassed;
+<!-- Test groups -->
+<?php foreach ($groups as $groupName => $groupTests):
+    $groupPassed = count(array_filter($groupTests, fn($t) => $t['pass']));
+    $groupFailed = count($groupTests) - $groupPassed;
 ?>
 
-<h2 style="font-size:1rem;font-weight:600;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.6rem;">
-    <code style="font-size:0.95rem;">Validator::<?= htmlspecialchars($groupName) ?>()</code>
-    <?php if ($groupFailed === 0): ?>
-    <span style="font-size:0.78rem;font-weight:600;color:var(--color-success,#2e7d32);background:#e8f5e9;padding:0.1rem 0.5rem;border-radius:20px;">
-        <?= $groupPassed ?>/<?= count($groupTests) ?> passed
-    </span>
-    <?php else: ?>
-    <span style="font-size:0.78rem;font-weight:600;color:var(--color-danger,#c62828);background:#ffebee;padding:0.1rem 0.5rem;border-radius:20px;">
-        <?= $groupFailed ?> failed
-    </span>
-    <?php endif; ?>
-</h2>
-
 <div class="card mb-xl">
+
+    <!-- Group header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1.25rem;border-bottom:1px solid var(--color-border,#e0e0e0);">
+        <h2 style="margin:0;font-size:0.95rem;font-weight:600;">
+            <code>Validator::<?= htmlspecialchars($groupName, ENT_QUOTES, 'UTF-8') ?>()</code>
+        </h2>
+        <?php if ($groupFailed === 0): ?>
+        <span style="font-size:0.78rem;font-weight:600;color:var(--color-success,#2e7d32);background:#e8f5e9;padding:0.15rem 0.6rem;border-radius:20px;">
+            <?= $groupPassed ?>/<?= count($groupTests) ?> passed
+        </span>
+        <?php else: ?>
+        <span style="font-size:0.78rem;font-weight:600;color:var(--color-danger,#c62828);background:#ffebee;padding:0.15rem 0.6rem;border-radius:20px;">
+            <?= $groupFailed ?> failed
+        </span>
+        <?php endif; ?>
+    </div>
+
+    <!-- Test rows -->
     <div class="table-wrap">
         <table class="data-table">
             <thead>
                 <tr>
                     <th style="width:2.5rem;"></th>
-                    <th>Test</th>
-                    <th style="width:14rem;">Expected</th>
-                    <th style="width:14rem;">Actual</th>
+                    <th>Assertion</th>
+                    <th style="width:13rem;">Expected</th>
+                    <th style="width:13rem;">Actual</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($groupTests as $t): ?>
-                <tr style="<?= $t['pass'] ? '' : 'background:#fff8f8;' ?>">
+                <tr<?= $t['pass'] ? '' : ' style="background:#fff8f8;"' ?>>
                     <td style="text-align:center;">
                         <?php if ($t['pass']): ?>
                         <i class="fa-solid fa-circle-check" style="color:var(--color-success,#2e7d32);" aria-label="Pass"></i>
@@ -87,6 +111,7 @@ $groupFailed = count($groupTests) - $groupPassed;
             </tbody>
         </table>
     </div>
+
 </div>
 
 <?php endforeach; ?>
