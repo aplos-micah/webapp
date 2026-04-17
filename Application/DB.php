@@ -117,6 +117,10 @@ class DB
             return $result;
         } catch (Throwable $e) {
             $this->connection->rollBack();
+            Logger::getInstance()->error('Transaction rolled back', [
+                'exception' => get_class($e),
+                'message'   => $e->getMessage(),
+            ]);
             throw $e;
         }
     }

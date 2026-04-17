@@ -39,9 +39,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             // Intentionally vague — do not reveal whether the email exists.
+            Logger::getInstance()->warning('Authentication failed', [
+                'email' => $email,
+                'ip'    => $_SERVER['REMOTE_ADDR'] ?? '',
+            ]);
             $error = 'The email address or password you entered is incorrect.';
 
         } catch (Throwable $e) {
+            Logger::getInstance()->error('Login exception', [
+                'message' => $e->getMessage(),
+                'email'   => $email,
+            ]);
             $error = 'Unable to sign in right now. Please try again shortly.';
         }
     }

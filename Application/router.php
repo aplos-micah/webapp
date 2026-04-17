@@ -45,12 +45,22 @@ class Router
         // Auth gate — specific user type required
         if ($pageConfig['requiresUserType'] !== null
             && self::userType() !== $pageConfig['requiresUserType']) {
+            Logger::getInstance()->warning('Authorization denied', [
+                'slug'     => $slug,
+                'required' => $pageConfig['requiresUserType'],
+                'actual'   => self::userType(),
+                'user_id'  => $_SESSION['user_id'] ?? null,
+            ]);
             self::setFlash('error', 'You do not have permission to access that page.');
             self::redirect('/home');
         }
 
         // 404 if the page folder doesn't exist
         if (!is_dir($pageDir)) {
+            Logger::getInstance()->warning('Page not found', [
+                'slug' => $slug,
+                'uri'  => $_SERVER['REQUEST_URI'] ?? '',
+            ]);
             self::load404($templateFile);
             return;
         }
@@ -65,6 +75,7 @@ class Router
         // 2. View — capture output into $content
         $viewFile = $pageDir . '/view.php';
         if (!file_exists($viewFile)) {
+            Logger::getInstance()->warning('View not found', ['slug' => $slug]);
             self::load404($templateFile);
             return;
         }

@@ -44,6 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = $result['error'];
 
         } catch (Throwable $e) {
+            Logger::getInstance()->error('Registration exception', [
+                'message' => $e->getMessage(),
+                'email'   => $email,
+            ]);
             $error = 'Unable to create your account right now. Please try again shortly.';
         }
     }

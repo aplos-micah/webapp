@@ -21,3 +21,10 @@
         <span>Debug: Current User</span>
     </a>
 </li>
+
+<li>
+    <a href="/admin/logviewer" class="app-sidebar__link<?= str_starts_with($currentSlug, 'admin/logviewer') ? ' is-active' : '' ?>">
+        <i class="fa-solid fa-file-lines app-sidebar__icon" aria-hidden="true"></i>
+        <span>System Logs</span>
+    </a>
+</li>
