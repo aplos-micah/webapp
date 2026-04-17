@@ -69,7 +69,10 @@ class Router
         $controllerFile = $pageDir . '/controller.php';
         $data = [];
         if (file_exists($controllerFile)) {
-            require $controllerFile;
+            $response = require $controllerFile;
+            if ($response instanceof Response) {
+                $response->send();
+            }
         }
 
         // 2. View — capture output into $content
@@ -236,7 +239,6 @@ class Router
 
     private static function redirect(string $path): never
     {
-        header('Location: ' . $path);
-        exit;
+        Response::redirect($path)->send();
     }
 }

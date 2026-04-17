@@ -7,8 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $id = (int) ($_GET['id'] ?? 0);
 
 if ($id === 0) {
-    header('Location: /crm/contacts/list');
-    exit;
+    return Response::redirect('/crm/contacts/list');
 }
 
 $contactObj = Container::get('contact');
@@ -16,8 +15,7 @@ $contact    = $contactObj->findById($id);
 
 if (!$contact) {
     $_SESSION['_flash'] = ['type' => 'error', 'message' => 'Contact not found.'];
-    header('Location: /crm/contacts/list');
-    exit;
+    return Response::redirect('/crm/contacts/list');
 }
 
 $editMode  = isset($_GET['edit']);
@@ -53,8 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result['ok']) {
         $_SESSION['_flash'] = ['type' => 'success', 'message' => 'Contact updated successfully.'];
-        header('Location: /crm/contacts/details?id=' . $id);
-        exit;
+        return Response::redirect('/crm/contacts/details?id=' . $id);
     }
 
     // Stay in edit mode on failure, repopulate with submitted values

@@ -7,8 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $id = (int) ($_GET['id'] ?? 0);
 
 if ($id === 0) {
-    header('Location: /crm/opportunities/list');
-    exit;
+    return Response::redirect('/crm/opportunities/list');
 }
 
 $oppObj      = Container::get('opportunity');
@@ -18,8 +17,7 @@ $opp = $oppObj->findById($id);
 
 if (!$opp) {
     $_SESSION['_flash'] = ['type' => 'error', 'message' => 'Opportunity not found.'];
-    header('Location: /crm/opportunities/list');
-    exit;
+    return Response::redirect('/crm/opportunities/list');
 }
 
 $isClosed  = in_array($opp['stage'] ?? '', ['Closed Won', 'Closed Lost'], true);
@@ -28,8 +26,7 @@ $editError = null;
 
 // Redirect away from edit mode if opportunity is closed
 if (isset($_GET['edit']) && $isClosed) {
-    header('Location: /crm/opportunities/details?id=' . $id);
-    exit;
+    return Response::redirect('/crm/opportunities/details?id=' . $id);
 }
 
 // ─── Line item mutations ────────────────────────────────────────────────────
@@ -37,8 +34,7 @@ if (isset($_GET['edit']) && $isClosed) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($isClosed) {
         $_SESSION['_flash'] = ['type' => 'warning', 'message' => 'Closed opportunities cannot be edited.'];
-        header('Location: /crm/opportunities/details?id=' . $id);
-        exit;
+        return Response::redirect('/crm/opportunities/details?id=' . $id);
     }
 
     $action = $_POST['_action'] ?? '';
@@ -60,8 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($editMode) {
             $redirect .= '&edit';
         }
-        header('Location: ' . $redirect);
-        exit;
+        return Response::redirect($redirect);
     }
 
     // Remove line item
@@ -73,8 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($editMode) {
             $redirect .= '&edit';
         }
-        header('Location: ' . $redirect);
-        exit;
+        return Response::redirect($redirect);
     }
 
     // Update line item
@@ -90,8 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($editMode) {
             $redirect .= '&edit';
         }
-        header('Location: ' . $redirect);
-        exit;
+        return Response::redirect($redirect);
     }
 
     // ─── Save opportunity fields ────────────────────────────────────────────
@@ -127,8 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result['ok']) {
         $_SESSION['_flash'] = ['type' => 'success', 'message' => 'Opportunity updated successfully.'];
-        header('Location: /crm/opportunities/details?id=' . $id);
-        exit;
+        return Response::redirect('/crm/opportunities/details?id=' . $id);
     }
 
     $editMode  = true;

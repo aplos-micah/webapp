@@ -18,13 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['_action'] ?? '') === 'upda
     $_SESSION['_flash'] = $result['ok']
         ? ['type' => 'success', 'message' => 'User updated.']
         : ['type' => 'warning', 'message' => $result['error']];
-    header('Location: /admin/userlist?' . http_build_query(array_filter([
+    return Response::redirect('/admin/userlist?' . http_build_query(array_filter([
         'search' => trim($_POST['_search'] ?? ''),
         'sort'   => $_POST['_sort']   ?? '',
         'dir'    => $_POST['_dir']    ?? '',
         'page'   => $_POST['_page']   ?? '',
     ])));
-    exit;
 }
 
 $search = trim($_GET['search'] ?? '');

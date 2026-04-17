@@ -37,15 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $_SESSION['_flash'] = ['type' => 'warning', 'message' => 'Log file is empty — nothing to archive.'];
         }
-        header('Location: /admin/logviewer');
-        exit;
+        return Response::redirect('/admin/logviewer');
     }
 
     if ($action === 'clear') {
         file_put_contents($logFile, '');
         $_SESSION['_flash'] = ['type' => 'success', 'message' => 'Log cleared.'];
-        header('Location: /admin/logviewer');
-        exit;
+        return Response::redirect('/admin/logviewer');
     }
 
     if ($action === 'delete_selected') {
@@ -57,8 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $count = count($selected);
             $_SESSION['_flash'] = ['type' => 'success', 'message' => $count . ' entr' . ($count === 1 ? 'y' : 'ies') . ' deleted.'];
         }
-        header('Location: ' . $returnUrl);
-        exit;
+        return Response::redirect($returnUrl);
     }
 
     if ($action === 'delete_archive') {
@@ -70,8 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['_flash'] = ['type' => 'success', 'message' => 'Archived log deleted.'];
             }
         }
-        header('Location: /admin/logviewer');
-        exit;
+        return Response::redirect('/admin/logviewer');
     }
 
     if ($action === 'delete_archives') {
@@ -90,8 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($deleted > 0) {
             $_SESSION['_flash'] = ['type' => 'success', 'message' => $deleted . ' archived log' . ($deleted === 1 ? '' : 's') . ' deleted.'];
         }
-        header('Location: /admin/logviewer');
-        exit;
+        return Response::redirect('/admin/logviewer');
     }
 }
 

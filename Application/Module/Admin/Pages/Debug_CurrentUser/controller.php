@@ -8,8 +8,7 @@ $userObj = Container::get('user');
 $user    = $userObj->findById((int) ($_SESSION['user_id'] ?? 0));
 
 if (!$user) {
-    header('Location: /login');
-    exit;
+    return Response::redirect('/login');
 }
 
 // Session snapshot — exclude the flash bag (it's transient)

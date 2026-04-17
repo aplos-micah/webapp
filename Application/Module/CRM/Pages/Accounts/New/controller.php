@@ -30,8 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = $accountObj->create($data);
 
     if ($result['ok']) {
-        header('Location: /crm/accounts/details?id=' . $result['id']);
-        exit;
+        return Response::redirect('/crm/accounts/details?id=' . $result['id']);
     }
 
     $error = $result['error'];

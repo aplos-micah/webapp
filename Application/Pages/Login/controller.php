@@ -34,8 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_email'] = $user['email']     ?? '';
                 $_SESSION['user_type']  = $user['user_type']  ?? 'free';
                 $_SESSION['module_crm'] = $user['Module_CRM'] ?? 'Free';
-                header('Location: /home');
-                exit;
+                return Response::redirect('/home');
             }
 
             // Intentionally vague — do not reveal whether the email exists.

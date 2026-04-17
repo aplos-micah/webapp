@@ -7,8 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $id = (int) ($_GET['id'] ?? 0);
 
 if ($id === 0) {
-    header('Location: /crm/accounts/list');
-    exit;
+    return Response::redirect('/crm/accounts/list');
 }
 
 $accountObj = Container::get('account');
@@ -16,8 +15,7 @@ $account    = $accountObj->findById($id);
 
 if (!$account) {
     $_SESSION['_flash'] = ['type' => 'error', 'message' => 'Account not found.'];
-    header('Location: /crm/accounts/list');
-    exit;
+    return Response::redirect('/crm/accounts/list');
 }
 
 $editMode   = isset($_GET['edit']);
@@ -36,8 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['_flash'] = $result['ok']
             ? ['type' => 'success', 'message' => 'Location added.']
             : ['type' => 'warning', 'message' => $result['error']];
-        header('Location: ' . $locBaseUrl);
-        exit;
+        return Response::redirect($locBaseUrl);
     }
 
     if ($action === 'update_location') {
@@ -46,16 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['_flash'] = $result['ok']
             ? ['type' => 'success', 'message' => 'Location updated.']
             : ['type' => 'warning', 'message' => $result['error']];
-        header('Location: ' . $locBaseUrl);
-        exit;
+        return Response::redirect($locBaseUrl);
     }
 
     if ($action === 'remove_location') {
         $locId = (int) ($_POST['location_id'] ?? 0);
         $locationObj->remove($locId, $id);
         $_SESSION['_flash'] = ['type' => 'success', 'message' => 'Location removed.'];
-        header('Location: ' . $locBaseUrl);
-        exit;
+        return Response::redirect($locBaseUrl);
     }
 }
 
@@ -84,8 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result['ok']) {
         $_SESSION['_flash'] = ['type' => 'success', 'message' => 'Account updated successfully.'];
-        header('Location: /crm/accounts/details?id=' . $id);
-        exit;
+        return Response::redirect('/crm/accounts/details?id=' . $id);
     }
 
     // Stay in edit mode on failure, repopulate with submitted values

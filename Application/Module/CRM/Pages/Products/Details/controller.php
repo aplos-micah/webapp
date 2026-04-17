@@ -7,8 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $id = (int) ($_GET['id'] ?? 0);
 
 if ($id === 0) {
-    header('Location: /crm/products/list');
-    exit;
+    return Response::redirect('/crm/products/list');
 }
 
 $productObj = Container::get('product');
@@ -16,8 +15,7 @@ $product    = $productObj->findById($id);
 
 if (!$product) {
     $_SESSION['_flash'] = ['type' => 'error', 'message' => 'Product not found.'];
-    header('Location: /crm/products/list');
-    exit;
+    return Response::redirect('/crm/products/list');
 }
 
 $editMode  = isset($_GET['edit']);
@@ -51,8 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result['ok']) {
         $_SESSION['_flash'] = ['type' => 'success', 'message' => 'Product updated successfully.'];
-        header('Location: /crm/products/details?id=' . $id);
-        exit;
+        return Response::redirect('/crm/products/details?id=' . $id);
     }
 
     $editMode  = true;

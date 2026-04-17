@@ -21,8 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $f = reset($failed);
             $_SESSION['_flash'] = ['type' => 'error', 'message' => 'Migration failed: ' . htmlspecialchars($f['file']) . ' — ' . htmlspecialchars($f['error'] ?? '')];
         }
-        header('Location: /admin/migrations');
-        exit;
+        return Response::redirect('/admin/migrations');
     }
 
     if ($action === 'run_one') {
@@ -33,8 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $_SESSION['_flash'] = ['type' => 'error', 'message' => 'Failed: ' . htmlspecialchars($result['error'] ?? '')];
         }
-        header('Location: /admin/migrations');
-        exit;
+        return Response::redirect('/admin/migrations');
     }
 
     if ($action === 'mark_applied') {
@@ -44,8 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $_SESSION['_flash'] = ['type' => 'error', 'message' => 'Could not mark migration as applied.'];
         }
-        header('Location: /admin/migrations');
-        exit;
+        return Response::redirect('/admin/migrations');
     }
 }
 

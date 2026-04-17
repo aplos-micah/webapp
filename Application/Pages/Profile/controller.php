@@ -11,8 +11,7 @@ $userObj = Container::get('user');
 $profile = $userObj->findById((int) ($_SESSION['user_id'] ?? 0));
 
 if (!$profile) {
-    header('Location: /login');
-    exit;
+    return Response::redirect('/login');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -33,8 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (session_status() === PHP_SESSION_NONE) { session_start(); }
             $_SESSION['_flash'] = ['type' => 'success', 'message' => 'Profile updated successfully.'];
-            header('Location: /profile');
-            exit;
+            return Response::redirect('/profile');
         }
 
         $profileError = $result['error'];
@@ -51,8 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($result['ok']) {
                 $_SESSION['_flash'] = ['type' => 'success', 'message' => 'Password changed successfully.'];
-                header('Location: /profile');
-                exit;
+                return Response::redirect('/profile');
             }
 
             $passwordError = $result['error'];

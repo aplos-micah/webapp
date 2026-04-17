@@ -36,8 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = $contactObj->create($data);
 
     if ($result['ok']) {
-        header('Location: /crm/contacts/details?id=' . $result['id']);
-        exit;
+        return Response::redirect('/crm/contacts/details?id=' . $result['id']);
     }
 
     $error = $result['error'];

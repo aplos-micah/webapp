@@ -34,8 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = $productObj->create($data);
 
     if ($result['ok']) {
-        header('Location: /crm/products/details?id=' . $result['id']);
-        exit;
+        return Response::redirect('/crm/products/details?id=' . $result['id']);
     }
 
     $error = $result['error'];

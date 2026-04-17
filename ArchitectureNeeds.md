@@ -8,6 +8,7 @@
 | 2 | Centralized logging | Custom `Logger` class writes JSON-lines to `storage/logs/app.log`. Instrumented at bootstrap, DB transactions, auth failures, router 404s, and authorization denials. Admin log viewer at `/admin/logviewer` with pagination, level filtering, archive, and delete. |
 | 3 | Validation layer separation | `Validator` class at `Application/Validator.php` with stateless helpers: `required`, `email`, `minLength`, `enum`, `boolean`, `nullableInt`, `nullableFloat`. All 7 Object classes delegate in-memory validation to `Validator`. DB-dependent checks remain in objects until PHPUnit (#10) makes them independently testable. |
 | 4 | Dependency injection container | `Container` class at `Application/Container.php`. Single shared `DB` instance per request. 14 services registered (`user`, `account`, `contact`, `location`, `opportunity`, `line_item`, `product`, plus 7 widget classes). All 21 controllers migrated from `new Foo(new DB())` to `Container::get('name')` / `Container::db()`. Per-controller `require_once` calls for Object and Widget files removed. |
+| 9 | HTTP Response objects | `Response` class at `Application/Response.php` with `redirect()` and `json()` factory methods and `send()`. Router captures controller return value and calls `send()` if it's a `Response`. All `header()` + `exit` pairs replaced with `return Response::redirect()` / `return Response::json()` across 21 controllers. |
 | 7 | DB migration runner | `Runner` class tracks applied migrations in a `migrations` DB table. Files live in `Application/sql/interimUpdates/` named `YYYYMMDD_description.sql`. Admin UI at `/admin/migrations`. CLI via `php migrate.php`. |
 | 8 | Mailer abstraction | `Mailer` interface with `PhpMailer` (PHP `mail()`) and `NullMailer` (logs only) implementations. `MailerFactory::make()` selects based on `MAIL_DRIVER` env var. Ready for password reset and notification emails. |
 
@@ -19,7 +20,6 @@
 
 | # | Change | Why | Depends On |
 |---|---|---|---|
-| 9 | **HTTP Response objects** | Raw `header()` calls scattered through controllers. Untestable. Prerequisite for clean PHPUnit controller tests. | — |
 | 5 | **JSON API endpoints** | All interactions are full-page reloads. No AJAX possible. Required for htmx and MCP. | — |
 
 ### Then: Frontend
@@ -40,15 +40,12 @@
 ## Recommended Order
 
 ```
-9 ─┐
-   ├─→ 10
-5 ─┘
-   └─→ 6
-   └─→ 11
+5 → 6
+  → 10
+  → 11
 ```
 
-Items 9 and 5 are independent and can be done in parallel.
-Items 10, 6, and 11 follow once their dependencies are complete.
+Items 6, 10, and 11 can all begin once 5 is complete.
 
 ---
 

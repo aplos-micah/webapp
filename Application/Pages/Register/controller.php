@@ -37,8 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_email'] = $email;
                 $_SESSION['user_type']  = 'free';
                 $_SESSION['module_crm'] = 'Free';
-                header('Location: /home');
-                exit;
+                return Response::redirect('/home');
             }
 
             $error = $result['error'];

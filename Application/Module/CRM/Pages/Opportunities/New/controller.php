@@ -37,8 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = $oppObj->create($data);
 
     if ($result['ok']) {
-        header('Location: /crm/opportunities/details?id=' . $result['id']);
-        exit;
+        return Response::redirect('/crm/opportunities/details?id=' . $result['id']);
     }
 
     $error = $result['error'];
