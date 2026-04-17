@@ -137,62 +137,127 @@ if ($totalPages > 1) {
 
 <?php else: ?>
 
-<div class="card">
-    <?= $paginationHtml ?>
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th style="width:2.5rem;">#</th>
-                    <th style="width:14rem;">Timestamp</th>
-                    <th style="width:6rem;">Level</th>
-                    <th>Message</th>
-                    <th style="width:28%;">Context</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($entries as $i => $entry): ?>
-                <?php
-                    $rowNum  = $totalCount - $offset - $i;
-                    $level   = $entry['level']   ?? '';
-                    $message = $entry['message'] ?? '';
-                    $ts      = $entry['ts']      ?? '';
-                    $context = $entry['context'] ?? null;
-                ?>
-                <tr>
-                    <td style="color:var(--color-text-muted);font-size:0.75rem;text-align:right;">
-                        <?= $rowNum ?>
-                    </td>
-                    <td style="font-size:0.78rem;white-space:nowrap;font-family:monospace;">
-                        <?= htmlspecialchars($ts, ENT_QUOTES, 'UTF-8') ?>
-                    </td>
-                    <td>
-                        <span class="badge <?= $levelBadge[$level] ?? 'badge--neutral' ?>">
-                            <?= htmlspecialchars($level, ENT_QUOTES, 'UTF-8') ?>
-                        </span>
-                    </td>
-                    <td style="font-size:0.9rem;">
-                        <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
-                    </td>
-                    <td>
-                        <?php if ($context): ?>
-                        <details>
-                            <summary style="cursor:pointer;font-size:0.8rem;color:var(--color-text-muted);">
-                                View context
-                            </summary>
-                            <pre style="margin:0.35rem 0 0;font-size:0.73rem;white-space:pre-wrap;word-break:break-all;background:var(--color-surface-raised,#f5f5f5);padding:0.5rem;border-radius:4px;"><?= htmlspecialchars(json_encode($context, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8') ?></pre>
-                        </details>
-                        <?php else: ?>
-                        <span style="color:var(--color-text-muted);font-size:0.8rem;">—</span>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+<form id="entries-form" method="POST" action="/admin/logviewer">
+    <input type="hidden" name="action" value="delete_selected">
+    <?php if ($levelFilter): ?>
+    <input type="hidden" name="_level" value="<?= htmlspecialchars($levelFilter, ENT_QUOTES, 'UTF-8') ?>">
+    <?php endif; ?>
+    <input type="hidden" name="_per_page" value="<?= $perPage ?>">
+    <input type="hidden" name="_page"     value="<?= $currentPage ?>">
+
+    <!-- Selection toolbar -->
+    <div id="entries-toolbar" style="display:none;align-items:center;gap:0.75rem;margin-bottom:0.5rem;padding:0.5rem 0.75rem;background:var(--color-surface-raised,#f0f0f0);border-radius:6px;">
+        <span id="entries-count" style="font-size:0.85rem;font-weight:600;"></span>
+        <button type="submit" class="btn btn--ghost btn--sm"
+                onclick="return confirm('Delete selected entries? This cannot be undone.')">
+            <i class="fa-solid fa-trash" aria-hidden="true"></i> Delete Selected
+        </button>
+        <button type="button" class="btn btn--ghost btn--sm" id="entries-clear-sel">
+            Clear Selection
+        </button>
     </div>
-    <?= $paginationHtml ?>
-</div>
+
+    <div class="card">
+        <?= $paginationHtml ?>
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width:2rem;">
+                            <input type="checkbox" id="entries-select-all" title="Select all on this page">
+                        </th>
+                        <th style="width:2.5rem;">#</th>
+                        <th style="width:14rem;">Timestamp</th>
+                        <th style="width:6rem;">Level</th>
+                        <th>Message</th>
+                        <th style="width:28%;">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($entries as $i => $entry): ?>
+                    <?php
+                        $rowNum  = $totalCount - $offset - $i;
+                        $level   = $entry['level']   ?? '';
+                        $message = $entry['message'] ?? '';
+                        $ts      = $entry['ts']      ?? '';
+                        $context = $entry['context'] ?? null;
+                        $idx     = (int) $entry['_idx'];
+                    ?>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="selected[]" value="<?= $idx ?>" class="entry-cb">
+                        </td>
+                        <td style="color:#444;font-size:0.75rem;text-align:right;">
+                            <?= $rowNum ?>
+                        </td>
+                        <td style="font-size:0.78rem;white-space:nowrap;font-family:monospace;">
+                            <?= htmlspecialchars($ts, ENT_QUOTES, 'UTF-8') ?>
+                        </td>
+                        <td>
+                            <span class="badge <?= $levelBadge[$level] ?? 'badge--neutral' ?>">
+                                <?= htmlspecialchars($level, ENT_QUOTES, 'UTF-8') ?>
+                            </span>
+                        </td>
+                        <td style="font-size:0.9rem;">
+                            <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
+                        </td>
+                        <td>
+                            <?php
+                                $request = $entry['request'] ?? [];
+                                $hasDetails = $context || !empty($request);
+                                $userName = $request['user_name'] ?? null;
+                                $userType = $request['user_type'] ?? null;
+                                $ip       = $request['ip']        ?? null;
+                                $browser  = $request['browser']   ?? null;
+                                $method   = $request['method']    ?? null;
+                                $uri      = $request['uri']       ?? null;
+                            ?>
+                            <?php if ($hasDetails): ?>
+                            <div style="font-size:0.78rem;line-height:1.6;">
+                                <?php if ($userName): ?>
+                                <div>
+                                    <i class="fa-solid fa-user" style="width:0.9rem;color:#444;" aria-hidden="true"></i>
+                                    <?= htmlspecialchars($userName, ENT_QUOTES, 'UTF-8') ?>
+                                    <?php if ($userType): ?>
+                                    <span style="color:#444;">(<?= htmlspecialchars($userType, ENT_QUOTES, 'UTF-8') ?>)</span>
+                                    <?php endif; ?>
+                                </div>
+                                <?php endif; ?>
+                                <?php if ($ip || $browser): ?>
+                                <div style="color:#444;">
+                                    <i class="fa-solid fa-globe" style="width:0.9rem;" aria-hidden="true"></i>
+                                    <?= htmlspecialchars(implode(' · ', array_filter([$ip, $browser])), ENT_QUOTES, 'UTF-8') ?>
+                                </div>
+                                <?php endif; ?>
+                                <?php if ($method && $uri): ?>
+                                <div style="color:#444;font-family:monospace;">
+                                    <?= htmlspecialchars($method . ' ' . $uri, ENT_QUOTES, 'UTF-8') ?>
+                                </div>
+                                <?php endif; ?>
+                                <?php if ($context || count($request) > 5): ?>
+                                <details style="margin-top:0.25rem;">
+                                    <summary style="cursor:pointer;color:#444;">Full details</summary>
+                                    <?php if ($context): ?>
+                                    <pre style="margin:0.25rem 0 0;font-size:0.73rem;white-space:pre-wrap;word-break:break-all;background:var(--color-surface-raised,#f5f5f5);padding:0.5rem;border-radius:4px;"><?= htmlspecialchars(json_encode($context, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8') ?></pre>
+                                    <?php endif; ?>
+                                    <?php if (!empty($request)): ?>
+                                    <pre style="margin:0.25rem 0 0;font-size:0.73rem;white-space:pre-wrap;word-break:break-all;background:var(--color-surface-raised,#f5f5f5);padding:0.5rem;border-radius:4px;"><?= htmlspecialchars(json_encode($request, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8') ?></pre>
+                                    <?php endif; ?>
+                                </details>
+                                <?php endif; ?>
+                            </div>
+                            <?php else: ?>
+                            <span style="color:#444;font-size:0.8rem;">—</span>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <?= $paginationHtml ?>
+    </div>
+</form>
 
 <?php endif; ?>
 
@@ -200,44 +265,101 @@ if ($totalPages > 1) {
 
 <h2 style="margin-top:2.5rem;margin-bottom:0.75rem;font-size:1.1rem;font-weight:600;">Archived Logs</h2>
 
-<div class="card">
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>File</th>
-                    <th>Entries</th>
-                    <th>Size</th>
-                    <th>Archived</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($archivedFiles as $archive): ?>
-                <tr>
-                    <td style="font-family:monospace;font-size:0.85rem;">
-                        <?= htmlspecialchars($archive['name'], ENT_QUOTES, 'UTF-8') ?>
-                    </td>
-                    <td><?= number_format($archive['entries']) ?></td>
-                    <td><?= formatBytes((int) $archive['size']) ?></td>
-                    <td style="font-size:0.85rem;">
-                        <?= date('Y-m-d H:i:s', (int) $archive['mtime']) ?>
-                    </td>
-                    <td>
-                        <form method="POST" action="/admin/logviewer"
-                              onsubmit="return confirm('Delete this archived log? This cannot be undone.')">
-                            <input type="hidden" name="action"   value="delete_archive">
-                            <input type="hidden" name="filename" value="<?= htmlspecialchars($archive['name'], ENT_QUOTES, 'UTF-8') ?>">
-                            <button type="submit" class="btn btn--ghost btn--sm">
-                                <i class="fa-solid fa-trash" aria-hidden="true"></i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+<form id="archives-form" method="POST" action="/admin/logviewer">
+    <input type="hidden" name="action" value="delete_archives">
+
+    <!-- Selection toolbar -->
+    <div id="archives-toolbar" style="display:none;align-items:center;gap:0.75rem;margin-bottom:0.5rem;padding:0.5rem 0.75rem;background:var(--color-surface-raised,#f0f0f0);border-radius:6px;">
+        <span id="archives-count" style="font-size:0.85rem;font-weight:600;"></span>
+        <button type="submit" class="btn btn--ghost btn--sm"
+                onclick="return confirm('Delete selected archived logs? This cannot be undone.')">
+            <i class="fa-solid fa-trash" aria-hidden="true"></i> Delete Selected
+        </button>
+        <button type="button" class="btn btn--ghost btn--sm" id="archives-clear-sel">
+            Clear Selection
+        </button>
     </div>
-</div>
+
+    <div class="card">
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width:2rem;">
+                            <input type="checkbox" id="archives-select-all" title="Select all">
+                        </th>
+                        <th>File</th>
+                        <th>Entries</th>
+                        <th>Size</th>
+                        <th>Archived</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($archivedFiles as $archive): ?>
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="filenames[]"
+                                   value="<?= htmlspecialchars($archive['name'], ENT_QUOTES, 'UTF-8') ?>"
+                                   class="archive-cb">
+                        </td>
+                        <td style="font-family:monospace;font-size:0.85rem;">
+                            <?= htmlspecialchars($archive['name'], ENT_QUOTES, 'UTF-8') ?>
+                        </td>
+                        <td><?= number_format($archive['entries']) ?></td>
+                        <td><?= formatBytes((int) $archive['size']) ?></td>
+                        <td style="font-size:0.85rem;">
+                            <?= date('Y-m-d H:i:s', (int) $archive['mtime']) ?>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
 
 <?php endif; ?>
+
+<script>
+(function () {
+    function initTable(selectAllId, cbClass, toolbarId, countId, clearBtnId) {
+        var selectAll = document.getElementById(selectAllId);
+        var toolbar   = document.getElementById(toolbarId);
+        var countEl   = document.getElementById(countId);
+        var clearBtn  = document.getElementById(clearBtnId);
+        if (!selectAll || !toolbar) return;
+
+        function getCbs() { return document.querySelectorAll('.' + cbClass); }
+
+        function update() {
+            var cbs      = getCbs();
+            var checked  = Array.from(cbs).filter(function (c) { return c.checked; });
+            var n        = checked.length;
+            toolbar.style.display = n > 0 ? 'flex' : 'none';
+            if (countEl) countEl.textContent = n + ' selected';
+            if (selectAll) selectAll.indeterminate = n > 0 && n < cbs.length;
+            if (selectAll) selectAll.checked = n > 0 && n === cbs.length;
+        }
+
+        selectAll.addEventListener('change', function () {
+            getCbs().forEach(function (cb) { cb.checked = selectAll.checked; });
+            update();
+        });
+
+        document.addEventListener('change', function (e) {
+            if (e.target.classList.contains(cbClass)) update();
+        });
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function () {
+                getCbs().forEach(function (cb) { cb.checked = false; });
+                selectAll.checked = false;
+                update();
+            });
+        }
+    }
+
+    initTable('entries-select-all',  'entry-cb',   'entries-toolbar',  'entries-count',  'entries-clear-sel');
+    initTable('archives-select-all', 'archive-cb', 'archives-toolbar', 'archives-count', 'archives-clear-sel');
+}());
+</script>

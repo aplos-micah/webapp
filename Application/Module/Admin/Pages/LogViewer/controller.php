@@ -17,6 +17,13 @@ if (!in_array($levelFilter, $validLevels, true)) {
 
 $currentPage = max(1, (int) ($_GET['page'] ?? 1));
 
+$returnQs = http_build_query(array_filter([
+    'level'    => $levelFilter,
+    'per_page' => $perPage !== 100 ? $perPage : null,
+    'page'     => $currentPage > 1 ? $currentPage : null,
+]));
+$returnUrl = '/admin/logviewer' . ($returnQs ? '?' . $returnQs : '');
+
 // POST actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
@@ -41,6 +48,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    if ($action === 'delete_selected') {
+        $selected = array_map('intval', $_POST['selected'] ?? []);
+        if (!empty($selected) && file_exists($logFile)) {
+            $lines    = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
+            $kept     = array_filter($lines, fn($i) => !in_array($i, $selected, true), ARRAY_FILTER_USE_KEY);
+            file_put_contents($logFile, implode(PHP_EOL, $kept) . (empty($kept) ? '' : PHP_EOL));
+            $count = count($selected);
+            $_SESSION['_flash'] = ['type' => 'success', 'message' => $count . ' entr' . ($count === 1 ? 'y' : 'ies') . ' deleted.'];
+        }
+        header('Location: ' . $returnUrl);
+        exit;
+    }
+
     if ($action === 'delete_archive') {
         $filename = basename($_POST['filename'] ?? '');
         if (preg_match('/^app-\d{4}-\d{2}-\d{2}-\d{6}\.log$/', $filename)) {
@@ -53,14 +73,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: /admin/logviewer');
         exit;
     }
+
+    if ($action === 'delete_archives') {
+        $filenames = $_POST['filenames'] ?? [];
+        $deleted   = 0;
+        foreach ($filenames as $filename) {
+            $filename = basename((string) $filename);
+            if (preg_match('/^app-\d{4}-\d{2}-\d{2}-\d{6}\.log$/', $filename)) {
+                $filepath = $logDir . '/' . $filename;
+                if (file_exists($filepath)) {
+                    unlink($filepath);
+                    $deleted++;
+                }
+            }
+        }
+        if ($deleted > 0) {
+            $_SESSION['_flash'] = ['type' => 'success', 'message' => $deleted . ' archived log' . ($deleted === 1 ? '' : 's') . ' deleted.'];
+        }
+        header('Location: /admin/logviewer');
+        exit;
+    }
 }
 
-// Read & filter current log (newest first)
+// Read & filter current log (newest first), tracking original line index for deletion
 $allEntries = [];
 if (file_exists($logFile) && filesize($logFile) > 0) {
     $lines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     if ($lines) {
-        foreach (array_reverse($lines) as $line) {
+        $totalLines = count($lines);
+        foreach (array_reverse($lines) as $reversedIdx => $line) {
             $entry = json_decode($line, true);
             if (!is_array($entry)) {
                 continue;
@@ -68,7 +109,8 @@ if (file_exists($logFile) && filesize($logFile) > 0) {
             if ($levelFilter !== '' && ($entry['level'] ?? '') !== $levelFilter) {
                 continue;
             }
-            $allEntries[] = $entry;
+            $entry['_idx'] = $totalLines - 1 - $reversedIdx;
+            $allEntries[]  = $entry;
         }
     }
 }
@@ -82,10 +124,10 @@ $entries     = array_slice($allEntries, $offset, $perPage);
 // List archived log files (newest first)
 $archivedFiles = [];
 if (is_dir($logDir)) {
-    foreach (scandir($logDir, SCANDIR_FLAG_DESCENDING) as $file) {
+    foreach (scandir($logDir, SCANDIR_SORT_DESCENDING) as $file) {
         if (preg_match('/^app-\d{4}-\d{2}-\d{2}-\d{6}\.log$/', $file)) {
-            $path          = $logDir . '/' . $file;
-            $archiveLines  = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $path         = $logDir . '/' . $file;
+            $archiveLines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             $archivedFiles[] = [
                 'name'    => $file,
                 'size'    => filesize($path),
