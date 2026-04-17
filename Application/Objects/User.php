@@ -51,16 +51,18 @@ class User
         $userType  = in_array($userType, self::TYPES, true) ? $userType : 'user';
         $moduleCrm = in_array($moduleCrm, self::MODULE_CRM_VALUES, true) ? $moduleCrm : 'Free';
 
-        if ($name === '' || $email === '' || $password === '') {
-            return $this->fail('Name, email, and password are all required.');
+        if ($err = Validator::required($name, 'Name')
+                 ?? Validator::required($email, 'Email')
+                 ?? Validator::required($password, 'Password')) {
+            return $this->fail($err);
         }
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return $this->fail('Please provide a valid email address.');
+        if ($err = Validator::email($email, 'email')) {
+            return $this->fail($err);
         }
 
-        if (strlen($password) < 8) {
-            return $this->fail('Password must be at least 8 characters.');
+        if ($err = Validator::minLength($password, 8, 'Password')) {
+            return $this->fail($err);
         }
 
         if ($this->emailExists($email)) {
@@ -172,7 +174,7 @@ class User
      */
     public function resetPassword(string $plainToken, string $newPassword): bool
     {
-        if (strlen(trim($newPassword)) < 8) {
+        if (Validator::minLength($newPassword, 8, 'Password') !== null) {
             return false;
         }
 
@@ -224,8 +226,8 @@ class User
         $jobTitle = trim($data['job_title'] ?? '');
         $timezone = trim($data['timezone']  ?? 'America/Chicago');
 
-        if ($name === '') {
-            return ['ok' => false, 'error' => 'Full name is required.'];
+        if ($err = Validator::required($name, 'Full name')) {
+            return ['ok' => false, 'error' => $err];
         }
 
         if (!in_array($timezone, timezone_identifiers_list(), true)) {
@@ -248,8 +250,8 @@ class User
      */
     public function changePassword(int $id, string $currentPassword, string $newPassword): array
     {
-        if (strlen(trim($newPassword)) < 8) {
-            return ['ok' => false, 'error' => 'New password must be at least 8 characters.'];
+        if ($err = Validator::minLength($newPassword, 8, 'New password')) {
+            return ['ok' => false, 'error' => $err];
         }
 
         $row = $this->db->queryOne(
@@ -334,11 +336,11 @@ class User
         $moduleCrm = in_array($data['Module_CRM'] ?? '', self::MODULE_CRM_VALUES, true) ? $data['Module_CRM'] : 'Free';
         $isActive  = (int) ($data['is_active'] ?? 0) === 1 ? 1 : 0;
 
-        if ($name === '') {
-            return ['ok' => false, 'error' => 'Name is required.'];
+        if ($err = Validator::required($name, 'Name')) {
+            return ['ok' => false, 'error' => $err];
         }
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return ['ok' => false, 'error' => 'A valid email address is required.'];
+        if ($err = Validator::email($email, 'email')) {
+            return ['ok' => false, 'error' => $err];
         }
 
         $conflict = $this->db->queryOne(

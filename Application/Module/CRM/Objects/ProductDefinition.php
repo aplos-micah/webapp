@@ -82,8 +82,8 @@ class ProductDefinition
     public function create(array $data): array
     {
         $name = trim($data['product_name'] ?? '');
-        if ($name === '') {
-            return ['ok' => false, 'id' => null, 'error' => 'Product name is required.'];
+        if ($err = Validator::required($name, 'Product name')) {
+            return ['ok' => false, 'id' => null, 'error' => $err];
         }
 
         $values       = $this->buildValues($data);
@@ -101,8 +101,8 @@ class ProductDefinition
     public function update(int $id, array $data): array
     {
         $name = trim($data['product_name'] ?? '');
-        if ($name === '') {
-            return ['ok' => false, 'error' => 'Product name is required.'];
+        if ($err = Validator::required($name, 'Product name')) {
+            return ['ok' => false, 'error' => $err];
         }
 
         $values = $this->buildValues($data);

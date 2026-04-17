@@ -60,13 +60,10 @@ class Location
     {
         return [
             'location_name'             => trim($data['location_name']             ?? ''),
-            'location_type'             => in_array($data['location_type'] ?? '', self::LOCATION_TYPES, true)
-                                            ? $data['location_type'] : '',
-            'location_status'           => in_array($data['location_status'] ?? '', self::STATUSES, true)
-                                            ? $data['location_status'] : 'Active',
-            'is_primary'                => !empty($data['is_primary']) ? 1 : 0,
-            'validation_status'         => in_array($data['validation_status'] ?? '', self::VALIDATION_STATUSES, true)
-                                            ? $data['validation_status'] : 'Pending',
+            'location_type'             => Validator::enum($data['location_type']       ?? '', self::LOCATION_TYPES,       ''),
+            'location_status'           => Validator::enum($data['location_status']     ?? '', self::STATUSES,             'Active'),
+            'is_primary'                => Validator::boolean($data['is_primary']       ?? false),
+            'validation_status'         => Validator::enum($data['validation_status']   ?? '', self::VALIDATION_STATUSES,  'Pending'),
             'street_address_1'          => trim($data['street_address_1']          ?? ''),
             'street_address_2'          => trim($data['street_address_2']          ?? ''),
             'street_address_3'          => trim($data['street_address_3']          ?? ''),
@@ -80,15 +77,15 @@ class Location
             'floor_suite_apartment'     => trim($data['floor_suite_apartment']     ?? ''),
             'intersection_cross_street' => trim($data['intersection_cross_street'] ?? ''),
             'po_box'                    => trim($data['po_box']                    ?? ''),
-            'latitude'                  => ($data['latitude']       ?? '') !== '' ? (float) $data['latitude']       : null,
-            'longitude'                 => ($data['longitude']      ?? '') !== '' ? (float) $data['longitude']      : null,
+            'latitude'                  => Validator::nullableFloat($data['latitude']        ?? null),
+            'longitude'                 => Validator::nullableFloat($data['longitude']       ?? null),
             'timezone_utc_offset'       => trim($data['timezone_utc_offset']       ?? ''),
-            'geofence_radius'           => ($data['geofence_radius'] ?? '') !== '' ? (int) $data['geofence_radius'] : null,
+            'geofence_radius'           => Validator::nullableInt($data['geofence_radius']   ?? null),
             'dock_instructions'         => trim($data['dock_instructions']         ?? ''),
             'receiving_hours'           => trim($data['receiving_hours']           ?? ''),
-            'liftgate_required'         => !empty($data['liftgate_required'])  ? 1 : 0,
+            'liftgate_required'         => Validator::boolean($data['liftgate_required']  ?? false),
             'vehicle_clearance'         => trim($data['vehicle_clearance']         ?? ''),
-            'forklift_available'        => !empty($data['forklift_available']) ? 1 : 0,
+            'forklift_available'        => Validator::boolean($data['forklift_available'] ?? false),
             'gate_entry_code'           => trim($data['gate_entry_code']           ?? ''),
             'preferred_carrier'         => trim($data['preferred_carrier']         ?? ''),
         ];

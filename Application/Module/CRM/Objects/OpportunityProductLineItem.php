@@ -49,8 +49,8 @@ class OpportunityProductLineItem
     public function add(int $opportunityId, array $data): array
     {
         $name = trim($data['product_name'] ?? '');
-        if ($name === '') {
-            return ['ok' => false, 'id' => null, 'error' => 'Product name is required.'];
+        if ($err = Validator::required($name, 'Product name')) {
+            return ['ok' => false, 'id' => null, 'error' => $err];
         }
 
         $unitPrice      = round((float) ($data['unit_price'] ?? 0), 2);
@@ -62,14 +62,11 @@ class OpportunityProductLineItem
             : round(max(0, (float) ($data['discount_amount'] ?? 0)), 2);
         $totalPrice     = round(($unitPrice * $quantity) - $discountAmount, 2);
 
-        $productDefId   = ($data['product_definition_id'] ?? '') !== ''
-            ? (int) $data['product_definition_id'] : null;
-
-        $serviceDate    = ($data['service_date'] ?? '') !== '' ? $data['service_date'] : null;
-        $subTerm        = ($data['subscription_term'] ?? '') !== '' ? (int) $data['subscription_term'] : null;
-        $scheduleType   = in_array($data['revenue_schedule_type'] ?? '', ['One-time','Monthly','Quarterly','Annually'], true)
-            ? $data['revenue_schedule_type'] : 'One-time';
-        $shipToLocId    = ($data['ship_to_location_id'] ?? '') !== '' ? (int) $data['ship_to_location_id'] : null;
+        $productDefId = Validator::nullableInt($data['product_definition_id'] ?? null);
+        $serviceDate  = ($data['service_date'] ?? '') !== '' ? $data['service_date'] : null;
+        $subTerm      = Validator::nullableInt($data['subscription_term'] ?? null);
+        $scheduleType = Validator::enum($data['revenue_schedule_type'] ?? '', ['One-time', 'Monthly', 'Quarterly', 'Annually'], 'One-time');
+        $shipToLocId  = Validator::nullableInt($data['ship_to_location_id'] ?? null);
 
         $id = $this->db->insert(
             "INSERT INTO opportunity_product_line_items
@@ -99,8 +96,8 @@ class OpportunityProductLineItem
     public function update(int $lineItemId, int $opportunityId, array $data): array
     {
         $name = trim($data['product_name'] ?? '');
-        if ($name === '') {
-            return ['ok' => false, 'error' => 'Product name is required.'];
+        if ($err = Validator::required($name, 'Product name')) {
+            return ['ok' => false, 'error' => $err];
         }
 
         $unitPrice      = round((float) ($data['unit_price'] ?? 0), 2);
@@ -112,10 +109,9 @@ class OpportunityProductLineItem
         $totalPrice     = round(($unitPrice * $quantity) - $discountAmount, 2);
 
         $serviceDate  = ($data['service_date'] ?? '') !== '' ? $data['service_date'] : null;
-        $subTerm      = ($data['subscription_term'] ?? '') !== '' ? (int) $data['subscription_term'] : null;
-        $scheduleType = in_array($data['revenue_schedule_type'] ?? '', ['One-time', 'Monthly', 'Quarterly', 'Annually'], true)
-            ? $data['revenue_schedule_type'] : 'One-time';
-        $shipToLocId  = ($data['ship_to_location_id'] ?? '') !== '' ? (int) $data['ship_to_location_id'] : null;
+        $subTerm      = Validator::nullableInt($data['subscription_term'] ?? null);
+        $scheduleType = Validator::enum($data['revenue_schedule_type'] ?? '', ['One-time', 'Monthly', 'Quarterly', 'Annually'], 'One-time');
+        $shipToLocId  = Validator::nullableInt($data['ship_to_location_id'] ?? null);
 
         $affected = $this->db->execute(
             "UPDATE opportunity_product_line_items

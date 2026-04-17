@@ -35,3 +35,10 @@
         <span>Migrations</span>
     </a>
 </li>
+
+<li>
+    <a href="/admin/validatortest" class="app-sidebar__link<?= str_starts_with($currentSlug, 'admin/validatortest') ? ' is-active' : '' ?>">
+        <i class="fa-solid fa-flask app-sidebar__icon" aria-hidden="true"></i>
+        <span>Validator Tests</span>
+    </a>
+</li>

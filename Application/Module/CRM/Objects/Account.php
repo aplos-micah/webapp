@@ -86,8 +86,8 @@ class Account
     public function create(array $data): array
     {
         $name = trim($data['name'] ?? '');
-        if ($name === '') {
-            return ['ok' => false, 'id' => null, 'error' => 'Account name is required.'];
+        if ($err = Validator::required($name, 'Account name')) {
+            return ['ok' => false, 'id' => null, 'error' => $err];
         }
 
         $values = $this->buildValues($data);
@@ -109,8 +109,8 @@ class Account
     public function update(int $id, array $data): array
     {
         $name = trim($data['name'] ?? '');
-        if ($name === '') {
-            return ['ok' => false, 'error' => 'Account name is required.'];
+        if ($err = Validator::required($name, 'Account name')) {
+            return ['ok' => false, 'error' => $err];
         }
 
         $values = $this->buildValues($data);

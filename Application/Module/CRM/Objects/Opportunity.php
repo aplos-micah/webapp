@@ -104,8 +104,8 @@ class Opportunity
     public function create(array $data): array
     {
         $name = trim($data['opportunity_name'] ?? '');
-        if ($name === '') {
-            return ['ok' => false, 'id' => null, 'error' => 'Opportunity name is required.'];
+        if ($err = Validator::required($name, 'Opportunity name')) {
+            return ['ok' => false, 'id' => null, 'error' => $err];
         }
 
         $values       = $this->buildValues($data);
@@ -123,8 +123,8 @@ class Opportunity
     public function update(int $id, array $data): array
     {
         $name = trim($data['opportunity_name'] ?? '');
-        if ($name === '') {
-            return ['ok' => false, 'error' => 'Opportunity name is required.'];
+        if ($err = Validator::required($name, 'Opportunity name')) {
+            return ['ok' => false, 'error' => $err];
         }
 
         $values = $this->buildValues($data);

@@ -97,8 +97,8 @@ class Contact
     {
         $firstName = trim($data['first_name'] ?? '');
         $lastName  = trim($data['last_name']  ?? '');
-        if ($firstName === '' || $lastName === '') {
-            return ['ok' => false, 'id' => null, 'error' => 'First name and last name are required.'];
+        if ($err = Validator::required($firstName, 'First name') ?? Validator::required($lastName, 'Last name')) {
+            return ['ok' => false, 'id' => null, 'error' => $err];
         }
 
         $values = $this->buildValues($data);
@@ -121,8 +121,8 @@ class Contact
     {
         $firstName = trim($data['first_name'] ?? '');
         $lastName  = trim($data['last_name']  ?? '');
-        if ($firstName === '' || $lastName === '') {
-            return ['ok' => false, 'error' => 'First name and last name are required.'];
+        if ($err = Validator::required($firstName, 'First name') ?? Validator::required($lastName, 'Last name')) {
+            return ['ok' => false, 'error' => $err];
         }
 
         $values = $this->buildValues($data);
