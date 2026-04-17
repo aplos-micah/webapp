@@ -125,6 +125,15 @@ class DB
         }
     }
 
+    /**
+     * Execute raw multi-statement SQL (migrations only — no parameter binding).
+     * Throws PDOException on failure.
+     */
+    public function runRaw(string $sql): void
+    {
+        $this->connection->exec($sql);
+    }
+
     // -------------------------------------------------------------------------
     // Password scrubbing
     // -------------------------------------------------------------------------

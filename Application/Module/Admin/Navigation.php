@@ -28,3 +28,10 @@
         <span>System Logs</span>
     </a>
 </li>
+
+<li>
+    <a href="/admin/migrations" class="app-sidebar__link<?= str_starts_with($currentSlug, 'admin/migrations') ? ' is-active' : '' ?>">
+        <i class="fa-solid fa-database app-sidebar__icon" aria-hidden="true"></i>
+        <span>Migrations</span>
+    </a>
+</li>
