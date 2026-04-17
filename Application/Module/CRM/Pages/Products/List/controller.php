@@ -8,11 +8,9 @@ header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
 header('Expires: 0');
 
-require_once __DIR__ . '/../../../Objects/ProductDefinition.php';
-
 const PER_PAGE = 20;
 
-$productObj = new ProductDefinition(new DB());
+$productObj = Container::get('product');
 
 $search = trim($_GET['search'] ?? '');
 $sort   = in_array($_GET['sort'] ?? '', ProductDefinition::SORTABLE, true) ? $_GET['sort'] : 'product_name';

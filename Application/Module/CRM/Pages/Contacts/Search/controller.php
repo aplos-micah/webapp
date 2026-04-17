@@ -19,7 +19,7 @@ if ($q === '') {
 }
 
 $like    = '%' . $q . '%';
-$results = (new DB())->query(
+$results = Container::db()->query(
     "SELECT id,
             CONCAT(first_name, ' ', last_name) AS name
        FROM contacts

@@ -8,11 +8,9 @@ header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
 header('Expires: 0');
 
-require_once __DIR__ . '/../../../Objects/Opportunity.php';
-
 const PER_PAGE = 20;
 
-$oppObj = new Opportunity(new DB());
+$oppObj = Container::get('opportunity');
 
 $search = trim($_GET['search'] ?? '');
 $sort   = in_array($_GET['sort'] ?? '', Opportunity::SORTABLE, true) ? $_GET['sort'] : 'opportunity_name';

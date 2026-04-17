@@ -4,10 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/../../../Objects/Opportunity.php';
-require_once __DIR__ . '/../../../Objects/OpportunityProductLineItem.php';
-require_once __DIR__ . '/../../../Objects/Location.php';
-
 $id = (int) ($_GET['id'] ?? 0);
 
 if ($id === 0) {
@@ -15,8 +11,8 @@ if ($id === 0) {
     exit;
 }
 
-$oppObj      = new Opportunity(new DB());
-$lineItemObj = new OpportunityProductLineItem(new DB());
+$oppObj      = Container::get('opportunity');
+$lineItemObj = Container::get('line_item');
 
 $opp = $oppObj->findById($id);
 
@@ -149,7 +145,7 @@ $lineItems      = $lineItemObj->findByOpportunity($id);
 $lineItemsTotal = $lineItemObj->totalForOpportunity($id);
 
 // Load Bill To and Ship To locations for the opportunity's account
-$locationObj  = new Location(new DB());
+$locationObj  = Container::get('location');
 $accountId    = (int) ($opp['account_id'] ?? 0);
 $billToLocs   = $accountId ? array_filter(
     $locationObj->findByAccount($accountId),

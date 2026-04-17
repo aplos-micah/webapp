@@ -4,10 +4,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/../../../Objects/Account.php';
-
 $error      = null;
-$accountObj = new Account(new DB());
+$accountObj = Container::get('account');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

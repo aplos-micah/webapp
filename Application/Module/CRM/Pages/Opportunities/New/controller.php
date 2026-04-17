@@ -4,10 +4,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/../../../Objects/Opportunity.php';
-
 $error  = null;
-$oppObj = new Opportunity(new DB());
+$oppObj = Container::get('opportunity');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [

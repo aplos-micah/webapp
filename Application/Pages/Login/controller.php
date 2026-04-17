@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } else {
         try {
-            $user = (new User(new DB()))->authenticate($email, $password);
+            $user = Container::get('user')->authenticate($email, $password);
 
             if ($user) {
                 if (session_status() === PHP_SESSION_NONE) {

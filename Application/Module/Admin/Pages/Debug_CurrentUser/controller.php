@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$userObj = new User(new DB());
+$userObj = Container::get('user');
 $user    = $userObj->findById((int) ($_SESSION['user_id'] ?? 0));
 
 if (!$user) {

@@ -4,13 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/../../../Objects/Account.php';
-require_once __DIR__ . '/../../../Objects/Location.php';
-require_once __DIR__ . '/../../../Widgets/AccountContacts.php';
-require_once __DIR__ . '/../../../Widgets/AccountPerformance.php';
-require_once __DIR__ . '/../../../Widgets/AccountOpportunities.php';
-require_once __DIR__ . '/../../../Widgets/AccountLocations.php';
-
 $id = (int) ($_GET['id'] ?? 0);
 
 if ($id === 0) {
@@ -18,7 +11,7 @@ if ($id === 0) {
     exit;
 }
 
-$accountObj = new Account(new DB());
+$accountObj = Container::get('account');
 $account    = $accountObj->findById($id);
 
 if (!$account) {
@@ -30,7 +23,7 @@ if (!$account) {
 $editMode   = isset($_GET['edit']);
 $editError  = null;
 
-$locationObj = new Location(new DB());
+$locationObj = Container::get('location');
 $locBaseUrl  = '/crm/accounts/details?id=' . $id;
 
 // ─── Location mutations ───────────────────────────────────────────────────────
@@ -103,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Load the logged-in user's saved tile order
 $defaultTileOrder = ['opportunities', 'contacts', 'locations', 'leads', 'performance'];
-$userObj          = new User(new DB());
+$userObj          = Container::get('user');
 $currentUser      = $userObj->findById((int) ($_SESSION['user_id'] ?? 0));
 $crmSettings      = json_decode($currentUser['module_crm_settings'] ?? '{}', true) ?: [];
 $savedOrder       = $crmSettings['account_related_order'] ?? [];
@@ -118,7 +111,7 @@ foreach ($allowed as $tile) {
 }
 
 // Load widget data
-$contactsWidget       = new AccountContacts(new DB());
-$performanceWidget    = new AccountPerformance(new DB());
-$opportunitiesWidget  = new AccountOpportunities(new DB());
-$locationsWidget      = new AccountLocations(new DB());
+$contactsWidget       = Container::get('account_contacts');
+$performanceWidget    = Container::get('account_performance');
+$opportunitiesWidget  = Container::get('account_opportunities');
+$locationsWidget      = Container::get('account_locations');

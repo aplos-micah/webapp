@@ -29,7 +29,7 @@ if (!is_array($order) || count($order) !== count($allowed)
     exit;
 }
 
-(new User(new DB()))->saveCrmSettings($userId, ['contact_related_order' => array_values($order)]);
+Container::get('user')->saveCrmSettings($userId, ['contact_related_order' => array_values($order)]);
 
 echo json_encode(['ok' => true]);
 exit;

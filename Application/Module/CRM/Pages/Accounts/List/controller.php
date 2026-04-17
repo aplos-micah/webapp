@@ -4,11 +4,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/../../../Objects/Account.php';
-
 const PER_PAGE = 20;
 
-$accountObj = new Account(new DB());
+$accountObj = Container::get('account');
 
 $search = trim($_GET['search'] ?? '');
 $sort   = in_array($_GET['sort'] ?? '', Account::SORTABLE, true) ? $_GET['sort'] : 'name';

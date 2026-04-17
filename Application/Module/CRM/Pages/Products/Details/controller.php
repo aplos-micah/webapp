@@ -4,8 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/../../../Objects/ProductDefinition.php';
-
 $id = (int) ($_GET['id'] ?? 0);
 
 if ($id === 0) {
@@ -13,7 +11,7 @@ if ($id === 0) {
     exit;
 }
 
-$productObj = new ProductDefinition(new DB());
+$productObj = Container::get('product');
 $product    = $productObj->findById($id);
 
 if (!$product) {

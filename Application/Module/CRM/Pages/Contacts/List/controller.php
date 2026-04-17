@@ -8,11 +8,9 @@ header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
 header('Expires: 0');
 
-require_once __DIR__ . '/../../../Objects/Contact.php';
-
 const PER_PAGE = 20;
 
-$contactObj = new Contact(new DB());
+$contactObj = Container::get('contact');
 
 $search = trim($_GET['search'] ?? '');
 $sort   = in_array($_GET['sort'] ?? '', Contact::SORTABLE, true) ? $_GET['sort'] : 'last_name';

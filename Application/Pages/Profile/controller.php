@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $profileError   = null;
 $passwordError  = null;
 
-$userObj = new User(new DB());
+$userObj = Container::get('user');
 $profile = $userObj->findById((int) ($_SESSION['user_id'] ?? 0));
 
 if (!$profile) {

@@ -19,7 +19,7 @@ if ($q === '') {
 }
 
 $like    = '%' . $q . '%';
-$results = (new DB())->query(
+$results = Container::db()->query(
     'SELECT id, name
        FROM accounts
       WHERE name LIKE ?

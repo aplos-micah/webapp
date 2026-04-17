@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             // Derive a display name from the email prefix (can be updated later)
             $name   = ucfirst(strtok($email, '@'));
-            $result = (new User(new DB()))->register($name, $email, $password);
+            $result = Container::get('user')->register($name, $email, $password);
 
             if ($result['ok']) {
                 if (session_status() === PHP_SESSION_NONE) {

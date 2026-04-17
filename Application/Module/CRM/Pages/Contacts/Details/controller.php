@@ -4,8 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/../../../Objects/Contact.php';
-
 $id = (int) ($_GET['id'] ?? 0);
 
 if ($id === 0) {
@@ -13,7 +11,7 @@ if ($id === 0) {
     exit;
 }
 
-$contactObj = new Contact(new DB());
+$contactObj = Container::get('contact');
 $contact    = $contactObj->findById($id);
 
 if (!$contact) {
@@ -68,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Resolve the linked account name for display
 $accountName = null;
 if (!empty($contact['account_id'])) {
-    $accountRow  = (new DB())->queryOne(
+    $accountRow  = Container::db()->queryOne(
         'SELECT name FROM accounts WHERE id = ? LIMIT 1',
         [(int) $contact['account_id']]
     );
@@ -77,7 +75,7 @@ if (!empty($contact['account_id'])) {
 
 // Load the logged-in user's saved tile order
 $defaultTileOrder = ['opportunities', 'accounts', 'activities', 'notes'];
-$userObj          = new User(new DB());
+$userObj          = Container::get('user');
 $currentUser      = $userObj->findById((int) ($_SESSION['user_id'] ?? 0));
 $crmSettings      = json_decode($currentUser['module_crm_settings'] ?? '{}', true) ?: [];
 $savedOrder       = $crmSettings['contact_related_order'] ?? [];

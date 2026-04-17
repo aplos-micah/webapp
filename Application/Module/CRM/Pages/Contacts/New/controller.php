@@ -4,10 +4,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/../../../Objects/Contact.php';
-
 $error      = null;
-$contactObj = new Contact(new DB());
+$contactObj = Container::get('contact');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

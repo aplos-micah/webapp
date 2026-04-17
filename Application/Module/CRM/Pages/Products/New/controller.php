@@ -4,10 +4,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/../../../Objects/ProductDefinition.php';
-
 $error      = null;
-$productObj = new ProductDefinition(new DB());
+$productObj = Container::get('product');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [

@@ -8,11 +8,9 @@ header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
 header('Expires: 0');
 
-require_once __DIR__ . '/../../../../Objects/User.php';
-
 const USERS_PER_PAGE = 25;
 
-$userObj = new User(new DB());
+$userObj = Container::get('user');
 
 // ── Handle edit POST ─────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['_action'] ?? '') === 'update_user') {

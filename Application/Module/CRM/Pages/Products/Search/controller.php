@@ -19,7 +19,7 @@ if ($q === '') {
 }
 
 $like    = '%' . $q . '%';
-$results = (new DB())->query(
+$results = Container::db()->query(
     "SELECT id, product_name, sku, list_price, unit_of_measure
        FROM product_definitions
       WHERE is_active = 1
