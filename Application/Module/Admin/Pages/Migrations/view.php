@@ -25,6 +25,68 @@
 
 <hr class="divider--green mb-xl">
 
+<!-- Migration Instructions -->
+<details style="margin-bottom:1.5rem;">
+    <summary style="cursor:pointer;font-size:0.95rem;font-weight:600;padding:0.6rem 0.75rem;background:var(--color-surface-raised,#f5f5f5);border-radius:6px;list-style:none;display:flex;align-items:center;gap:0.5rem;">
+        <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+        Migration Instructions
+    </summary>
+
+    <div style="padding:1.25rem 1rem 0.5rem;border:1px solid var(--color-border,#e0e0e0);border-top:none;border-radius:0 0 6px 6px;font-size:0.9rem;line-height:1.7;">
+
+        <!-- BLUF -->
+        <h3 style="font-size:0.95rem;font-weight:700;margin:0 0 0.5rem;">The Short Version</h3>
+        <ol style="margin:0 0 0.5rem 1.25rem;padding:0;">
+            <li>Create <code>YYYYMMDD_description.sql</code> in <code>Application/sql/interimUpdates/</code></li>
+            <li>Deploy the file to the server</li>
+            <li>Click <strong>Run</strong> here — or run <code>php migrate.php</code> from the CLI</li>
+            <li>Done — it is recorded and will not run again</li>
+        </ol>
+        <p style="margin:0 0 1.25rem;"><strong>Rule:</strong> Always deploy code before running migrations. Never the reverse.</p>
+
+        <hr style="border:none;border-top:1px solid var(--color-border,#e0e0e0);margin:0 0 1.25rem;">
+
+        <!-- Detailed Instructions -->
+        <h3 style="font-size:0.95rem;font-weight:700;margin:0 0 0.75rem;">Detailed Instructions</h3>
+
+        <h4 style="font-size:0.88rem;font-weight:700;margin:0 0 0.25rem;">Overview</h4>
+        <p style="margin:0 0 1rem;">Migrations track incremental database changes after the initial schema was installed. Each migration is a <code>.sql</code> file that runs once and is permanently recorded in the <code>migrations</code> table.</p>
+
+        <h4 style="font-size:0.88rem;font-weight:700;margin:0 0 0.25rem;">Adding a New Migration</h4>
+        <ol style="margin:0 0 1rem 1.25rem;padding:0;">
+            <li>Create a new <code>.sql</code> file in <code>Application/sql/interimUpdates/</code></li>
+            <li>Name it using the format <code>YYYYMMDD_description.sql</code><br><span style="color:#555;font-size:0.85rem;">e.g. <code>20260501_add_notes_to_contacts.sql</code></span></li>
+            <li>Write your SQL — <code>ALTER TABLE</code>, <code>CREATE INDEX</code>, <code>INSERT</code> for reference data, etc.</li>
+            <li>Deploy the file to the server</li>
+            <li>Run it here or via CLI: <code>php migrate.php</code></li>
+        </ol>
+
+        <h4 style="font-size:0.88rem;font-weight:700;margin:0 0 0.25rem;">Deployment Order</h4>
+        <p style="margin:0 0 1rem;">Always deploy code before running migrations. New PHP files must be on the server before the schema changes — never the reverse.</p>
+
+        <h4 style="font-size:0.88rem;font-weight:700;margin:0 0 0.25rem;">Run vs Mark Applied</h4>
+        <ul style="margin:0 0 1rem 1.25rem;padding:0;">
+            <li><strong>Run</strong> — executes the SQL and records it. Use for new migrations.</li>
+            <li><strong>Mark Applied</strong> — records without executing. Use for changes already applied manually (e.g. files from the old <code>applied.log</code> process).</li>
+        </ul>
+
+        <h4 style="font-size:0.88rem;font-weight:700;margin:0 0 0.25rem;">CLI Usage</h4>
+        <pre style="background:var(--color-surface-raised,#f5f5f5);padding:0.6rem 0.75rem;border-radius:4px;font-size:0.82rem;margin:0 0 1rem;overflow-x:auto;">php migrate.php           # Run all pending
+php migrate.php --dry-run # Preview without executing</pre>
+
+        <h4 style="font-size:0.88rem;font-weight:700;margin:0 0 0.25rem;">What Happens on Failure</h4>
+        <p style="margin:0 0 1rem;">If a migration fails it stops immediately. Already-applied migrations in that run are not rolled back. The failed file is not recorded — fix the SQL and run it again.</p>
+
+        <h4 style="font-size:0.88rem;font-weight:700;margin:0 0 0.25rem;">Do Not</h4>
+        <ul style="margin:0 0 0.5rem 1.25rem;padding:0;">
+            <li>Rename or delete applied migration files — the filename is the permanent record</li>
+            <li>Edit a migration after it has been applied — write a new one instead</li>
+            <li>Run seed files through the migration runner — seeds live in <code>Application/sql/SeedFiles/</code> and are separate</li>
+        </ul>
+
+    </div>
+</details>
+
 <?php if (!empty($pending)): ?>
 
 <h2 style="font-size:1.05rem;font-weight:600;margin-bottom:0.75rem;">
