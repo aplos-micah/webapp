@@ -33,6 +33,12 @@ class Router
         $uri  = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
         $slug = strtolower(trim($uri, '/')) ?: 'home';
 
+        // API track — JSON only, no view or template
+        if (str_starts_with($slug, 'api/')) {
+            self::dispatchApi($slug);
+            return;
+        }
+
         $pageDir      = self::resolvePageDir($slug);
         $pageConfig   = self::pageConfig($slug, $pageDir);
         $templateFile = __DIR__ . '/Templates/' . $pageConfig['template'];
@@ -191,6 +197,30 @@ class Router
         $pageOverrides  = file_exists($pageConfigFile) ? (require $pageConfigFile) : [];
 
         return array_merge($defaults, self::$pages[$slug] ?? [], $moduleConfig, $pageOverrides);
+    }
+
+    private static function dispatchApi(string $slug): never
+    {
+        // All API routes require an authenticated session
+        if (!self::isLoggedIn()) {
+            Response::json(['ok' => false, 'error' => 'Unauthorized.'], 401)->send();
+        }
+
+        // Resolve: api/accounts → Application/Api/Accounts/controller.php
+        $segments = explode('/', substr($slug, 4), 2); // strip 'api/' prefix
+        $apiRoot  = __DIR__ . '/Api';
+        $apiDir   = self::resolveNestedPath($apiRoot, $segments);
+
+        if ($apiDir === null || !file_exists($apiDir . '/controller.php')) {
+            Response::json(['ok' => false, 'error' => 'Endpoint not found.'], 404)->send();
+        }
+
+        $response = require $apiDir . '/controller.php';
+        if ($response instanceof Response) {
+            $response->send();
+        }
+
+        Response::json(['ok' => false, 'error' => 'No response from endpoint.'], 500)->send();
     }
 
     private static function load404(string $templateFile): void
