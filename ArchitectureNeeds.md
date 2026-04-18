@@ -13,6 +13,7 @@
 | 7 | DB migration runner | `Runner` class tracks applied migrations in a `migrations` DB table. Files live in `Application/sql/interimUpdates/` named `YYYYMMDD_description.sql`. Admin UI at `/admin/migrations`. CLI via `php migrate.php`. |
 | 8 | Mailer abstraction | `Mailer` interface with `PhpMailer` (PHP `mail()`) and `NullMailer` (logs only) implementations. `MailerFactory::make()` selects based on `MAIL_DRIVER` env var. Ready for password reset and notification emails. |
 | 9 | HTTP Response objects | `Response` class at `Application/Response.php` with `redirect()` and `json()` factory methods and `send()`. Router captures controller return value and calls `send()` if it's a `Response`. All `header()` + `exit` pairs replaced with `return Response::redirect()` / `return Response::json()` across 21 controllers. |
+| 11 | MCP server layer | MCP Streamable HTTP endpoint at `POST /mcp` (`Application/Mcp/controller.php`). Routed via a new `mcp` track in the router alongside the existing `api/` track. Nine tools: `list_accounts`, `get_account`, `list_contacts`, `get_contact`, `list_opportunities`, `get_opportunity` (includes line items), `list_products`, `get_product`, `read_logs`. Auth via `Authorization: Bearer <MCP_API_KEY>` (set in `.env`). Configure in Claude Desktop/Code: `{"url":"https://yourdomain.com/mcp","headers":{"Authorization":"Bearer <key>"}}`. |
 
 ---
 
@@ -21,13 +22,12 @@
 | # | Change | Why | Depends On |
 |---|---|---|---|
 | 10 | **PHPUnit test foundation** | No tests. Refactors carry silent regression risk. Start with `Validator`, Object classes, and auth flow. | ~~#9~~ ✓ |
-| 11 | **MCP server layer** | Enables Claude to query CRM data, read logs, and generate summaries conversationally. Thin layer over the JSON API. | ~~#5~~ ✓ |
 
 ---
 
 ## Recommended Order
 
-Items 10 and 11 are both unblocked and can be started in any order or in parallel.
+Item 10 is the only remaining pending item.
 
 ---
 
