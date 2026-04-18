@@ -39,7 +39,7 @@
         <ol style="margin:0 0 0.5rem 1.25rem;padding:0;">
             <li>Create <code>YYYYMMDD_description.sql</code> in <code>Application/sql/interimUpdates/</code></li>
             <li>Deploy the file to the server</li>
-            <li>Click <strong>Run</strong> here — or run <code>php migrate.php</code> from the CLI</li>
+            <li>Click <strong>Run</strong> here</li>
             <li>Done — it is recorded and will not run again</li>
         </ol>
         <p style="margin:0 0 1.25rem;"><strong>Rule:</strong> Always deploy code before running migrations. Never the reverse.</p>
@@ -58,7 +58,7 @@
             <li>Name it using the format <code>YYYYMMDD_description.sql</code><br><span style="color:#555;font-size:0.85rem;">e.g. <code>20260501_add_notes_to_contacts.sql</code></span></li>
             <li>Write your SQL — <code>ALTER TABLE</code>, <code>CREATE INDEX</code>, <code>INSERT</code> for reference data, etc.</li>
             <li>Deploy the file to the server</li>
-            <li>Run it here or via CLI: <code>php migrate.php</code></li>
+            <li>Run it here</li>
         </ol>
 
         <h4 style="font-size:0.88rem;font-weight:700;margin:0 0 0.25rem;">Deployment Order</h4>
@@ -69,10 +69,6 @@
             <li><strong>Run</strong> — executes the SQL and records it. Use for new migrations.</li>
             <li><strong>Mark Applied</strong> — records without executing. Use for changes already applied manually (e.g. files from the old <code>applied.log</code> process).</li>
         </ul>
-
-        <h4 style="font-size:0.88rem;font-weight:700;margin:0 0 0.25rem;">CLI Usage</h4>
-        <pre style="background:var(--color-surface-raised,#f5f5f5);padding:0.6rem 0.75rem;border-radius:4px;font-size:0.82rem;margin:0 0 1rem;overflow-x:auto;">php migrate.php           # Run all pending
-php migrate.php --dry-run # Preview without executing</pre>
 
         <h4 style="font-size:0.88rem;font-weight:700;margin:0 0 0.25rem;">What Happens on Failure</h4>
         <p style="margin:0 0 1rem;">If a migration fails it stops immediately. Already-applied migrations in that run are not rolled back. The failed file is not recorded — fix the SQL and run it again.</p>

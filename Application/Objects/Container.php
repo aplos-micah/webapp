@@ -10,20 +10,20 @@
  * Adding a new service: add a case to make() and a require_once below.
  */
 
-require_once __DIR__ . '/Objects/User.php';
-require_once __DIR__ . '/Module/CRM/Objects/Account.php';
-require_once __DIR__ . '/Module/CRM/Objects/Contact.php';
-require_once __DIR__ . '/Module/CRM/Objects/Location.php';
-require_once __DIR__ . '/Module/CRM/Objects/Opportunity.php';
-require_once __DIR__ . '/Module/CRM/Objects/OpportunityProductLineItem.php';
-require_once __DIR__ . '/Module/CRM/Objects/ProductDefinition.php';
-require_once __DIR__ . '/Module/CRM/Widgets/AccountContacts.php';
-require_once __DIR__ . '/Module/CRM/Widgets/AccountPerformance.php';
-require_once __DIR__ . '/Module/CRM/Widgets/AccountOpportunities.php';
-require_once __DIR__ . '/Module/CRM/Widgets/AccountLocations.php';
-require_once __DIR__ . '/Module/CRM/Widgets/DashContacts.php';
-require_once __DIR__ . '/Module/CRM/Widgets/DashOpenDeals.php';
-require_once __DIR__ . '/Module/CRM/Widgets/DashLeads.php';
+require_once __DIR__ . '/User.php';
+require_once __DIR__ . '/../Module/CRM/Objects/Account.php';
+require_once __DIR__ . '/../Module/CRM/Objects/Contact.php';
+require_once __DIR__ . '/../Module/CRM/Objects/Location.php';
+require_once __DIR__ . '/../Module/CRM/Objects/Opportunity.php';
+require_once __DIR__ . '/../Module/CRM/Objects/OpportunityProductLineItem.php';
+require_once __DIR__ . '/../Module/CRM/Objects/ProductDefinition.php';
+require_once __DIR__ . '/../Module/CRM/Widgets/AccountContacts.php';
+require_once __DIR__ . '/../Module/CRM/Widgets/AccountPerformance.php';
+require_once __DIR__ . '/../Module/CRM/Widgets/AccountOpportunities.php';
+require_once __DIR__ . '/../Module/CRM/Widgets/AccountLocations.php';
+require_once __DIR__ . '/../Module/CRM/Widgets/DashContacts.php';
+require_once __DIR__ . '/../Module/CRM/Widgets/DashOpenDeals.php';
+require_once __DIR__ . '/../Module/CRM/Widgets/DashLeads.php';
 
 class Container
 {
