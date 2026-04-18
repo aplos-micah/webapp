@@ -79,7 +79,13 @@ if ($totalPages > 1) {
         <input type="search" name="search" class="input list-search__input"
                placeholder="Search by name, SKU, family, type, or status…"
                value="<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>"
-               autocomplete="off">
+               autocomplete="off"
+               hx-get="/crm/products/list"
+               hx-trigger="input delay:300ms"
+               hx-target="#search-results"
+               hx-select="#search-results"
+               hx-swap="outerHTML"
+               hx-include="closest form">
     </div>
     <button type="submit" class="btn btn--secondary">Search</button>
     <?php if ($search !== ''): ?>
@@ -87,6 +93,7 @@ if ($totalPages > 1) {
     <?php endif; ?>
 </form>
 
+<div id="search-results">
 <?php if (empty($products) && $search === ''): ?>
 
 <div class="card dash-panel">
@@ -162,3 +169,4 @@ if ($totalPages > 1) {
 </div>
 
 <?php endif; ?>
+</div>

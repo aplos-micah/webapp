@@ -17,6 +17,9 @@
     <!-- Styles -->
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/app.css">
+
+    <!-- htmx -->
+    <script src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js" defer></script>
 </head>
 <body<?php if (Config::instance() === 'Test'): ?> class="has-test-banner"<?php endif; ?>>
 

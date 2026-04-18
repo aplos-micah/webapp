@@ -95,6 +95,12 @@ if ($totalPages > 1) {
             placeholder="Search by name, company, email, or job title…"
             value="<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>"
             autocomplete="off"
+            hx-get="/crm/contacts/list"
+            hx-trigger="input delay:300ms"
+            hx-target="#search-results"
+            hx-select="#search-results"
+            hx-swap="outerHTML"
+            hx-include="closest form"
         >
     </div>
     <button type="submit" class="btn btn--secondary">Search</button>
@@ -103,6 +109,7 @@ if ($totalPages > 1) {
     <?php endif; ?>
 </form>
 
+<div id="search-results">
 <?php if (empty($contacts) && $search === ''): ?>
 
 <div class="card dash-panel">
@@ -189,3 +196,4 @@ if ($totalPages > 1) {
 </div>
 
 <?php endif; ?>
+</div>
