@@ -129,6 +129,13 @@
                 <li class="app-sidebar__group-label"><span>Insights</span></li>
 
                 <li>
+                    <a href="/company" class="app-sidebar__link<?= $currentSlug === 'company' ? ' is-active' : '' ?>">
+                        <i class="fa-solid fa-building app-sidebar__icon" aria-hidden="true"></i>
+                        <span>My Company</span>
+                    </a>
+                </li>
+
+                <li>
                     <a href="/profile" class="app-sidebar__link<?= $currentSlug === 'profile' ? ' is-active' : '' ?>">
                         <i class="fa-solid fa-circle-user app-sidebar__icon" aria-hidden="true"></i>
                         <span>My Profile</span>

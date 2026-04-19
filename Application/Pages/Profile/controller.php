@@ -7,12 +7,15 @@ if (session_status() === PHP_SESSION_NONE) {
 $profileError   = null;
 $passwordError  = null;
 
-$userObj = Container::get('user');
-$profile = $userObj->findById((int) ($_SESSION['user_id'] ?? 0));
+$userObj    = Container::get('user');
+$profile    = $userObj->findById((int) ($_SESSION['user_id'] ?? 0));
 
 if (!$profile) {
     return Response::redirect('/login');
 }
+
+$companyId  = (int) ($profile['company_id'] ?? 0) ?: null;
+$company    = $companyId ? Container::get('company')->getById($companyId) : null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['_action'] ?? '';

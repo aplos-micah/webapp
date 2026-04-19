@@ -366,7 +366,7 @@ class User
     {
         return $this->db->queryOne(
             'SELECT id, name, email, user_type, Module_CRM, module_crm_settings,
-                    phone, job_title, timezone, is_active, created_at, updated_at
+                    phone, job_title, timezone, is_active, company_id, created_at, updated_at
                FROM users WHERE id = ? LIMIT 1',
             [$id]
         );
@@ -396,6 +396,14 @@ class User
         $this->db->execute(
             'UPDATE users SET module_crm_settings = ? WHERE id = ?',
             [json_encode($merged, JSON_UNESCAPED_UNICODE), $id]
+        );
+    }
+
+    public function setCompany(int $userId, int $companyId): void
+    {
+        $this->db->execute(
+            'UPDATE users SET company_id = ? WHERE id = ?',
+            [$companyId, $userId]
         );
     }
 

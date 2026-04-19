@@ -11,6 +11,7 @@
  */
 
 require_once __DIR__ . '/User.php';
+require_once __DIR__ . '/Company.php';
 require_once __DIR__ . '/../Module/CRM/Objects/Account.php';
 require_once __DIR__ . '/../Module/CRM/Objects/Contact.php';
 require_once __DIR__ . '/../Module/CRM/Objects/Location.php';
@@ -45,6 +46,7 @@ class Container
         $db = self::db();
         return match ($id) {
             'user'                  => new User($db),
+            'company'               => new Company($db),
             'account'               => new Account($db),
             'contact'               => new Contact($db),
             'location'              => new Location($db),
