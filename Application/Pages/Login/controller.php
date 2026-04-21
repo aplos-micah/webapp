@@ -34,6 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_email'] = $user['email']     ?? '';
                 $_SESSION['user_type']  = $user['user_type']  ?? 'free';
                 $_SESSION['module_crm'] = $user['Module_CRM'] ?? 'Free';
+                if (!empty($_SESSION['pending_invite'])) {
+                    $pendingToken = $_SESSION['pending_invite'];
+                    unset($_SESSION['pending_invite']);
+                    return Response::redirect('/invite?token=' . urlencode($pendingToken));
+                }
                 return Response::redirect('/home');
             }
 

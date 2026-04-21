@@ -399,6 +399,15 @@ class User
         );
     }
 
+    public function findByCompany(int $companyId): array
+    {
+        return $this->db->query(
+            'SELECT id, name, email, job_title, is_active
+               FROM users WHERE company_id = ? ORDER BY name ASC',
+            [$companyId]
+        );
+    }
+
     public function setCompany(int $userId, int $companyId): void
     {
         $this->db->execute(
