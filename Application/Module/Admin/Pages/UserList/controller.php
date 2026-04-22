@@ -10,7 +10,7 @@ header('Expires: 0');
 
 const USERS_PER_PAGE = 25;
 
-$userObj = Container::get('user');
+$userObj = Container::get('admin_user');
 
 // ── Handle edit POST ─────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['_action'] ?? '') === 'update_user') {
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['_action'] ?? '') === 'upda
 }
 
 $search = trim($_GET['search'] ?? '');
-$sort   = in_array($_GET['sort'] ?? '', User::SORTABLE, true) ? $_GET['sort'] : 'name';
+$sort   = in_array($_GET['sort'] ?? '', AdminUser::SORTABLE, true) ? $_GET['sort'] : 'name';
 $dir    = strtolower($_GET['dir'] ?? '') === 'desc' ? 'desc' : 'asc';
 
 $totalCount  = $userObj->count($search);

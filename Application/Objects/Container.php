@@ -13,6 +13,8 @@
 require_once __DIR__ . '/User.php';
 require_once __DIR__ . '/Company.php';
 require_once __DIR__ . '/Invitation.php';
+require_once __DIR__ . '/../Module/Admin/Objects/AdminUser.php';
+require_once __DIR__ . '/../Module/Admin/Objects/AdminCompany.php';
 require_once __DIR__ . '/../Module/CRM/Objects/Account.php';
 require_once __DIR__ . '/../Module/CRM/Objects/Contact.php';
 require_once __DIR__ . '/../Module/CRM/Objects/Location.php';
@@ -47,6 +49,8 @@ class Container
         $db = self::db();
         return match ($id) {
             'user'                  => new User($db),
+            'admin_user'            => new AdminUser($db),
+            'admin_company'         => new AdminCompany($db),
             'company'               => new Company($db),
             'invitation'            => new Invitation($db),
             'account'               => new Account($db),

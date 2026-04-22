@@ -16,6 +16,13 @@
 </li>
 
 <li>
+    <a href="/admin/companylist" class="app-sidebar__link<?= str_starts_with($currentSlug, 'admin/companylist') ? ' is-active' : '' ?>">
+        <i class="fa-solid fa-building app-sidebar__icon" aria-hidden="true"></i>
+        <span>Companies</span>
+    </a>
+</li>
+
+<li>
     <a href="/admin/debug_currentuser" class="app-sidebar__link<?= str_starts_with($currentSlug, 'admin/debug_currentuser') ? ' is-active' : '' ?>">
         <i class="fa-solid fa-bug app-sidebar__icon" aria-hidden="true"></i>
         <span>Debug: Current User</span>
