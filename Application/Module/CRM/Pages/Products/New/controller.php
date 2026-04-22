@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $error      = null;
-$productObj = Container::get('product');
+$productObj = CRMContainer::get('product');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [

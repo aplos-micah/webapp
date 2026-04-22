@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $error      = null;
-$contactObj = Container::get('contact');
+$contactObj = CRMContainer::get('contact');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

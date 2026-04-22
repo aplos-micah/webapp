@@ -10,7 +10,7 @@ header('Expires: 0');
 
 const COMPANIES_PER_PAGE = 25;
 
-$companyObj = Container::get('admin_company');
+$companyObj = AdminContainer::get('admin_company');
 
 // ── Handle edit POST ──────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['_action'] ?? '') === 'update_company') {

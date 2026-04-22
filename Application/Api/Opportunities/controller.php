@@ -10,7 +10,7 @@
  *   offset  int     — pagination offset (default 0)
  */
 
-$obj = Container::get('opportunity');
+$obj = CRMContainer::get('opportunity');
 
 // Single record
 $id = (int) ($_GET['id'] ?? 0);
@@ -19,7 +19,7 @@ if ($id > 0) {
     if (!$record) {
         return Response::json(['ok' => false, 'error' => 'Opportunity not found.'], 404);
     }
-    $record['line_items'] = Container::get('line_item')->findByOpportunity($id);
+    $record['line_items'] = CRMContainer::get('line_item')->findByOpportunity($id);
     return Response::json(['ok' => true, 'data' => $record]);
 }
 

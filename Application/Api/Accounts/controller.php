@@ -10,7 +10,7 @@
  *   offset  int     — pagination offset (default 0)
  */
 
-$obj = Container::get('account');
+$obj = CRMContainer::get('account');
 
 // Single record
 $id = (int) ($_GET['id'] ?? 0);

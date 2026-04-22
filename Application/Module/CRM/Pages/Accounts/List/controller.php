@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 const PER_PAGE = 20;
 
-$accountObj = Container::get('account');
+$accountObj = CRMContainer::get('account');
 
 $search = trim($_GET['search'] ?? '');
 $sort   = in_array($_GET['sort'] ?? '', Account::SORTABLE, true) ? $_GET['sort'] : 'name';

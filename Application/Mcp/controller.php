@@ -171,7 +171,7 @@ function mcp_handle_list(string $service, array $args): array
     $limit  = min(100, max(1, (int) ($args['limit']  ?? 20)));
     $offset = max(0,          (int) ($args['offset'] ?? 0));
 
-    $obj   = Container::get($service);
+    $obj   = CRMContainer::get($service);
     $total = $obj->count($search);
     $data  = $obj->findAll($limit, $offset, $search);
 
@@ -189,7 +189,7 @@ function mcp_handle_get(string $service, array $args, string $label): array
         return tool_text(json_pretty(['ok' => false, 'error' => 'id must be a positive integer']));
     }
 
-    $record = Container::get($service)->findById($id);
+    $record = CRMContainer::get($service)->findById($id);
 
     return $record
         ? tool_text(json_pretty(['ok' => true, 'data' => $record]))
@@ -203,12 +203,12 @@ function mcp_handle_get_opportunity(array $args): array
         return tool_text(json_pretty(['ok' => false, 'error' => 'id must be a positive integer']));
     }
 
-    $record = Container::get('opportunity')->findById($id);
+    $record = CRMContainer::get('opportunity')->findById($id);
     if (!$record) {
         return tool_text(json_pretty(['ok' => false, 'error' => 'Opportunity not found.']));
     }
 
-    $record['line_items'] = Container::get('line_item')->findByOpportunity($id);
+    $record['line_items'] = CRMContainer::get('line_item')->findByOpportunity($id);
 
     return tool_text(json_pretty(['ok' => true, 'data' => $record]));
 }

@@ -10,7 +10,7 @@ header('Expires: 0');
 
 const USERS_PER_PAGE = 25;
 
-$userObj = Container::get('admin_user');
+$userObj = AdminContainer::get('admin_user');
 
 // ── Handle edit POST ─────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['_action'] ?? '') === 'update_user') {

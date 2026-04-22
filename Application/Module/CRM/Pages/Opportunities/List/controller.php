@@ -10,7 +10,7 @@ header('Expires: 0');
 
 const PER_PAGE = 20;
 
-$oppObj = Container::get('opportunity');
+$oppObj = CRMContainer::get('opportunity');
 
 $search = trim($_GET['search'] ?? '');
 $sort   = in_array($_GET['sort'] ?? '', Opportunity::SORTABLE, true) ? $_GET['sort'] : 'opportunity_name';

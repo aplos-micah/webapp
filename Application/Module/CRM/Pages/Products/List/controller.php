@@ -10,7 +10,7 @@ header('Expires: 0');
 
 const PER_PAGE = 20;
 
-$productObj = Container::get('product');
+$productObj = CRMContainer::get('product');
 
 $search = trim($_GET['search'] ?? '');
 $sort   = in_array($_GET['sort'] ?? '', ProductDefinition::SORTABLE, true) ? $_GET['sort'] : 'product_name';

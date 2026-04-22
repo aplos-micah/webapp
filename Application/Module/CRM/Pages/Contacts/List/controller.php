@@ -10,7 +10,7 @@ header('Expires: 0');
 
 const PER_PAGE = 20;
 
-$contactObj = Container::get('contact');
+$contactObj = CRMContainer::get('contact');
 
 $search = trim($_GET['search'] ?? '');
 $sort   = in_array($_GET['sort'] ?? '', Contact::SORTABLE, true) ? $_GET['sort'] : 'last_name';

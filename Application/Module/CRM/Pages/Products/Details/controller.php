@@ -10,7 +10,7 @@ if ($id === 0) {
     return Response::redirect('/crm/products/list');
 }
 
-$productObj = Container::get('product');
+$productObj = CRMContainer::get('product');
 $product    = $productObj->findById($id);
 
 if (!$product) {

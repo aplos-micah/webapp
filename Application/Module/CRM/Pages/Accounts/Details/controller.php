@@ -10,7 +10,7 @@ if ($id === 0) {
     return Response::redirect('/crm/accounts/list');
 }
 
-$accountObj = Container::get('account');
+$accountObj = CRMContainer::get('account');
 $account    = $accountObj->findById($id);
 
 if (!$account) {
@@ -21,7 +21,7 @@ if (!$account) {
 $editMode   = isset($_GET['edit']);
 $editError  = null;
 
-$locationObj = Container::get('location');
+$locationObj = CRMContainer::get('location');
 $locBaseUrl  = '/crm/accounts/details?id=' . $id;
 
 // ─── Location mutations ───────────────────────────────────────────────────────
@@ -105,7 +105,7 @@ foreach ($allowed as $tile) {
 }
 
 // Load widget data
-$contactsWidget       = Container::get('account_contacts');
-$performanceWidget    = Container::get('account_performance');
-$opportunitiesWidget  = Container::get('account_opportunities');
-$locationsWidget      = Container::get('account_locations');
+$contactsWidget       = CRMContainer::get('account_contacts');
+$performanceWidget    = CRMContainer::get('account_performance');
+$opportunitiesWidget  = CRMContainer::get('account_opportunities');
+$locationsWidget      = CRMContainer::get('account_locations');

@@ -4,9 +4,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-$contactsWidget  = Container::get('dash_contacts');
-$openDealsWidget = Container::get('dash_deals');
-$leadsWidget     = Container::get('dash_leads');
+$contactsWidget  = CRMContainer::get('dash_contacts');
+$openDealsWidget = CRMContainer::get('dash_deals');
+$leadsWidget     = CRMContainer::get('dash_leads');
 
 $data = [
     'user_name'        => $_SESSION['user_name']  ?? 'there',

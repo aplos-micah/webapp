@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $error  = null;
-$oppObj = Container::get('opportunity');
+$oppObj = CRMContainer::get('opportunity');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = [

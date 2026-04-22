@@ -10,8 +10,8 @@ if ($id === 0) {
     return Response::redirect('/crm/opportunities/list');
 }
 
-$oppObj      = Container::get('opportunity');
-$lineItemObj = Container::get('line_item');
+$oppObj      = CRMContainer::get('opportunity');
+$lineItemObj = CRMContainer::get('line_item');
 
 $opp = $oppObj->findById($id);
 
@@ -137,7 +137,7 @@ $lineItems      = $lineItemObj->findByOpportunity($id);
 $lineItemsTotal = $lineItemObj->totalForOpportunity($id);
 
 // Load Bill To and Ship To locations for the opportunity's account
-$locationObj  = Container::get('location');
+$locationObj  = CRMContainer::get('location');
 $accountId    = (int) ($opp['account_id'] ?? 0);
 $billToLocs   = $accountId ? array_filter(
     $locationObj->findByAccount($accountId),

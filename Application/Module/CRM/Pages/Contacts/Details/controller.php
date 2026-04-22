@@ -10,7 +10,7 @@ if ($id === 0) {
     return Response::redirect('/crm/contacts/list');
 }
 
-$contactObj = Container::get('contact');
+$contactObj = CRMContainer::get('contact');
 $contact    = $contactObj->findById($id);
 
 if (!$contact) {
