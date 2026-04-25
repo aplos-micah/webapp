@@ -1,7 +1,3 @@
-// ── htmx hardening ───────────────────────────────────────────────────────────
-htmx.config.allowEval       = false;
-htmx.config.allowScriptTags = false;
-
 // ── Toast ─────────────────────────────────────────────────────────────────────
 
 // Close button (replaces inline onclick handler)

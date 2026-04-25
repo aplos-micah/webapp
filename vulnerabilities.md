@@ -31,8 +31,8 @@
 | L1 | LOW | Missing `Cross-Origin-Opener-Policy` header | ✅ Done |
 | L2 | LOW | Missing `Cross-Origin-Resource-Policy` header | ✅ Done |
 | L3 | LOW | Google Fonts CDN in `simplifying.html` leaks user IPs | ✅ Done |
-| L4 | LOW | Dead code in `index.php` lines 9–10 | ☐ Open |
-| L7 | LOW | htmx not upgraded to 2.x (long-term) | ☐ Open |
+| L4 | LOW | Dead code in `index.php` lines 9–10 | ✅ Done |
+| L7 | LOW | htmx not upgraded to 2.x (long-term) | ✅ Done |
 
 > L5 (user-agent blocking bypass) and L6 (FollowSymLinks) are accepted trade-offs — not tracked here.
 

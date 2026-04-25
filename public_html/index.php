@@ -6,8 +6,8 @@
 try {
     require_once __DIR__ . '/../Application/utilities.php';
 
-    $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
-    $uri    = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+
+
 } catch (Throwable $e) {
     if (class_exists('Logger')) {
         Logger::getInstance()->error('Bootstrap failed', [
