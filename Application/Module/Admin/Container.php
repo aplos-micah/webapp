@@ -11,6 +11,7 @@
 
 require_once __DIR__ . '/Objects/AdminUser.php';
 require_once __DIR__ . '/Objects/AdminCompany.php';
+require_once __DIR__ . '/Objects/AdminOAuth.php';
 
 class AdminContainer
 {
@@ -27,6 +28,7 @@ class AdminContainer
         return match ($id) {
             'admin_user'    => new AdminUser($db),
             'admin_company' => new AdminCompany($db),
+            'admin_oauth'   => new AdminOAuth($db),
             default         => throw new RuntimeException("AdminContainer: unknown service '{$id}'"),
         };
     }

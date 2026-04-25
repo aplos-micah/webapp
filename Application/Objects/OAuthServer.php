@@ -2,8 +2,8 @@
 
 class OAuthServer
 {
-    private const CODE_TTL_MINUTES  = 10;
-    private const TOKEN_TTL_HOURS   = 1;
+    private const CODE_TTL_MINUTES = 10;
+    private const TOKEN_TTL_DAYS  = 180;
 
     private $db;
 
@@ -20,7 +20,7 @@ class OAuthServer
     public function findClient(string $clientId, string $redirectUri): ?array
     {
         $client = $this->db->queryOne(
-            'SELECT * FROM oauth_clients WHERE client_id = ? LIMIT 1',
+            'SELECT * FROM oauth_clients WHERE client_id = ? AND is_active = 1 LIMIT 1',
             [$clientId]
         );
         if (!$client) {
@@ -98,10 +98,16 @@ class OAuthServer
             [date('Y-m-d H:i:s'), $codeHash]
         );
 
+        // Revoke any existing tokens for this user+client before issuing a new one
+        $this->db->execute(
+            'DELETE FROM oauth_tokens WHERE user_id = ? AND client_id = ?',
+            [(int) $row['user_id'], $clientId]
+        );
+
         // Issue access token
         $plainToken = bin2hex(random_bytes(32));
         $tokenHash  = hash('sha256', $plainToken);
-        $expiresAt  = date('Y-m-d H:i:s', strtotime('+' . self::TOKEN_TTL_HOURS . ' hours'));
+        $expiresAt  = date('Y-m-d H:i:s', strtotime('+' . self::TOKEN_TTL_DAYS . ' days'));
 
         $this->db->insert(
             'INSERT INTO oauth_tokens (token_hash, client_id, user_id, expires_at)
@@ -112,7 +118,7 @@ class OAuthServer
         return [
             'access_token' => $plainToken,
             'token_type'   => 'Bearer',
-            'expires_in'   => self::TOKEN_TTL_HOURS * 3600,
+            'expires_in'   => self::TOKEN_TTL_DAYS * 86400,
         ];
     }
 

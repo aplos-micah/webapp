@@ -30,6 +30,13 @@
 </li>
 
 <li>
+    <a href="/admin/manageoauth" class="app-sidebar__link<?= str_starts_with($currentSlug, 'admin/manageoauth') ? ' is-active' : '' ?>">
+        <i class="fa-solid fa-key app-sidebar__icon" aria-hidden="true"></i>
+        <span>OAuth Sessions</span>
+    </a>
+</li>
+
+<li>
     <a href="/admin/logviewer" class="app-sidebar__link<?= str_starts_with($currentSlug, 'admin/logviewer') ? ' is-active' : '' ?>">
         <i class="fa-solid fa-file-lines app-sidebar__icon" aria-hidden="true"></i>
         <span>System Logs</span>
