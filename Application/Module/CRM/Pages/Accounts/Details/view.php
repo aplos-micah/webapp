@@ -56,7 +56,7 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
     <!-- ══════════════════════════════════════════════════════════════════════
          LEFT COLUMN — Related content (drag to reorder)
          ══════════════════════════════════════════════════════════════════════ -->
-    <div class="account-detail-layout__related" id="related-tiles">
+    <div class="account-detail-layout__related" id="related-tiles" data-save-url="/crm/accounts/savelayout">
         <?php
         $tiles = [
             'opportunities' => [
@@ -405,50 +405,3 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
 
 </div>
 
-<script>
-(function () {
-    const container = document.getElementById('related-tiles');
-    if (!container) return;
-
-    let dragging = null;
-
-    container.addEventListener('dragstart', function (e) {
-        dragging = e.target.closest('[data-tile]');
-        if (!dragging) return;
-        dragging.classList.add('is-dragging');
-        e.dataTransfer.effectAllowed = 'move';
-    });
-
-    container.addEventListener('dragend', function () {
-        if (dragging) dragging.classList.remove('is-dragging');
-        container.querySelectorAll('[data-tile]').forEach(el => el.classList.remove('drag-over'));
-        dragging = null;
-        saveOrder();
-    });
-
-    container.addEventListener('dragover', function (e) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        const target = e.target.closest('[data-tile]');
-        if (!target || target === dragging) return;
-        container.querySelectorAll('[data-tile]').forEach(el => el.classList.remove('drag-over'));
-        target.classList.add('drag-over');
-        const after = e.clientY > target.getBoundingClientRect().top + target.getBoundingClientRect().height / 2;
-        container.insertBefore(dragging, after ? target.nextSibling : target);
-    });
-
-    container.addEventListener('dragleave', function (e) {
-        const target = e.target.closest('[data-tile]');
-        if (target) target.classList.remove('drag-over');
-    });
-
-    function saveOrder() {
-        const order = [...container.querySelectorAll('[data-tile]')].map(el => el.dataset.tile);
-        fetch('/crm/accounts/savelayout', {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({ order })
-        });
-    }
-}());
-</script>

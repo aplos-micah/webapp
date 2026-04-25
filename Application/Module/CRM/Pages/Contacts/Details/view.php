@@ -93,7 +93,7 @@ $field = function(
 <div class="account-detail-layout">
 
     <!-- Left: Related tiles -->
-    <div class="related-tiles" id="related-tiles">
+    <div class="related-tiles" id="related-tiles" data-save-url="/crm/contacts/savelayout">
         <?php foreach ($tileOrder as $tile): ?>
         <?php
             $tileLabels = [
@@ -295,55 +295,4 @@ $field = function(
 </form>
 <?php endif; ?>
 
-<?php if ($editMode): include __DIR__ . '/../_partials/account-lookup.js.php'; endif; ?>
 
-<script>
-(function () {
-    const container = document.getElementById('related-tiles');
-    if (!container) return;
-
-    let dragging = null;
-
-    container.addEventListener('dragstart', e => {
-        dragging = e.target.closest('[data-tile]');
-        if (dragging) dragging.classList.add('is-dragging');
-    });
-
-    container.addEventListener('dragend', () => {
-        if (dragging) dragging.classList.remove('is-dragging');
-        dragging = null;
-        saveOrder();
-    });
-
-    container.addEventListener('dragover', e => {
-        e.preventDefault();
-        const target = e.target.closest('[data-tile]');
-        if (!target || target === dragging) return;
-
-        container.querySelectorAll('[data-tile]').forEach(el => el.classList.remove('drag-over'));
-        target.classList.add('drag-over');
-
-        const rect   = target.getBoundingClientRect();
-        const middle = rect.top + rect.height / 2;
-        if (e.clientY < middle) {
-            container.insertBefore(dragging, target);
-        } else {
-            container.insertBefore(dragging, target.nextSibling);
-        }
-    });
-
-    container.addEventListener('dragleave', e => {
-        const target = e.target.closest('[data-tile]');
-        if (target) target.classList.remove('drag-over');
-    });
-
-    function saveOrder() {
-        const order = [...container.querySelectorAll('[data-tile]')].map(el => el.dataset.tile);
-        fetch('/crm/contacts/savelayout', {
-            method:  'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({ order }),
-        });
-    }
-})();
-</script>

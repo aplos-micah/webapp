@@ -190,4 +190,3 @@ $val = fn(string $field, string $default = '') => htmlspecialchars($_POST[$field
 
 </form>
 
-<?php include __DIR__ . '/../_partials/account-lookup.js.php'; ?>

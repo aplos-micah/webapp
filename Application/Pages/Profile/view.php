@@ -136,11 +136,11 @@
         <!-- Tab bar -->
         <div style="display:flex;gap:0;border-bottom:1px solid var(--color-sky);margin-bottom:var(--space-md);">
             <button type="button" class="profile-tab<?= $defaultTab === 'company' ? ' profile-tab--active' : '' ?>"
-                    onclick="switchTab('company')" id="tab-btn-company">
+                    data-tab="company" id="tab-btn-company">
                 <i class="fa-solid fa-building" aria-hidden="true"></i> Company
             </button>
             <button type="button" class="profile-tab<?= $defaultTab === 'password' ? ' profile-tab--active' : '' ?>"
-                    onclick="switchTab('password')" id="tab-btn-password">
+                    data-tab="password" id="tab-btn-password">
                 <i class="fa-solid fa-lock" aria-hidden="true"></i> Password
             </button>
         </div>
@@ -245,11 +245,3 @@
 }
 </style>
 
-<script>
-function switchTab(name) {
-    ['company','password'].forEach(function(t) {
-        document.getElementById('tab-panel-' + t).hidden = (t !== name);
-        document.getElementById('tab-btn-' + t).classList.toggle('profile-tab--active', t === name);
-    });
-}
-</script>

@@ -225,37 +225,3 @@ $userTypeBadge = [
 
 <?php endif; ?>
 
-<script>
-(function () {
-    function openUserEdit(userId) {
-        const dispRow = document.querySelector('tr[data-user-id="' + userId + '"]');
-        const editRow = document.getElementById('user-edit-' + userId);
-        if (!dispRow || !editRow) return;
-        dispRow.hidden = true;
-        editRow.hidden = false;
-        editRow.querySelector('.input')?.focus();
-    }
-
-    function closeUserEdit(userId) {
-        const dispRow = document.querySelector('tr[data-user-id="' + userId + '"]');
-        const editRow = document.getElementById('user-edit-' + userId);
-        if (!editRow) return;
-        editRow.hidden = true;
-        if (dispRow) dispRow.hidden = false;
-    }
-
-    document.querySelectorAll('tr[data-user-id]').forEach(function (row) {
-        row.addEventListener('dblclick', function () {
-            openUserEdit(row.dataset.userId);
-        });
-    });
-
-    document.querySelectorAll('.user-edit-cancel').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            const editRow = btn.closest('.li-edit-row');
-            if (!editRow) return;
-            closeUserEdit(editRow.id.replace('user-edit-', ''));
-        });
-    });
-}());
-</script>

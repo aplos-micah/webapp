@@ -232,37 +232,3 @@ if ($totalPages > 1) {
 
 <?php endif; ?>
 
-<script>
-(function () {
-    function openEdit(companyId) {
-        const dispRow = document.querySelector('tr[data-company-id="' + companyId + '"]');
-        const editRow = document.getElementById('company-edit-' + companyId);
-        if (!dispRow || !editRow) return;
-        dispRow.hidden = true;
-        editRow.hidden = false;
-        editRow.querySelector('.input')?.focus();
-    }
-
-    function closeEdit(companyId) {
-        const dispRow = document.querySelector('tr[data-company-id="' + companyId + '"]');
-        const editRow = document.getElementById('company-edit-' + companyId);
-        if (!editRow) return;
-        editRow.hidden = true;
-        if (dispRow) dispRow.hidden = false;
-    }
-
-    document.querySelectorAll('tr[data-company-id]').forEach(function (row) {
-        row.addEventListener('dblclick', function () {
-            openEdit(row.dataset.companyId);
-        });
-    });
-
-    document.querySelectorAll('.company-edit-cancel').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            const editRow = btn.closest('.li-edit-row');
-            if (!editRow) return;
-            closeEdit(editRow.id.replace('company-edit-', ''));
-        });
-    });
-}());
-</script>

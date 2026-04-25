@@ -1,3 +1,11 @@
+<?php
+$_currentSlug  = $slug ?? strtolower(trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/')) ?: 'home';
+$_moduleSegment = strstr($_currentSlug, '/', true) ?: null;
+$_moduleJs      = $_moduleSegment
+    ? ($_SERVER['DOCUMENT_ROOT'] . '/assets/js/' . $_moduleSegment . '.js')
+    : null;
+$_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +28,12 @@
 
     <!-- htmx -->
     <script src="/assets/vendor/htmx.min.js" defer></script>
+
+    <!-- App -->
+    <script src="/assets/js/app.js" defer></script>
+    <?php if ($_hasModuleJs): ?>
+    <script src="/assets/js/<?= htmlspecialchars($_moduleSegment, ENT_QUOTES, 'UTF-8') ?>.js" defer></script>
+    <?php endif; ?>
 </head>
 <body<?php if (Config::instance() === 'Test'): ?> class="has-test-banner"<?php endif; ?>>
 
@@ -178,69 +192,11 @@
             <?php endif; ?>
         </span>
         <span class="toast__message"><?= htmlspecialchars($flash['message'], ENT_QUOTES, 'UTF-8') ?></span>
-        <button class="toast__close" onclick="this.closest('.toast').remove()" aria-label="Dismiss">
+        <button class="toast__close" aria-label="Dismiss">
             <i class="fa-solid fa-xmark" aria-hidden="true"></i>
         </button>
     </div>
-    <script>
-        (function () {
-            var t = document.getElementById('app-toast');
-            if (!t) return;
-            setTimeout(function () {
-                t.classList.add('toast--hiding');
-                setTimeout(function () { t.remove(); }, 400);
-            }, 5000);
-        }());
-    </script>
     <?php endif; ?>
-
-<script>
-(function () {
-    var toggle  = document.getElementById('sidebar-toggle');
-    var sidebar = document.getElementById('app-sidebar');
-    var overlay = document.getElementById('sidebar-overlay');
-
-    if (!toggle || !sidebar || !overlay) return;
-
-    function openSidebar() {
-        sidebar.classList.add('is-open');
-        overlay.classList.add('is-visible');
-        toggle.setAttribute('aria-expanded', 'true');
-        toggle.setAttribute('aria-label', 'Close navigation menu');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeSidebar() {
-        sidebar.classList.remove('is-open');
-        overlay.classList.remove('is-visible');
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.setAttribute('aria-label', 'Open navigation menu');
-        document.body.style.overflow = '';
-    }
-
-    toggle.addEventListener('click', function () {
-        if (sidebar.classList.contains('is-open')) {
-            closeSidebar();
-        } else {
-            openSidebar();
-        }
-    });
-
-    overlay.addEventListener('click', closeSidebar);
-
-    // Close sidebar on nav link click (page navigation)
-    sidebar.querySelectorAll('a').forEach(function (link) {
-        link.addEventListener('click', function () {
-            if (window.innerWidth <= 768) closeSidebar();
-        });
-    });
-
-    // Close on resize back to desktop
-    window.addEventListener('resize', function () {
-        if (window.innerWidth > 768) closeSidebar();
-    });
-}());
-</script>
 
 </body>
 </html>

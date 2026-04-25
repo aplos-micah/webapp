@@ -240,5 +240,3 @@ $chk = fn(string $f, string $opt) => in_array($opt, (array) ($_POST[$f] ?? []), 
 
 </form>
 
-<?php include __DIR__ . '/../../Contacts/_partials/account-lookup.js.php'; ?>
-<?php include __DIR__ . '/../../Contacts/_partials/contact-lookup.js.php'; ?>

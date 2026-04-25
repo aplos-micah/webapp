@@ -20,6 +20,9 @@
 
     <!-- htmx -->
     <script src="/assets/vendor/htmx.min.js" defer></script>
+
+    <!-- App -->
+    <script src="/assets/js/app.js" defer></script>
 </head>
 <body<?php if (Config::instance() === 'Test'): ?> class="has-test-banner"<?php endif; ?>>
 
@@ -84,20 +87,10 @@
             <?php endif; ?>
         </span>
         <span class="toast__message"><?= htmlspecialchars($flash['message'], ENT_QUOTES, 'UTF-8') ?></span>
-        <button class="toast__close" onclick="this.closest('.toast').remove()" aria-label="Dismiss">
+        <button class="toast__close" aria-label="Dismiss">
             <i class="fa-solid fa-xmark" aria-hidden="true"></i>
         </button>
     </div>
-    <script>
-        (function () {
-            var t = document.getElementById('app-toast');
-            if (!t) return;
-            setTimeout(function () {
-                t.classList.add('toast--hiding');
-                setTimeout(function () { t.remove(); }, 400);
-            }, 5000);
-        }());
-    </script>
     <?php endif; ?>
 
 </body>
