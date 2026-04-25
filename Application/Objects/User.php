@@ -94,7 +94,7 @@ class User
         // Alias the column to bypass the DB class password-stripping guard
         // so we can call password_verify — the alias is never returned.
         $row = $this->db->queryOne(
-            'SELECT id, name, email, user_type, Module_CRM, is_active, created_at,
+            'SELECT id, name, email, user_type, Module_CRM, is_active, email_verified_at, created_at,
                     password_hash AS _auth
                FROM users
               WHERE email = ?
@@ -209,6 +209,75 @@ class User
         });
 
         return true;
+    }
+
+    // =========================================================================
+    // Email verification
+    // =========================================================================
+
+    /**
+     * Generate an email-verification token for the given user ID.
+     *
+     * Invalidates any previous unused tokens for the user, then returns the
+     * plain (unhashed) 64-char token that should be embedded in the email link.
+     * Only the SHA-256 hash is persisted.  Token is valid for 24 hours.
+     */
+    public function createEmailVerificationToken(int $userId): string
+    {
+        $this->db->execute(
+            'DELETE FROM email_verifications WHERE user_id = ? AND verified_at IS NULL',
+            [$userId]
+        );
+
+        $plainToken = bin2hex(random_bytes(32));
+        $tokenHash  = hash('sha256', $plainToken);
+        $expiresAt  = date('Y-m-d H:i:s', strtotime('+24 hours'));
+
+        $this->db->insert(
+            'INSERT INTO email_verifications (user_id, token_hash, expires_at) VALUES (?, ?, ?)',
+            [$userId, $tokenHash, $expiresAt]
+        );
+
+        return $plainToken;
+    }
+
+    /**
+     * Consume a verification token and mark the user's email as verified.
+     *
+     * Returns the user row on success (password-free), or null if the token
+     * is invalid, expired, or already used.
+     */
+    public function verifyEmail(string $plainToken): ?array
+    {
+        $tokenHash = hash('sha256', $plainToken);
+        $now       = date('Y-m-d H:i:s');
+
+        $record = $this->db->queryOne(
+            'SELECT id, user_id
+               FROM email_verifications
+              WHERE token_hash = ?
+                AND expires_at > ?
+                AND verified_at IS NULL
+              LIMIT 1',
+            [$tokenHash, $now]
+        );
+
+        if (!$record) {
+            return null;
+        }
+
+        $this->db->transaction(function (DB $db) use ($record, $now): void {
+            $db->execute(
+                'UPDATE users SET email_verified_at = ? WHERE id = ?',
+                [$now, $record['user_id']]
+            );
+            $db->execute(
+                'UPDATE email_verifications SET verified_at = ? WHERE id = ?',
+                [$now, $record['id']]
+            );
+        });
+
+        return $this->findById($record['user_id']);
     }
 
     // =========================================================================

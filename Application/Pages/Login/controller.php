@@ -25,6 +25,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = Container::get('user')->authenticate($email, $password);
 
             if ($user) {
+                if ($user['email_verified_at'] === null) {
+                    if (session_status() === PHP_SESSION_NONE) {
+                        session_start();
+                    }
+                    $_SESSION['_flash'] = [
+                        'type'    => 'warning',
+                        'message' => 'Please verify your email address before signing in. Check your inbox or request a new link below.',
+                    ];
+                    $_SESSION['pending_verify_email'] = $user['email'];
+                    return Response::redirect('/check-email');
+                }
+
                 if (session_status() === PHP_SESSION_NONE) {
                     session_start();
                 }

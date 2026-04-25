@@ -83,3 +83,24 @@ document.addEventListener('click', function (e) {
     });
 }());
 
+// ── Email verification countdown redirect ─────────────────────────────────────
+
+(function () {
+    var card = document.getElementById('verify-redirect');
+    if (!card) return;
+
+    var dest = card.dataset.redirect;
+    if (!dest) return;
+
+    var el = document.getElementById('countdown');
+
+    setTimeout(function () { window.location.href = dest; }, 3000);
+
+    var remaining = 3;
+    var tick = setInterval(function () {
+        remaining -= 1;
+        if (el) el.textContent = remaining;
+        if (remaining <= 0) clearInterval(tick);
+    }, 1000);
+}());
+
