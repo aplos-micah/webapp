@@ -123,6 +123,9 @@ ServerSignature Off
     RewriteEngine On
     RewriteBase /
 
+    # Pass Authorization header through to PHP (stripped by Apache CGI/FastCGI by default)
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
     # Allow direct access to real files and directories
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

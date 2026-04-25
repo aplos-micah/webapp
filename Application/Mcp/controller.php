@@ -16,26 +16,42 @@ header('Access-Control-Allow-Headers: Authorization, Content-Type, Accept');
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
+// Resolve the incoming credential (X-Mcp-Key header or Authorization: Bearer)
+$rawHeader = $_SERVER['HTTP_AUTHORIZATION']
+    ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+    ?? (function_exists('getallheaders') ? (getallheaders()['Authorization'] ?? '') : '')
+    ?? '';
+
+if (isset($_SERVER['HTTP_X_MCP_KEY'])) {
+    $rawHeader = 'Bearer ' . $_SERVER['HTTP_X_MCP_KEY'];
+}
+
+// Strip "Bearer " prefix to get the plain credential
+$plainCredential = str_starts_with($rawHeader, 'Bearer ') ? substr($rawHeader, 7) : '';
+
 $configuredKey = getenv('MCP_API_KEY');
-if ($configuredKey !== false && $configuredKey !== '') {
-    // nginx often strips Authorization — also accept X-Mcp-Key as a fallback
-    $provided = $_SERVER['HTTP_X_MCP_KEY']
-        ?? $_SERVER['HTTP_AUTHORIZATION']
-        ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
-        ?? (function_exists('getallheaders') ? (getallheaders()['Authorization'] ?? '') : '')
-        ?? '';
+$apiKeyPresent = $configuredKey !== false && $configuredKey !== '';
 
-    // X-Mcp-Key sends the raw key; Authorization sends "Bearer <key>"
-    if (isset($_SERVER['HTTP_X_MCP_KEY'])) {
-        $provided = "Bearer {$provided}";
-    }
+$authorized = false;
 
-    if (!hash_equals("Bearer {$configuredKey}", $provided)) {
-        return Response::json(
-            ['jsonrpc' => '2.0', 'id' => null, 'error' => ['code' => -32001, 'message' => 'Unauthorized']],
-            401
-        );
-    }
+if ($apiKeyPresent && hash_equals($configuredKey, $plainCredential)) {
+    // Static API key auth
+    $authorized = true;
+} elseif ($plainCredential !== '') {
+    // OAuth token auth — try validating against oauth_tokens table
+    $authorized = Container::get('oauth')->validateToken($plainCredential) !== null;
+}
+
+if ($apiKeyPresent && !$authorized) {
+    Logger::getInstance()->warning('MCP auth failed', [
+        'credential_present' => $plainCredential !== '',
+        'http_auth_set'      => isset($_SERVER['HTTP_AUTHORIZATION']),
+        'redirect_auth_set'  => isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']),
+    ]);
+    return Response::json(
+        ['jsonrpc' => '2.0', 'id' => null, 'error' => ['code' => -32001, 'message' => 'Unauthorized']],
+        401
+    );
 }
 
 // ── Parse request ─────────────────────────────────────────────────────────────

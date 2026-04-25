@@ -39,6 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     unset($_SESSION['pending_invite']);
                     return Response::redirect('/invite?token=' . urlencode($pendingToken));
                 }
+                if (!empty($_SESSION['oauth_pending'])) {
+                    return Response::redirect('/authorize');
+                }
                 return Response::redirect('/home');
             }
 

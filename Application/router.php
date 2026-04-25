@@ -33,6 +33,25 @@ class Router
         $uri  = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
         $slug = strtolower(trim($uri, '/')) ?: 'home';
 
+        // OAuth well-known discovery — RFC 8414, no auth required
+        if ($slug === '.well-known/oauth-authorization-server') {
+            self::dispatchOAuthMeta();
+            return;
+        }
+
+        // OAuth authorize — user-facing consent page, no auth gate (handles it internally)
+        if ($slug === 'authorize') {
+            self::dispatchOAuthAuthorize();
+            return;
+        }
+
+        // OAuth token exchange — JSON only, no session required
+        // Also handle /token (Claude.ai MCP connector uses this path)
+        if ($slug === 'oauth/token' || $slug === 'token') {
+            self::dispatchOAuthToken();
+            return;
+        }
+
         // MCP track — JSON-RPC over HTTP, no view or template
         if ($slug === 'api/mcp') {
             self::dispatchMcp();
@@ -227,6 +246,42 @@ class Router
         }
 
         Response::json(['ok' => false, 'error' => 'No response from endpoint.'], 500)->send();
+    }
+
+    private static function dispatchOAuthMeta(): never
+    {
+        $response = require __DIR__ . '/Pages/Authorize/meta.php';
+        if ($response instanceof Response) {
+            $response->send();
+        }
+        Response::json(['error' => 'No response from OAuth meta endpoint.'], 500)->send();
+    }
+
+    private static function dispatchOAuthAuthorize(): void
+    {
+        $controllerFile = __DIR__ . '/Pages/Authorize/controller.php';
+        $data = [];
+        if (file_exists($controllerFile)) {
+            $response = require $controllerFile;
+            if ($response instanceof Response) {
+                $response->send();
+            }
+        }
+        $viewFile     = __DIR__ . '/Pages/Authorize/view.php';
+        $templateFile = __DIR__ . '/Templates/default.php';
+        ob_start();
+        require $viewFile;
+        $content = ob_get_clean();
+        require $templateFile;
+    }
+
+    private static function dispatchOAuthToken(): never
+    {
+        $response = require __DIR__ . '/Pages/Authorize/token.php';
+        if ($response instanceof Response) {
+            $response->send();
+        }
+        Response::json(['error' => 'invalid_request', 'error_description' => 'No response.'], 500)->send();
     }
 
     private static function dispatchMcp(): never

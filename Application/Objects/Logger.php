@@ -22,7 +22,7 @@ class Logger
 
     public static function logDir(): string
     {
-        return __DIR__ . '/../storage/logs';
+        return __DIR__ . '/../../storage/logs';
     }
 
     public static function logFile(): string
