@@ -77,35 +77,18 @@ class OAuthServer
             [$codeHash]
         );
 
-        if (!$row) {
-            Logger::getInstance()->warning('OAuth exchangeCode: code not found', ['code_hash' => substr($codeHash, 0, 8)]);
-            return null;
-        }
-        if ($row['used_at'] !== null) {
-            Logger::getInstance()->warning('OAuth exchangeCode: code already used');
-            return null;
-        }
-        if (strtotime($row['expires_at']) < time()) {
-            Logger::getInstance()->warning('OAuth exchangeCode: code expired', ['expires_at' => $row['expires_at']]);
-            return null;
-        }
-        if ($row['client_id'] !== $clientId) {
-            Logger::getInstance()->warning('OAuth exchangeCode: client_id mismatch', ['stored' => $row['client_id'], 'provided' => $clientId]);
-            return null;
-        }
-        if ($row['redirect_uri'] !== $redirectUri) {
-            Logger::getInstance()->warning('OAuth exchangeCode: redirect_uri mismatch', ['stored' => $row['redirect_uri'], 'provided' => $redirectUri]);
+        if (!$row
+            || $row['used_at'] !== null
+            || strtotime($row['expires_at']) < time()
+            || $row['client_id'] !== $clientId
+            || $row['redirect_uri'] !== $redirectUri
+        ) {
             return null;
         }
 
         // PKCE: base64url(SHA256(code_verifier)) must equal stored code_challenge
         $expected = rtrim(strtr(base64_encode(hash('sha256', $codeVerifier, true)), '+/', '-_'), '=');
         if (!hash_equals($expected, $row['code_challenge'])) {
-            Logger::getInstance()->warning('OAuth exchangeCode: PKCE mismatch', [
-                'expected'  => $expected,
-                'stored'    => $row['code_challenge'],
-                'verifier_len' => strlen($codeVerifier),
-            ]);
             return null;
         }
 

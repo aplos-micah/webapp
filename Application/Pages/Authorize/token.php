@@ -20,16 +20,10 @@ $clientId     = $params['client_id']     ?? '';
 $redirectUri  = $params['redirect_uri']  ?? '';
 
 if ($grantType !== 'authorization_code') {
-    Logger::getInstance()->warning('OAuth token: unsupported grant type', ['grant_type' => $grantType]);
     return Response::json(['error' => 'unsupported_grant_type'], 400);
 }
 
 if ($code === '' || $codeVerifier === '' || $clientId === '' || $redirectUri === '') {
-    Logger::getInstance()->warning('OAuth token: missing parameters', [
-        'grant_type' => $grantType, 'code_empty' => $code === '',
-        'verifier_empty' => $codeVerifier === '', 'client_empty' => $clientId === '',
-        'redirect_empty' => $redirectUri === '', 'content_type' => $contentType,
-    ]);
     return Response::json(['error' => 'invalid_request', 'error_description' => 'Missing required parameters.'], 400);
 }
 

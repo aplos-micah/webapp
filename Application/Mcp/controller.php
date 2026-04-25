@@ -43,11 +43,6 @@ if ($apiKeyPresent && hash_equals($configuredKey, $plainCredential)) {
 }
 
 if ($apiKeyPresent && !$authorized) {
-    Logger::getInstance()->warning('MCP auth failed', [
-        'credential_present' => $plainCredential !== '',
-        'http_auth_set'      => isset($_SERVER['HTTP_AUTHORIZATION']),
-        'redirect_auth_set'  => isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']),
-    ]);
     return Response::json(
         ['jsonrpc' => '2.0', 'id' => null, 'error' => ['code' => -32001, 'message' => 'Unauthorized']],
         401
