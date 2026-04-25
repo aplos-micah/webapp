@@ -16,6 +16,28 @@
 
 ---
 
+## Checklist
+
+| # | Severity | Issue | Status |
+|---|---|---|---|
+| H1 | HIGH | CSP `unsafe-inline` removed from `script-src` | ✅ Done |
+| H2 | HIGH | PHP hardening moved to `.user.ini` (FastCGI-compatible) | ✅ Done |
+| H3 | HIGH | htmx `allowEval` / `allowScriptTags` not disabled | ✅ Done |
+| M1 | MEDIUM | HSTS header missing | ✅ Done |
+| M2 | MEDIUM | `PUT`/`DELETE`/`OPTIONS` still in `<LimitExcept>` | ✅ Done |
+| M3 | MEDIUM | Attack filters cover query strings only, not POST bodies | ✅ Mitigated — app uses parameterised queries + `Sanitization::sanitizeAll()` as the intended defence; `mod_rewrite` cannot inspect POST bodies without `mod_security` |
+| M4 | MEDIUM | CSP `style-src 'unsafe-inline'` | ☐ Open |
+| M5 | MEDIUM | Deprecated `X-XSS-Protection` header still set | ✅ Done |
+| L1 | LOW | Missing `Cross-Origin-Opener-Policy` header | ✅ Done |
+| L2 | LOW | Missing `Cross-Origin-Resource-Policy` header | ✅ Done |
+| L3 | LOW | Google Fonts CDN in `simplifying.html` leaks user IPs | ✅ Done |
+| L4 | LOW | Dead code in `index.php` lines 9–10 | ☐ Open |
+| L7 | LOW | htmx not upgraded to 2.x (long-term) | ☐ Open |
+
+> L5 (user-agent blocking bypass) and L6 (FollowSymLinks) are accepted trade-offs — not tracked here.
+
+---
+
 ## HIGH
 
 ### H1 — Content-Security-Policy allows `unsafe-inline` scripts
