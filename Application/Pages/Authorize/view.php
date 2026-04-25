@@ -34,7 +34,6 @@
 
             <ul style="margin: 0 0 1.5rem; padding-left: 1.25rem; color: var(--color-text-secondary, #555);">
                 <li>Read accounts, contacts, opportunities, and products</li>
-                <li>Read application logs</li>
             </ul>
 
             <form method="POST" action="/authorize">

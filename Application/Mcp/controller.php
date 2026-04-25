@@ -160,17 +160,6 @@ function mcp_tools(): array
                 'required'   => ['id'],
             ],
         ],
-        [
-            'name'        => 'read_logs',
-            'description' => 'Read recent application log entries from storage/logs/app.log.',
-            'inputSchema' => [
-                'type'       => 'object',
-                'properties' => [
-                    'level' => ['type' => 'string', 'description' => 'Filter by level: ERROR, WARNING, or INFO'],
-                    'limit' => ['type' => 'integer', 'description' => 'Number of entries to return (default 50, max 500)'],
-                ],
-            ],
-        ],
     ];
 }
 
@@ -224,32 +213,6 @@ function mcp_handle_get_opportunity(array $args): array
     return tool_text(json_pretty(['ok' => true, 'data' => $record]));
 }
 
-function mcp_handle_read_logs(array $args): array
-{
-    $level   = strtoupper(trim($args['level'] ?? ''));
-    $limit   = min(500, max(1, (int) ($args['limit'] ?? 50)));
-    $logFile = Logger::logFile();
-
-    if (!is_file($logFile)) {
-        return tool_text('Log file not found.');
-    }
-
-    $lines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-    if ($lines === false) {
-        return tool_text('Could not read log file.');
-    }
-
-    $results = [];
-    foreach (array_reverse($lines) as $line) {
-        if (count($results) >= $limit) break;
-        $entry = json_decode($line, true);
-        if ($entry === null) continue;
-        if ($level !== '' && ($entry['level'] ?? '') !== $level) continue;
-        $results[] = $entry;
-    }
-
-    return tool_text(json_pretty($results));
-}
 
 function mcp_call(string $name, array $args): array
 {
@@ -262,7 +225,6 @@ function mcp_call(string $name, array $args): array
         'get_opportunity'    => mcp_handle_get_opportunity($args),
         'list_products'      => mcp_handle_list('product',     $args),
         'get_product'        => mcp_handle_get('product',      $args, 'Product'),
-        'read_logs'          => mcp_handle_read_logs($args),
         default              => throw new InvalidArgumentException("Unknown tool: {$name}"),
     };
 }
