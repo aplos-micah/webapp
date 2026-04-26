@@ -134,7 +134,7 @@
     <div class="card profile-card" id="profile-right-card">
 
         <!-- Tab bar -->
-        <div style="display:flex;gap:0;border-bottom:1px solid var(--color-sky);margin-bottom:var(--space-md);">
+        <div class="tab-bar">
             <button type="button" class="profile-tab<?= $defaultTab === 'company' ? ' profile-tab--active' : '' ?>"
                     data-tab="company" id="tab-btn-company">
                 <i class="fa-solid fa-building" aria-hidden="true"></i> Company
@@ -148,7 +148,7 @@
         <!-- Company panel -->
         <div id="tab-panel-company" <?= $defaultTab !== 'company' ? 'hidden' : '' ?>>
             <?php if (!empty($company)): ?>
-            <dl style="display:grid;grid-template-columns:max-content 1fr;gap:0.3rem 1rem;font-size:0.88rem;margin:0;">
+            <dl class="dl-grid">
                 <?php
                 $rows = [
                     'Name'    => $company['name']    ?? '',
@@ -162,17 +162,17 @@
                 foreach ($rows as $label => $value):
                     if ($value === '') continue;
                 ?>
-                <dt style="color:var(--color-text-muted,#666);font-weight:600;white-space:nowrap;"><?= $label ?></dt>
-                <dd style="margin:0;"><?= htmlspecialchars($value, ENT_QUOTES, 'UTF-8') ?></dd>
+                <dt class="dl-term"><?= $label ?></dt>
+                <dd class="dl-detail"><?= htmlspecialchars($value, ENT_QUOTES, 'UTF-8') ?></dd>
                 <?php endforeach; ?>
             </dl>
-            <div style="margin-top:0.85rem;">
+            <div class="dl-actions">
                 <a href="/company" class="btn btn--ghost btn--sm">
                     <i class="fa-solid fa-pen" aria-hidden="true"></i> Edit
                 </a>
             </div>
             <?php else: ?>
-            <p style="font-size:0.88rem;color:var(--color-text-muted,#666);margin:0;">
+            <p class="empty-msg">
                 No company linked. <a href="/company">Define your company &rarr;</a>
             </p>
             <?php endif; ?>
@@ -224,24 +224,4 @@
 
 </div>
 
-<style>
-.profile-tab {
-    padding: 0.45rem 1rem;
-    font-size: 0.88rem;
-    font-weight: 600;
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    cursor: pointer;
-    color: var(--color-mid-blue, #647D92);
-    margin-bottom: -1px;
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-}
-.profile-tab--active {
-    color: var(--color-green, #2ECC71);
-    border-bottom-color: var(--color-green, #2ECC71);
-}
-</style>
 

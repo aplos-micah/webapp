@@ -108,7 +108,7 @@ $_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
                     <?= htmlspecialchars($userInitials, ENT_QUOTES, 'UTF-8') ?>
                 </a>
                 <?php endif; ?>
-                <a href="/logout" class="app-nav__logout" title="Sign out" style="color:#fff;">
+                <a href="/logout" class="app-nav__logout" title="Sign out">
                     Log Out
                 </a>
             </div>

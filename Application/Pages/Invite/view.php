@@ -9,30 +9,30 @@ $isAccepted = $invitation && $invitation['accepted_at'] !== null;
 $isValid    = $invitation && !$isExpired && !$isAccepted;
 ?>
 
-<div style="min-height:60vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
-<div class="card" style="max-width:480px;width:100%;padding:2rem;">
+<div class="page-center">
+<div class="card card--narrow">
 
-    <div style="text-align:center;margin-bottom:1.5rem;">
-        <i class="fa-solid fa-building" style="font-size:2rem;color:var(--color-green,#2ECC71);" aria-hidden="true"></i>
+    <div class="icon-header">
+        <i class="fa-solid fa-building icon-hero" aria-hidden="true"></i>
     </div>
 
     <?php if ($error): ?>
-        <h1 style="font-size:1.15rem;font-weight:700;margin:0 0 0.5rem;">Invalid Invitation</h1>
-        <p style="color:var(--color-text-muted,#666);font-size:0.9rem;margin:0 0 1.5rem;"><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
-        <a href="/login" class="btn btn--primary" style="width:100%;text-align:center;">Go to Login</a>
+        <h1 class="invite-title">Invalid Invitation</h1>
+        <p class="invite-body"><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
+        <a href="/login" class="btn btn--primary btn--block">Go to Login</a>
 
     <?php elseif ($isAccepted): ?>
-        <h1 style="font-size:1.15rem;font-weight:700;margin:0 0 0.5rem;">Already Accepted</h1>
-        <p style="color:var(--color-text-muted,#666);font-size:0.9rem;margin:0 0 1.5rem;">This invitation has already been accepted.</p>
-        <a href="/company" class="btn btn--primary" style="width:100%;text-align:center;">Go to My Company</a>
+        <h1 class="invite-title">Already Accepted</h1>
+        <p class="invite-body">This invitation has already been accepted.</p>
+        <a href="/company" class="btn btn--primary btn--block">Go to My Company</a>
 
     <?php elseif ($isExpired): ?>
-        <h1 style="font-size:1.15rem;font-weight:700;margin:0 0 0.5rem;">Invitation Expired</h1>
-        <p style="color:var(--color-text-muted,#666);font-size:0.9rem;margin:0;">This invitation link expired on <?= date('F j, Y', strtotime($invitation['expires_at'])) ?>. Ask the sender to invite you again.</p>
+        <h1 class="invite-title">Invitation Expired</h1>
+        <p class="invite-body--flush">This invitation link expired on <?= date('F j, Y', strtotime($invitation['expires_at'])) ?>. Ask the sender to invite you again.</p>
 
     <?php elseif ($isValid): ?>
-        <h1 style="font-size:1.15rem;font-weight:700;margin:0 0 0.25rem;">You've Been Invited</h1>
-        <p style="color:var(--color-text-muted,#666);font-size:0.9rem;margin:0 0 1.25rem;">
+        <h1 class="invite-title">You've Been Invited</h1>
+        <p class="invite-body">
             <strong><?= htmlspecialchars($invitation['inviter_name'], ENT_QUOTES, 'UTF-8') ?></strong>
             has invited you to join
             <strong><?= htmlspecialchars($invitation['company_name'], ENT_QUOTES, 'UTF-8') ?></strong>.
@@ -47,11 +47,11 @@ $isValid    = $invitation && !$isExpired && !$isAccepted;
                 Please log in with the correct account to accept.
             </div>
         </div>
-        <a href="/login" class="btn btn--ghost" style="width:100%;text-align:center;">Switch Account</a>
+        <a href="/login" class="btn btn--ghost btn--block">Switch Account</a>
         <?php else: ?>
         <form method="POST" action="/invite?token=<?= htmlspecialchars(urlencode($token), ENT_QUOTES, 'UTF-8') ?>">
             <input type="hidden" name="_action" value="accept_invite">
-            <button type="submit" class="btn btn--primary" style="width:100%;text-align:center;">
+            <button type="submit" class="btn btn--primary btn--block">
                 <i class="fa-solid fa-check" aria-hidden="true"></i>
                 Accept &amp; Join <?= htmlspecialchars($invitation['company_name'], ENT_QUOTES, 'UTF-8') ?>
             </button>
@@ -59,8 +59,8 @@ $isValid    = $invitation && !$isExpired && !$isAccepted;
         <?php endif; ?>
 
     <?php else: ?>
-        <h1 style="font-size:1.15rem;font-weight:700;margin:0 0 0.5rem;">Invalid Invitation</h1>
-        <p style="color:var(--color-text-muted,#666);font-size:0.9rem;">This invitation link is not valid.</p>
+        <h1 class="invite-title">Invalid Invitation</h1>
+        <p class="invite-body--flush">This invitation link is not valid.</p>
     <?php endif; ?>
 
 </div>

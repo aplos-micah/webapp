@@ -47,7 +47,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
             if ($subParts): ?>
         <p class="dash-header__sub"><?= implode(' · ', $subParts) ?></p>
         <?php endif; ?>
-        <div style="display:flex;gap:0.5rem;align-items:center;margin-top:0.25rem;flex-wrap:wrap;">
+        <div class="header-badge-row">
             <?php if (!empty($opp['stage'])): ?>
             <span class="badge <?= $stageCls ?>"><?= $val($opp['stage']) ?></span>
             <?php endif; ?>
@@ -62,7 +62,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
             <?php endif; ?>
         </div>
     </div>
-    <div style="display:flex;gap:0.5rem;align-items:center;">
+    <div class="btn-group">
         <?php if ($isClosed): ?>
         <span class="badge badge--neutral">
             <i class="fa-solid fa-lock" aria-hidden="true"></i> Read Only
@@ -224,7 +224,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                                 <span class="text-muted">—</span>
                                 <?php endif; ?>
                             </td>
-                            <td style="white-space:nowrap;">
+                            <td class="td-nowrap">
                                 <?php if (!$isClosed): ?>
                                 <button type="button" class="btn btn--ghost btn--sm li-edit-btn"
                                         data-li="<?= $liId ?>" title="Edit">
@@ -276,7 +276,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                                                     <label class="form-label" for="edit_total_<?= $liId ?>">Total</label>
                                                     <input id="edit_total_<?= $liId ?>" type="number" name="total_price" class="input" readonly
                                                            value="<?= (float) $li['total_price'] ?>"
-                                                           style="background:var(--color-bg-subtle,#f9fafb);">
+                                                           class="input input--readonly-bg">
                                                 </div>
                                             </div>
                                         </div>
@@ -332,7 +332,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                                             </div>
                                         </div>
                                     </div>
-                                    <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem;">
+                                    <div class="form-actions">
                                         <button type="button" class="btn btn--ghost btn--sm li-edit-cancel">Cancel</button>
                                         <button type="submit" class="btn btn--primary btn--sm">
                                             <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save
@@ -363,13 +363,13 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
             <?php if (!$isClosed): ?>
             <!-- Inline add form (toggled) -->
             <div id="line-item-form-wrap" hidden>
-                <hr class="divider--green" style="margin:0.75rem 0;">
+                <hr class="divider--green divider--compact">
                 <form method="POST"
                       action="/crm/opportunities/details?id=<?= $id ?><?= $editMode ? '&edit' : '' ?>"
                       class="line-item-form"
                       novalidate>
                     <input type="hidden" name="_action" value="add_line_item">
-                    <div style="padding:1rem 1.25rem;">
+                    <div class="li-add-inner">
 
                         <div class="form-row">
                             <div class="form-group form-group--grow">
@@ -418,9 +418,8 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                             </div>
                             <div class="form-group form-group--grow">
                                 <label class="form-label" for="li_total">Total Price</label>
-                                <input id="li_total" type="number" name="total_price" class="input"
-                                       readonly placeholder="0.00"
-                                       style="background:var(--color-bg-subtle,#f9fafb);">
+                                <input id="li_total" type="number" name="total_price" class="input input--readonly-bg"
+                                       readonly placeholder="0.00">
                             </div>
                         </div>
 
@@ -462,7 +461,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                             </div>
                         </div>
 
-                        <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.5rem;">
+                        <div class="form-actions--sm">
                             <button type="button" id="line-item-cancel" class="btn btn--ghost btn--sm">Cancel</button>
                             <button type="submit" class="btn btn--primary btn--sm">
                                 <i class="fa-solid fa-plus" aria-hidden="true"></i> Add to Opportunity
@@ -758,10 +757,10 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;padding-top:1.6rem;">
+                <div class="form-group form-group--checkbox">
                     <input id="budget_confirmed" type="checkbox" name="budget_confirmed" value="1"
                            <?= $opp['budget_confirmed'] ? 'checked' : '' ?>>
-                    <label for="budget_confirmed" class="form-label" style="margin:0;">Budget Confirmed</label>
+                    <label for="budget_confirmed" class="form-label form-label--inline">Budget Confirmed</label>
                 </div>
             </div>
             <div class="form-row">
@@ -799,7 +798,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                 <dt>Stakeholders</dt>
                 <dd>
                     <?php if (!empty($stakeholders)): ?>
-                    <?php foreach ($stakeholders as $s): ?><span class="badge badge--neutral" style="margin:0 2px 2px 0;"><?= htmlspecialchars($s, ENT_QUOTES, 'UTF-8') ?></span><?php endforeach; ?>
+                    <?php foreach ($stakeholders as $s): ?><span class="badge badge--neutral badge--tight"><?= htmlspecialchars($s, ENT_QUOTES, 'UTF-8') ?></span><?php endforeach; ?>
                     <?php else: ?><span class="text-muted">—</span><?php endif; ?>
                 </dd>
             </div>
@@ -807,7 +806,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                 <dt>Competitors</dt>
                 <dd>
                     <?php if (!empty($competitors)): ?>
-                    <?php foreach ($competitors as $c): ?><span class="badge badge--neutral" style="margin:0 2px 2px 0;"><?= htmlspecialchars($c, ENT_QUOTES, 'UTF-8') ?></span><?php endforeach; ?>
+                    <?php foreach ($competitors as $c): ?><span class="badge badge--neutral badge--tight"><?= htmlspecialchars($c, ENT_QUOTES, 'UTF-8') ?></span><?php endforeach; ?>
                     <?php else: ?><span class="text-muted">—</span><?php endif; ?>
                 </dd>
             </div>
@@ -848,7 +847,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
     </div>
 
     <?php if ($editMode): ?>
-    <div class="profile-card__footer" style="justify-content:flex-end;gap:0.5rem;">
+    <div class="profile-card__footer profile-card__footer--end">
         <a href="/crm/opportunities/details?id=<?= $id ?>" class="btn btn--ghost">Cancel</a>
         <button type="submit" class="btn btn--primary">
             <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save Changes

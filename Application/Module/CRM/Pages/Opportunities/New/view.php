@@ -185,10 +185,10 @@ $chk = fn(string $f, string $opt) => in_array($opt, (array) ($_POST[$f] ?? []), 
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;padding-top:1.6rem;">
+            <div class="form-group form-group--checkbox">
                 <input id="budget_confirmed" type="checkbox" name="budget_confirmed" value="1"
                        <?= isset($_POST['budget_confirmed']) ? 'checked' : '' ?>>
-                <label for="budget_confirmed" class="form-label" style="margin:0;">Budget Confirmed</label>
+                <label for="budget_confirmed" class="form-label form-label--inline">Budget Confirmed</label>
             </div>
         </div>
 

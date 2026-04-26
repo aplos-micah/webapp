@@ -129,7 +129,7 @@ $userTypeBadge = [
             <tbody>
                 <?php foreach ($users as $u): ?>
                 <?php $uid = (int) $u['id']; ?>
-                <tr data-user-id="<?= $uid ?>" style="cursor:pointer;">
+                <tr data-user-id="<?= $uid ?>" class="row-clickable">
                     <td><?= htmlspecialchars($u['name'], ENT_QUOTES, 'UTF-8') ?></td>
                     <td>
                         <a href="mailto:<?= htmlspecialchars($u['email'], ENT_QUOTES, 'UTF-8') ?>" class="table-link">
@@ -207,7 +207,7 @@ $userTypeBadge = [
                                     </div>
                                 </div>
                             </div>
-                            <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem;">
+                            <div class="form-actions">
                                 <button type="button" class="btn btn--ghost btn--sm user-edit-cancel">Cancel</button>
                                 <button type="submit" class="btn btn--primary btn--sm">
                                     <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save

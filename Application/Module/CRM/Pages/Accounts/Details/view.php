@@ -19,7 +19,7 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
         <span class="badge badge--info"><?= $val($account['status']) ?></span>
         <?php endif; ?>
     </div>
-    <div style="display:flex;gap:0.5rem;align-items:center;">
+    <div class="btn-group">
         <?php if ($editMode): ?>
         <a href="/crm/accounts/details?id=<?= $account['id'] ?>" class="btn btn--ghost">
             <i class="fa-solid fa-xmark" aria-hidden="true"></i>
@@ -389,7 +389,7 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
         </div>
 
         <?php if ($editMode): ?>
-        <div class="profile-card__footer" style="justify-content:flex-end;gap:0.5rem;">
+        <div class="profile-card__footer profile-card__footer--end">
             <a href="/crm/accounts/details?id=<?= $account['id'] ?>" class="btn btn--ghost">Cancel</a>
             <button type="submit" form="account-edit-form" class="btn btn--primary">
                 <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>

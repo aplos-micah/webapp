@@ -69,15 +69,15 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
         <tbody>
             <?php foreach ($tokens as $t): ?>
             <?php $tid = (int) $t['id']; ?>
-            <tr data-token-id="<?= $tid ?>" style="cursor: pointer;">
+            <tr data-token-id="<?= $tid ?>" class="row-clickable">
                 <td>
-                    <p style="margin: 0; font-weight: 500;"><?= htmlspecialchars($t['user_name'], ENT_QUOTES, 'UTF-8') ?></p>
-                    <p class="text-muted" style="margin: 0; font-size: var(--fs-body-sm);"><?= htmlspecialchars($t['user_email'], ENT_QUOTES, 'UTF-8') ?></p>
+                    <p class="cell-primary"><?= htmlspecialchars($t['user_name'], ENT_QUOTES, 'UTF-8') ?></p>
+                    <p class="text-muted cell-secondary"><?= htmlspecialchars($t['user_email'], ENT_QUOTES, 'UTF-8') ?></p>
                 </td>
                 <td>
-                    <p style="margin: 0; font-weight: 500;"><code><?= htmlspecialchars($t['client_id'], ENT_QUOTES, 'UTF-8') ?></code></p>
-                    <p class="text-muted" style="margin: 0; font-size: var(--fs-body-sm);">Issued: <?= htmlspecialchars($t['created_at'], ENT_QUOTES, 'UTF-8') ?></p>
-                    <p class="text-muted" style="margin: 0; font-size: var(--fs-body-sm);"><?= $expiryLabel ?>: <?= htmlspecialchars($t['expires_at'], ENT_QUOTES, 'UTF-8') ?></p>
+                    <p class="cell-primary"><code><?= htmlspecialchars($t['client_id'], ENT_QUOTES, 'UTF-8') ?></code></p>
+                    <p class="text-muted cell-secondary">Issued: <?= htmlspecialchars($t['created_at'], ENT_QUOTES, 'UTF-8') ?></p>
+                    <p class="text-muted cell-secondary"><?= $expiryLabel ?>: <?= htmlspecialchars($t['expires_at'], ENT_QUOTES, 'UTF-8') ?></p>
                 </td>
                 <td>
                     <form method="POST" action="/admin/manageoauth"
@@ -111,7 +111,7 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
                                 </div>
                             </div>
                         </div>
-                        <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem;">
+                        <div class="form-actions">
                             <button type="button" class="btn btn--ghost btn--sm token-edit-cancel">Cancel</button>
                             <button type="submit" class="btn btn--primary btn--sm">
                                 <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save
@@ -168,21 +168,21 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
 </div>
 
 <!-- ── Registered Clients ──────────────────────────────────────────────────── -->
-<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
-    <h2 style="margin: 0;">Registered Clients</h2>
-    <div style="display: flex; gap: 0.5rem; align-items: center;">
+<div class="section-header">
+    <h2 class="section-header__title">Registered Clients</h2>
+    <div class="btn-group">
         <button id="register-client-toggle" type="button" class="btn btn--secondary btn--sm">
             <i class="fa-solid fa-plus" aria-hidden="true"></i> Register Client
         </button>
         <a href="<?= $qs(['ctab' => 'active', 'page' => 1]) ?>"
            class="btn btn--sm <?= $ctab === 'active' ? 'btn--primary' : 'btn--ghost' ?>">
             <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-            Active <span class="badge badge--neutral" style="margin-left:0.35rem;"><?= $activeClientCount ?></span>
+            Active <span class="badge badge--neutral badge--spaced"><?= $activeClientCount ?></span>
         </a>
         <a href="<?= $qs(['ctab' => 'disabled', 'page' => 1]) ?>"
            class="btn btn--sm <?= $ctab === 'disabled' ? 'btn--primary' : 'btn--ghost' ?>">
             <i class="fa-solid fa-circle-pause" aria-hidden="true"></i>
-            Disabled <span class="badge badge--neutral" style="margin-left:0.35rem;"><?= $disabledClientCount ?></span>
+            Disabled <span class="badge badge--neutral badge--spaced"><?= $disabledClientCount ?></span>
         </a>
     </div>
 </div>
@@ -218,16 +218,16 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
                 </div>
             </div>
         </div>
-        <hr style="margin: 1rem 0; border: none; border-top: 1px solid var(--color-border, #e5e7eb);">
-        <dl style="display: grid; grid-template-columns: max-content 1fr; gap: 0.25rem 1rem; font-size: var(--fs-body-sm); margin: 0;">
-            <dt style="font-weight: 600; color: var(--color-mid-blue);">Client ID</dt>
-            <dd style="margin: 0;">A unique machine-readable identifier for the application. Must match exactly what the connecting application sends in its OAuth requests (e.g. <code>ClaudeAI, NewApp</code>).</dd>
-            <dt style="font-weight: 600; color: var(--color-mid-blue);">Name</dt>
-            <dd style="margin: 0;">A human-readable label shown on the consent screen and in this admin panel (e.g. <em>Claude.ai MCP Connector</em>).</dd>
-            <dt style="font-weight: 600; color: var(--color-mid-blue);">Redirect URIs</dt>
-            <dd style="margin: 0;">The exact callback URLs the application is permitted to redirect to after authorization. Enter one per line. Any URI not listed here will be rejected during the OAuth flow.</dd>
+        <hr class="panel-rule">
+        <dl class="help-dl">
+            <dt class="help-dl__term">Client ID</dt>
+            <dd class="help-dl__detail">A unique machine-readable identifier for the application. Must match exactly what the connecting application sends in its OAuth requests (e.g. <code>ClaudeAI, NewApp</code>).</dd>
+            <dt class="help-dl__term">Name</dt>
+            <dd class="help-dl__detail">A human-readable label shown on the consent screen and in this admin panel (e.g. <em>Claude.ai MCP Connector</em>).</dd>
+            <dt class="help-dl__term">Redirect URIs</dt>
+            <dd class="help-dl__detail">The exact callback URLs the application is permitted to redirect to after authorization. Enter one per line. Any URI not listed here will be rejected during the OAuth flow.</dd>
         </dl>
-        <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:1rem;">
+        <div class="form-actions">
             <button type="button" id="register-client-cancel" class="btn btn--ghost btn--sm">Cancel</button>
             <button type="submit" class="btn btn--primary btn--sm">
                 <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Register
@@ -246,25 +246,25 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
 <?php else: ?>
 <?php foreach ($clients as $c): ?>
 <?php $active = (bool) $c['is_active']; ?>
-<div class="card mb-md" style="<?= $active ? '' : 'opacity: 0.7;' ?>">
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
+<div class="card mb-md<?= $active ? '' : ' card--faded' ?>">
+    <div class="client-card__inner">
         <div>
-            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                <p style="font-weight: 600; margin: 0;"><?= htmlspecialchars($c['name'], ENT_QUOTES, 'UTF-8') ?></p>
+            <div class="client-card__meta">
+                <p class="client-card__name"><?= htmlspecialchars($c['name'], ENT_QUOTES, 'UTF-8') ?></p>
                 <?php if (!$active): ?>
                 <span class="badge badge--warning">Disabled</span>
                 <?php else: ?>
                 <span class="badge badge--success">Active</span>
                 <?php endif; ?>
             </div>
-            <p class="text-muted" style="margin: 0 0 0.75rem; font-size: var(--fs-body-sm);">Client ID: <code><?= htmlspecialchars($c['client_id'], ENT_QUOTES, 'UTF-8') ?></code></p>
-            <p style="margin: 0 0 0.25rem; font-size: var(--fs-body-sm); font-weight: 500;">Allowed Redirect URIs</p>
+            <p class="text-muted client-card__sub">Client ID: <code><?= htmlspecialchars($c['client_id'], ENT_QUOTES, 'UTF-8') ?></code></p>
+            <p class="client-card__uri-label">Allowed Redirect URIs</p>
             <?php foreach (json_decode($c['redirect_uris'], true) ?? [] as $uri): ?>
-            <p class="text-muted" style="margin: 0; font-size: var(--fs-body-sm);"><?= htmlspecialchars($uri, ENT_QUOTES, 'UTF-8') ?></p>
+            <p class="text-muted client-card__uri"><?= htmlspecialchars($uri, ENT_QUOTES, 'UTF-8') ?></p>
             <?php endforeach; ?>
-            <p class="text-muted" style="margin: 0.75rem 0 0; font-size: var(--fs-body-sm);">Registered <?= htmlspecialchars($c['created_at'], ENT_QUOTES, 'UTF-8') ?></p>
+            <p class="text-muted client-card__date">Registered <?= htmlspecialchars($c['created_at'], ENT_QUOTES, 'UTF-8') ?></p>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 0.5rem; flex-shrink: 0; align-items: flex-end;">
+        <div class="client-card__actions">
             <form method="POST" action="/admin/manageoauth"
                   onsubmit="return confirm('Revoke all tokens for \'<?= htmlspecialchars($c['client_id'], ENT_QUOTES, 'UTF-8') ?>\'?')">
                 <input type="hidden" name="_action"   value="revoke_client_tokens">
@@ -315,22 +315,22 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
 <?php endif; ?>
 
 <!-- ── Access Tokens ───────────────────────────────────────────────────────── -->
-<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
-    <h2 style="margin: 0;">Access Tokens</h2>
-    <div style="display: flex; gap: 0.5rem;">
+<div class="section-header">
+    <h2 class="section-header__title">Access Tokens</h2>
+    <div class="btn-group">
         <a href="<?= $qs(['tab' => 'active', 'page' => 1]) ?>"
            class="btn btn--sm <?= $tab === 'active' ? 'btn--primary' : 'btn--ghost' ?>">
             <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-            Active <span class="badge badge--neutral" style="margin-left:0.35rem;"><?= $activeCount ?></span>
+            Active <span class="badge badge--neutral badge--spaced"><?= $activeCount ?></span>
         </a>
         <a href="<?= $qs(['tab' => 'expired', 'page' => 1]) ?>"
            class="btn btn--sm <?= $tab === 'expired' ? 'btn--primary' : 'btn--ghost' ?>">
             <i class="fa-solid fa-clock" aria-hidden="true"></i>
-            Expired <span class="badge badge--neutral" style="margin-left:0.35rem;"><?= $expiredCount ?></span>
+            Expired <span class="badge badge--neutral badge--spaced"><?= $expiredCount ?></span>
         </a>
     </div>
 </div>
-<p class="text-muted mb-sm" style="font-size: var(--fs-body-sm);">Double-click a row to edit the expiry date.</p>
+<p class="text-muted mb-sm text-sm">Double-click a row to edit the expiry date.</p>
 
 <?php if ($tab === 'active'): ?>
 
@@ -369,8 +369,8 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
 <?php endif; ?>
 
 <!-- ── Recent Authorization Codes ─────────────────────────────────────────── -->
-<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-    <h2 style="margin: 0;">Recent Authorization Codes</h2>
+<div class="section-header--sm">
+    <h2 class="section-header__title">Recent Authorization Codes</h2>
     <form method="POST" action="/admin/manageoauth"
           onsubmit="return confirm('Purge all used and expired authorization codes?')">
         <input type="hidden" name="_action" value="purge_codes">
@@ -408,13 +408,13 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
                 <?php $unusable = $c['used_at'] !== null || strtotime($c['expires_at']) <= $now; ?>
                 <tr>
                     <td>
-                        <p style="margin: 0; font-weight: 500;"><?= htmlspecialchars($c['user_name'], ENT_QUOTES, 'UTF-8') ?></p>
-                        <p class="text-muted" style="margin: 0; font-size: var(--fs-body-sm);"><?= htmlspecialchars($c['user_email'], ENT_QUOTES, 'UTF-8') ?></p>
+                        <p class="cell-primary"><?= htmlspecialchars($c['user_name'], ENT_QUOTES, 'UTF-8') ?></p>
+                        <p class="text-muted cell-secondary"><?= htmlspecialchars($c['user_email'], ENT_QUOTES, 'UTF-8') ?></p>
                     </td>
                     <td>
-                        <p style="margin: 0; font-weight: 500;"><code><?= htmlspecialchars($c['client_id'], ENT_QUOTES, 'UTF-8') ?></code></p>
-                        <p class="text-muted" style="margin: 0; font-size: var(--fs-body-sm);">Requested: <?= htmlspecialchars($c['created_at'], ENT_QUOTES, 'UTF-8') ?></p>
-                        <p class="text-muted" style="margin: 0; font-size: var(--fs-body-sm);">
+                        <p class="cell-primary"><code><?= htmlspecialchars($c['client_id'], ENT_QUOTES, 'UTF-8') ?></code></p>
+                        <p class="text-muted cell-secondary">Requested: <?= htmlspecialchars($c['created_at'], ENT_QUOTES, 'UTF-8') ?></p>
+                        <p class="text-muted cell-secondary">
                             <?= $c['used_at']
                                 ? 'Used: '    . htmlspecialchars($c['used_at'],    ENT_QUOTES, 'UTF-8')
                                 : 'Expires: ' . htmlspecialchars($c['expires_at'], ENT_QUOTES, 'UTF-8') ?>
@@ -442,4 +442,3 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
     </div>
 </div>
 <?php endif; ?>
-

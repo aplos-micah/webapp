@@ -337,6 +337,7 @@
 
     document.querySelectorAll('.product-lookup').forEach(initProductLookup);
 
+
     // Line item price recalculation
     document.querySelectorAll('.line-item-form').forEach(function (form) {
         var unitPriceEl = form.querySelector('[name="unit_price"]');
@@ -360,5 +361,13 @@
         [unitPriceEl, quantityEl, discPctEl, discAmtEl].forEach(function (el) {
             if (el) el.addEventListener('input', recalc);
         });
+    });
+}());
+
+// ── CRM: Performance bar — set segment widths from data-pct attributes ─────────
+
+(function () {
+    document.querySelectorAll('.perf-bar__segment[data-pct]').forEach(function (el) {
+        el.style.width = el.dataset.pct + '%';
     });
 }());

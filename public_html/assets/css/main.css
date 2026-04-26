@@ -1101,3 +1101,172 @@ tbody td { padding: var(--table-cell-padding); color: var(--color-navy); vertica
 @media (max-width: 900px) {
   .profile-layout { grid-template-columns: 1fr; }
 }
+
+
+/* =============================================================================
+   M4 REFACTOR — Phase 1: Core Pages
+   Extracted from inline style= attributes.
+   ============================================================================= */
+
+/* ── Invite page ─────────────────────────────────────────────────────────── */
+.page-center         { min-height: 60vh; display: flex; align-items: center; justify-content: center; padding: var(--space-xl); }
+.card--narrow        { max-width: 480px; width: 100%; padding: var(--space-xl); }
+.icon-header         { text-align: center; margin-bottom: var(--space-lg); }
+.icon-hero           { font-size: 2rem; color: var(--color-green); }
+.invite-title        { font-size: 1.15rem; font-weight: var(--fw-bold); margin: 0 0 0.5rem; }
+.invite-body         { color: var(--color-text-muted, #666); font-size: 0.9rem; margin: 0 0 var(--space-lg); }
+.invite-body--flush  { color: var(--color-text-muted, #666); font-size: 0.9rem; margin: 0; }
+.btn--block          { display: block; width: 100%; text-align: center; }
+
+/* ── Company page ────────────────────────────────────────────────────────── */
+.form-grid-2col      { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--space-lg); }
+.td-sm               { font-size: 0.85rem; }
+.td-muted            { font-size: 0.82rem; color: var(--color-text-muted, #666); }
+.empty-msg           { font-size: 0.88rem; color: var(--color-text-muted, #666); margin: 0; }
+.section-rule        { margin: 1.25rem 0; border: none; border-top: 1px solid var(--color-sky); }
+.section-subheading  { font-size: 0.9rem; font-weight: var(--fw-bold); margin: 0 0 0.6rem; color: var(--color-navy); }
+.inline-form         { display: flex; gap: var(--space-sm); align-items: flex-end; }
+.inline-form__field  { flex: 1; margin: 0; }
+.btn--nowrap         { white-space: nowrap; margin-bottom: 0; }
+
+/* ── Profile page ────────────────────────────────────────────────────────── */
+.tab-bar             { display: flex; gap: 0; border-bottom: 1px solid var(--color-sky); margin-bottom: var(--space-md); }
+.profile-tab         { padding: 0.45rem 1rem; font-size: 0.88rem; font-weight: var(--fw-semibold); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; color: var(--color-mid-blue, #647D92); margin-bottom: -1px; display: flex; align-items: center; gap: 0.35rem; }
+.profile-tab--active { color: var(--color-green); border-bottom-color: var(--color-green); }
+.dl-grid             { display: grid; grid-template-columns: max-content 1fr; gap: 0.3rem 1rem; font-size: 0.88rem; margin: 0; }
+.dl-term             { color: var(--color-text-muted, #666); font-weight: var(--fw-semibold); white-space: nowrap; }
+.dl-detail           { margin: 0; }
+.dl-actions          { margin-top: 0.85rem; }
+
+/* ── Verify-Email page ───────────────────────────────────────────────────── */
+.icon-xl-green       { font-size: 3rem; color: var(--color-green); }
+
+/* ── Authorize page ──────────────────────────────────────────────────────── */
+.scope-list          { margin: 0 0 var(--space-lg); padding-left: 1.25rem; color: var(--color-text-secondary, #555); }
+.btn-row             { display: flex; gap: 0.75rem; }
+.btn--flex           { flex: 1; }
+
+/* ── Layout utilities ────────────────────────────────────────────────────── */
+.text-center         { text-align: center; }
+.text-sm             { font-size: var(--fs-body-sm); }
+
+
+/* =============================================================================
+   M4 REFACTOR — Phase 2: Admin Pages
+   ============================================================================= */
+
+/* ── Shared admin patterns ───────────────────────────────────────────────── */
+.form-actions           { display: flex; justify-content: flex-end; gap: var(--space-sm); margin-top: 0.75rem; }
+.row-clickable          { cursor: pointer; }
+.section-header         { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+.section-header--sm     { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+.section-header__title  { margin: 0; }
+.btn-group              { display: flex; gap: var(--space-sm); align-items: center; }
+.btn-group--xs          { display: flex; gap: 0.25rem; }
+.badge--spaced          { margin-left: 0.35rem; }
+.cell-primary           { margin: 0; font-weight: var(--fw-semibold); }
+.cell-secondary         { margin: 0; font-size: var(--fs-body-sm); }
+.card--faded            { opacity: 0.7; }
+
+/* ── ManageOAuth page ────────────────────────────────────────────────────── */
+.client-card__inner     { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-md); }
+.client-card__meta      { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: 0.25rem; }
+.client-card__name      { font-weight: var(--fw-semibold); margin: 0; }
+.client-card__sub       { margin: 0 0 0.75rem; font-size: var(--fs-body-sm); }
+.client-card__uri-label { margin: 0 0 0.25rem; font-size: var(--fs-body-sm); font-weight: var(--fw-semibold); }
+.client-card__uri       { margin: 0; font-size: var(--fs-body-sm); }
+.client-card__date      { margin: 0.75rem 0 0; font-size: var(--fs-body-sm); }
+.client-card__actions   { display: flex; flex-direction: column; gap: var(--space-sm); flex-shrink: 0; align-items: flex-end; }
+.help-dl                { display: grid; grid-template-columns: max-content 1fr; gap: 0.25rem var(--space-md); font-size: var(--fs-body-sm); margin: 0; }
+.help-dl__term          { font-weight: var(--fw-semibold); color: var(--color-mid-blue); }
+.help-dl__detail        { margin: 0; }
+.panel-rule             { margin: var(--space-md) 0; border: none; border-top: 1px solid var(--color-border, #e5e7eb); }
+
+/* ── LogViewer page ──────────────────────────────────────────────────────── */
+.log-toolbar            { display: none; align-items: center; gap: 0.75rem; margin-bottom: var(--space-sm); padding: var(--space-sm) 0.75rem; background: var(--color-surface-raised, #f0f0f0); border-radius: 6px; }
+.log-toolbar__count     { font-size: 0.85rem; font-weight: var(--fw-semibold); }
+.filter-bar             { display: flex; align-items: center; gap: var(--space-md); flex-wrap: wrap; margin-bottom: var(--space-md); }
+.filter-bar__group      { display: flex; gap: 0.25rem; }
+.filter-bar__perpage    { display: flex; align-items: center; gap: var(--space-sm); margin-left: auto; }
+.filter-bar__label      { font-size: 0.85rem; white-space: nowrap; }
+.input--auto            { width: auto; }
+.input--state           { width: 6rem; }
+.input--zip             { width: 7rem; }
+.col-check              { width: 2rem; }
+.col-rownum             { width: 2.5rem; }
+.col-timestamp          { width: 14rem; }
+.col-level              { width: 6rem; }
+.col-details            { width: 28%; }
+.col-w-13               { width: 13rem; }
+.col-w-10               { width: 10rem; }
+.td-rownum              { color: #444; font-size: 0.75rem; text-align: right; }
+.td-timestamp           { font-size: 0.78rem; white-space: nowrap; font-family: monospace; }
+.td-message             { font-size: 0.9rem; }
+.td-details-wrap        { font-size: 0.78rem; line-height: 1.6; }
+.log-icon               { width: 0.9rem; color: #444; }
+.log-meta               { color: #444; }
+.log-meta--mono         { color: #444; font-family: monospace; }
+.log-details            { margin-top: 0.25rem; }
+.log-details__summary   { cursor: pointer; color: #444; }
+.log-pre                { margin: 0.25rem 0 0; font-size: 0.73rem; white-space: pre-wrap; word-break: break-all; background: var(--color-surface-raised, #f5f5f5); padding: var(--space-sm); border-radius: 4px; }
+.log-empty              { color: #444; font-size: 0.8rem; }
+.log-archive-heading    { margin-top: 2.5rem; margin-bottom: 0.75rem; font-size: 1.1rem; font-weight: var(--fw-semibold); }
+.td-mono-sm             { font-family: monospace; font-size: 0.85rem; }
+
+/* ── Migrations page ─────────────────────────────────────────────────────── */
+.instructions           { margin-bottom: var(--space-lg); }
+.instructions__summary  { cursor: pointer; font-size: 0.95rem; font-weight: var(--fw-semibold); padding: 0.6rem 0.75rem; background: var(--color-surface-raised, #f5f5f5); border-radius: 6px; list-style: none; display: flex; align-items: center; gap: var(--space-sm); }
+.instructions__body     { padding: 1.25rem var(--space-md) 0.5rem; border: 1px solid var(--color-border, #e0e0e0); border-top: none; border-radius: 0 0 6px 6px; font-size: 0.9rem; line-height: 1.7; }
+.instructions__h3       { font-size: 0.95rem; font-weight: var(--fw-bold); margin: 0 0 0.5rem; }
+.instructions__h4       { font-size: 0.88rem; font-weight: var(--fw-bold); margin: 0 0 0.25rem; }
+.instructions__p        { margin: 0 0 var(--space-md); }
+.instructions__p--lg    { margin: 0 0 1.25rem; }
+.instructions__list     { margin: 0 0 var(--space-md) 1.25rem; padding: 0; }
+.instructions__rule     { border: none; border-top: 1px solid var(--color-border, #e0e0e0); margin: 0 0 1.25rem; }
+.instructions__note     { color: #555; font-size: 0.85rem; }
+.migration-heading      { font-size: 1.05rem; font-weight: var(--fw-semibold); margin-bottom: 0.75rem; }
+.td-migration-file      { font-family: monospace; font-size: 0.88rem; }
+.action-group           { display: flex; gap: 0.4rem; justify-content: flex-end; }
+
+/* ── ValidatorTest page ──────────────────────────────────────────────────── */
+.stat-pass              { color: var(--color-success, #2e7d32); font-weight: var(--fw-semibold); }
+.stat-fail              { color: var(--color-danger, #c62828); font-weight: var(--fw-semibold); }
+.desc-box               { padding: var(--space-md) 1.25rem; font-size: 0.9rem; line-height: 1.7; color: #333; }
+.pass-card              { border-left: 4px solid var(--color-success, #2e7d32); }
+.icon-pass              { color: var(--color-success, #2e7d32); }
+.icon-fail              { color: var(--color-danger, #c62828); }
+.group-header           { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--color-border, #e0e0e0); }
+.group-header__title    { margin: 0; font-size: 0.95rem; font-weight: var(--fw-semibold); }
+.group-badge--pass      { font-size: 0.78rem; font-weight: var(--fw-semibold); color: var(--color-success, #2e7d32); background: #e8f5e9; padding: 0.15rem 0.6rem; border-radius: 20px; }
+.group-badge--fail      { font-size: 0.78rem; font-weight: var(--fw-semibold); color: var(--color-danger, #c62828); background: #ffebee; padding: 0.15rem 0.6rem; border-radius: 20px; }
+.row--fail              { background: #fff8f8; }
+.td-assertion           { font-size: 0.88rem; color: #222; }
+.td-mono                { font-family: monospace; font-size: 0.82rem; color: #333; }
+.td-mono--fail          { font-family: monospace; font-size: 0.82rem; color: var(--color-danger, #c62828); }
+
+
+/* =============================================================================
+   M4 REFACTOR — Phase 3: CRM Pages + Widgets
+   ============================================================================= */
+
+/* ── Shared CRM patterns ─────────────────────────────────────────────────── */
+.header-badge-row          { display: flex; gap: var(--space-sm); align-items: center; margin-top: 0.25rem; flex-wrap: wrap; }
+.form-group--checkbox      { display: flex; align-items: center; gap: var(--space-sm); padding-top: 1.6rem; }
+.form-label--inline        { margin: 0; }
+.profile-card__footer--end { justify-content: flex-end; gap: var(--space-sm); }
+.badge--tight              { margin: 0 2px 2px 0; }
+.input--readonly-bg        { background: var(--color-bg-subtle, #f9fafb); }
+.td-nowrap                 { white-space: nowrap; }
+.divider--compact          { margin: 0.75rem 0; }
+.divider--top-sm           { margin: var(--space-sm) 0 0; }
+.li-add-inner              { padding: var(--space-md) 1.25rem; }
+.form-actions--sm          { display: flex; justify-content: flex-end; gap: var(--space-sm); margin-top: var(--space-sm); }
+
+/* ── AccountLocations widget ─────────────────────────────────────────────── */
+.form-group--align-end     { align-self: end; padding-bottom: 0.5rem; }
+.form-group--align-center  { align-self: center; padding-top: 1.25rem; }
+.loc-form__details .loc-form__grid { margin-top: 0.75rem; }
+
+/* ── AccountPerformance widget ───────────────────────────────────────────── */
+.detail-section-label--mt  { margin-top: 1rem; }
+.related-card__empty--compact { padding: 1.5rem 0 0.5rem; }

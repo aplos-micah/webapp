@@ -26,7 +26,7 @@
 | M1 | MEDIUM | HSTS header missing | ✅ Done |
 | M2 | MEDIUM | `PUT`/`DELETE`/`OPTIONS` still in `<LimitExcept>` | ✅ Done |
 | M3 | MEDIUM | Attack filters cover query strings only, not POST bodies | ✅ Mitigated — app uses parameterised queries + `Sanitization::sanitizeAll()` as the intended defence; `mod_rewrite` cannot inspect POST bodies without `mod_security` |
-| M4 | MEDIUM | CSP `style-src 'unsafe-inline'` | ☐ Open |
+| M4 | MEDIUM | CSP `style-src 'unsafe-inline'` | ✅ Done |
 | M5 | MEDIUM | Deprecated `X-XSS-Protection` header still set | ✅ Done |
 | L1 | LOW | Missing `Cross-Origin-Opener-Policy` header | ✅ Done |
 | L2 | LOW | Missing `Cross-Origin-Resource-Policy` header | ✅ Done |

@@ -122,7 +122,7 @@ if ($totalPages > 1) {
             <tbody>
                 <?php foreach ($companies as $c): ?>
                 <?php $cid = (int) $c['id']; ?>
-                <tr data-company-id="<?= $cid ?>" style="cursor:pointer;">
+                <tr data-company-id="<?= $cid ?>" class="row-clickable">
                     <td><?= htmlspecialchars($c['name'], ENT_QUOTES, 'UTF-8') ?></td>
                     <td>
                         <?php if (!empty($c['email'])): ?>
@@ -203,18 +203,18 @@ if ($totalPages > 1) {
                                             <label class="form-label" for="c_state_<?= $cid ?>">State</label>
                                             <input id="c_state_<?= $cid ?>" type="text" name="state" class="input"
                                                    value="<?= htmlspecialchars($c['state'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-                                                   style="width:6rem;">
+                                                   class="input--state">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="c_zip_<?= $cid ?>">ZIP</label>
                                             <input id="c_zip_<?= $cid ?>" type="text" name="zip" class="input"
                                                    value="<?= htmlspecialchars($c['zip'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
-                                                   style="width:7rem;">
+                                                   class="input--zip">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:0.75rem;">
+                            <div class="form-actions">
                                 <button type="button" class="btn btn--ghost btn--sm company-edit-cancel">Cancel</button>
                                 <button type="submit" class="btn btn--primary btn--sm">
                                     <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save

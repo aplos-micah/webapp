@@ -71,7 +71,7 @@ if ($totalPages > 1) {
             <?php endif; ?>
         </p>
     </div>
-    <div style="display:flex;gap:0.5rem;align-items:center;">
+    <div class="btn-group">
         <form method="POST" action="/admin/logviewer"
               onsubmit="return confirm('Archive the current log and start a fresh one?')">
             <input type="hidden" name="action" value="archive">
@@ -92,9 +92,9 @@ if ($totalPages > 1) {
 <hr class="divider--green mb-xl">
 
 <!-- Filter toolbar -->
-<div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1rem;">
+<div class="filter-bar">
 
-    <div style="display:flex;gap:0.25rem;">
+    <div class="filter-bar__group">
         <?php foreach (['' => 'All', 'ERROR' => 'ERROR', 'WARNING' => 'WARNING', 'INFO' => 'INFO'] as $val => $label): ?>
         <a href="<?= $qs(['level' => $val, 'page' => 1]) ?>"
            class="btn btn--sm <?= $levelFilter === $val ? 'btn--primary' : 'btn--ghost' ?>">
@@ -103,14 +103,13 @@ if ($totalPages > 1) {
         <?php endforeach; ?>
     </div>
 
-    <form method="GET" action="/admin/logviewer"
-          style="display:flex;align-items:center;gap:0.5rem;margin-left:auto;">
+    <form method="GET" action="/admin/logviewer" class="filter-bar__perpage">
         <?php if ($levelFilter): ?>
         <input type="hidden" name="level" value="<?= htmlspecialchars($levelFilter, ENT_QUOTES, 'UTF-8') ?>">
         <?php endif; ?>
         <input type="hidden" name="page" value="1">
-        <label for="per_page" style="font-size:0.85rem;white-space:nowrap;">Per page:</label>
-        <select id="per_page" name="per_page" class="input" style="width:auto;"
+        <label for="per_page" class="filter-bar__label">Per page:</label>
+        <select id="per_page" name="per_page" class="input input--auto"
                 onchange="this.form.submit()">
             <?php foreach ([100, 200, 300, 500, 1000] as $opt): ?>
             <option value="<?= $opt ?>"<?= $perPage === $opt ? ' selected' : '' ?>><?= $opt ?></option>
@@ -146,8 +145,8 @@ if ($totalPages > 1) {
     <input type="hidden" name="_page"     value="<?= $currentPage ?>">
 
     <!-- Selection toolbar -->
-    <div id="entries-toolbar" style="display:none;align-items:center;gap:0.75rem;margin-bottom:0.5rem;padding:0.5rem 0.75rem;background:var(--color-surface-raised,#f0f0f0);border-radius:6px;">
-        <span id="entries-count" style="font-size:0.85rem;font-weight:600;"></span>
+    <div id="entries-toolbar" class="log-toolbar">
+        <span id="entries-count" class="log-toolbar__count"></span>
         <button type="submit" class="btn btn--ghost btn--sm"
                 onclick="return confirm('Delete selected entries? This cannot be undone.')">
             <i class="fa-solid fa-trash" aria-hidden="true"></i> Delete Selected
@@ -163,14 +162,14 @@ if ($totalPages > 1) {
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th style="width:2rem;">
+                        <th class="col-check">
                             <input type="checkbox" id="entries-select-all" title="Select all on this page">
                         </th>
-                        <th style="width:2.5rem;">#</th>
-                        <th style="width:14rem;">Timestamp</th>
-                        <th style="width:6rem;">Level</th>
+                        <th class="col-rownum">#</th>
+                        <th class="col-timestamp">Timestamp</th>
+                        <th class="col-level">Level</th>
                         <th>Message</th>
-                        <th style="width:28%;">Details</th>
+                        <th class="col-details">Details</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -187,10 +186,10 @@ if ($totalPages > 1) {
                         <td>
                             <input type="checkbox" name="selected[]" value="<?= $idx ?>" class="entry-cb">
                         </td>
-                        <td style="color:#444;font-size:0.75rem;text-align:right;">
+                        <td class="td-rownum">
                             <?= $rowNum ?>
                         </td>
-                        <td style="font-size:0.78rem;white-space:nowrap;font-family:monospace;">
+                        <td class="td-timestamp">
                             <?= htmlspecialchars($ts, ENT_QUOTES, 'UTF-8') ?>
                         </td>
                         <td>
@@ -198,7 +197,7 @@ if ($totalPages > 1) {
                                 <?= htmlspecialchars($level, ENT_QUOTES, 'UTF-8') ?>
                             </span>
                         </td>
-                        <td style="font-size:0.9rem;">
+                        <td class="td-message">
                             <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
                         </td>
                         <td>
@@ -213,41 +212,41 @@ if ($totalPages > 1) {
                                 $uri      = $request['uri']       ?? null;
                             ?>
                             <?php if ($hasDetails): ?>
-                            <div style="font-size:0.78rem;line-height:1.6;">
+                            <div class="td-details-wrap">
                                 <?php if ($userName): ?>
                                 <div>
-                                    <i class="fa-solid fa-user" style="width:0.9rem;color:#444;" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-user log-icon" aria-hidden="true"></i>
                                     <?= htmlspecialchars($userName, ENT_QUOTES, 'UTF-8') ?>
                                     <?php if ($userType): ?>
-                                    <span style="color:#444;">(<?= htmlspecialchars($userType, ENT_QUOTES, 'UTF-8') ?>)</span>
+                                    <span class="log-meta">(<?= htmlspecialchars($userType, ENT_QUOTES, 'UTF-8') ?>)</span>
                                     <?php endif; ?>
                                 </div>
                                 <?php endif; ?>
                                 <?php if ($ip || $browser): ?>
-                                <div style="color:#444;">
-                                    <i class="fa-solid fa-globe" style="width:0.9rem;" aria-hidden="true"></i>
+                                <div class="log-meta">
+                                    <i class="fa-solid fa-globe log-icon" aria-hidden="true"></i>
                                     <?= htmlspecialchars(implode(' · ', array_filter([$ip, $browser])), ENT_QUOTES, 'UTF-8') ?>
                                 </div>
                                 <?php endif; ?>
                                 <?php if ($method && $uri): ?>
-                                <div style="color:#444;font-family:monospace;">
+                                <div class="log-meta--mono">
                                     <?= htmlspecialchars($method . ' ' . $uri, ENT_QUOTES, 'UTF-8') ?>
                                 </div>
                                 <?php endif; ?>
                                 <?php if ($context || count($request) > 5): ?>
-                                <details style="margin-top:0.25rem;">
-                                    <summary style="cursor:pointer;color:#444;">Full details</summary>
+                                <details class="log-details">
+                                    <summary class="log-details__summary">Full details</summary>
                                     <?php if ($context): ?>
-                                    <pre style="margin:0.25rem 0 0;font-size:0.73rem;white-space:pre-wrap;word-break:break-all;background:var(--color-surface-raised,#f5f5f5);padding:0.5rem;border-radius:4px;"><?= htmlspecialchars(json_encode($context, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8') ?></pre>
+                                    <pre class="log-pre"><?= htmlspecialchars(json_encode($context, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8') ?></pre>
                                     <?php endif; ?>
                                     <?php if (!empty($request)): ?>
-                                    <pre style="margin:0.25rem 0 0;font-size:0.73rem;white-space:pre-wrap;word-break:break-all;background:var(--color-surface-raised,#f5f5f5);padding:0.5rem;border-radius:4px;"><?= htmlspecialchars(json_encode($request, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8') ?></pre>
+                                    <pre class="log-pre"><?= htmlspecialchars(json_encode($request, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8') ?></pre>
                                     <?php endif; ?>
                                 </details>
                                 <?php endif; ?>
                             </div>
                             <?php else: ?>
-                            <span style="color:#444;font-size:0.8rem;">—</span>
+                            <span class="log-empty">—</span>
                             <?php endif; ?>
                         </td>
                     </tr>
@@ -263,14 +262,14 @@ if ($totalPages > 1) {
 
 <?php if (!empty($archivedFiles)): ?>
 
-<h2 style="margin-top:2.5rem;margin-bottom:0.75rem;font-size:1.1rem;font-weight:600;">Archived Logs</h2>
+<h2 class="log-archive-heading">Archived Logs</h2>
 
 <form id="archives-form" method="POST" action="/admin/logviewer">
     <input type="hidden" name="action" value="delete_archives">
 
     <!-- Selection toolbar -->
-    <div id="archives-toolbar" style="display:none;align-items:center;gap:0.75rem;margin-bottom:0.5rem;padding:0.5rem 0.75rem;background:var(--color-surface-raised,#f0f0f0);border-radius:6px;">
-        <span id="archives-count" style="font-size:0.85rem;font-weight:600;"></span>
+    <div id="archives-toolbar" class="log-toolbar">
+        <span id="archives-count" class="log-toolbar__count"></span>
         <button type="submit" class="btn btn--ghost btn--sm"
                 onclick="return confirm('Delete selected archived logs? This cannot be undone.')">
             <i class="fa-solid fa-trash" aria-hidden="true"></i> Delete Selected
@@ -285,7 +284,7 @@ if ($totalPages > 1) {
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th style="width:2rem;">
+                        <th class="col-check">
                             <input type="checkbox" id="archives-select-all" title="Select all">
                         </th>
                         <th>File</th>
@@ -302,12 +301,12 @@ if ($totalPages > 1) {
                                    value="<?= htmlspecialchars($archive['name'], ENT_QUOTES, 'UTF-8') ?>"
                                    class="archive-cb">
                         </td>
-                        <td style="font-family:monospace;font-size:0.85rem;">
+                        <td class="td-mono-sm">
                             <?= htmlspecialchars($archive['name'], ENT_QUOTES, 'UTF-8') ?>
                         </td>
                         <td><?= number_format($archive['entries']) ?></td>
                         <td><?= formatBytes((int) $archive['size']) ?></td>
-                        <td style="font-size:0.85rem;">
+                        <td class="td-sm">
                             <?= date('Y-m-d H:i:s', (int) $archive['mtime']) ?>
                         </td>
                     </tr>
@@ -319,4 +318,3 @@ if ($totalPages > 1) {
 </form>
 
 <?php endif; ?>
-

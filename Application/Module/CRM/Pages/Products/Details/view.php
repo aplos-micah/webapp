@@ -16,7 +16,7 @@ $sel = function(string $field, string $opt) use ($product): string {
     <div>
         <p class="eyebrow">CRM / <a href="/crm/products/list">Products</a></p>
         <h1 class="dash-header__title"><?= $val($product['product_name']) ?></h1>
-        <div style="display:flex;gap:0.5rem;align-items:center;margin-top:0.25rem;">
+        <div class="header-badge-row">
             <?php if (!empty($product['sku'])): ?>
             <span class="badge badge--neutral"><?= $val($product['sku']) ?></span>
             <?php endif; ?>
@@ -30,7 +30,7 @@ $sel = function(string $field, string $opt) use ($product): string {
             <?php endif; ?>
         </div>
     </div>
-    <div style="display:flex;gap:0.5rem;align-items:center;">
+    <div class="btn-group">
         <?php if ($editMode): ?>
         <a href="/crm/products/details?id=<?= $id ?>" class="btn btn--ghost">
             <i class="fa-solid fa-xmark" aria-hidden="true"></i> Cancel
@@ -121,10 +121,10 @@ $sel = function(string $field, string $opt) use ($product): string {
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;padding-top:1.6rem;">
+            <div class="form-group form-group--checkbox">
                 <input id="is_active" type="checkbox" name="is_active" value="1"
                        <?= $product['is_active'] ? 'checked' : '' ?>>
-                <label for="is_active" class="form-label" style="margin:0;">Active</label>
+                <label for="is_active" class="form-label form-label--inline">Active</label>
             </div>
         </div>
         <div class="form-group">
@@ -300,7 +300,7 @@ $sel = function(string $field, string $opt) use ($product): string {
 </div>
 
 <?php if ($editMode): ?>
-<div class="profile-card__footer" style="justify-content:flex-end;gap:0.5rem;">
+<div class="profile-card__footer profile-card__footer--end">
     <a href="/crm/products/details?id=<?= $id ?>" class="btn btn--ghost">Cancel</a>
     <button type="submit" form="product-edit-form" class="btn btn--primary">
         <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save Changes

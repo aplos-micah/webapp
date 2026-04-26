@@ -78,10 +78,10 @@ $sel = fn(string $f, string $opt) => (($_POST[$f] ?? '') === $opt) ? ' selected'
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;padding-top:1.6rem;">
+            <div class="form-group form-group--checkbox">
                 <input id="is_active" type="checkbox" name="is_active" value="1"
                        <?= (!isset($_POST['product_name']) || isset($_POST['is_active'])) ? 'checked' : '' ?>>
-                <label for="is_active" class="form-label" style="margin:0;">Active (available to sales reps)</label>
+                <label for="is_active" class="form-label form-label--inline">Active (available to sales reps)</label>
             </div>
         </div>
 

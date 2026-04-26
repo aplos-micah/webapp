@@ -147,12 +147,12 @@ class AccountPerformance
         <div class="perf-bar" title="Green = Closed Won (<?= $clvPct ?>%)  |  Blue = Pipeline (<?= $pipePct ?>%)">
             <?php if ($clvPct > 0): ?>
             <div class="perf-bar__segment perf-bar__segment--won"
-                 style="width:<?= $clvPct ?>%"
+                 data-pct="<?= $clvPct ?>"
                  title="Closed Won <?= $clvPct ?>%"></div>
             <?php endif; ?>
             <?php if ($pipePct > 0): ?>
             <div class="perf-bar__segment perf-bar__segment--pipeline"
-                 style="width:<?= $pipePct ?>%"
+                 data-pct="<?= $pipePct ?>"
                  title="Pipeline <?= $pipePct ?>%"></div>
             <?php endif; ?>
         </div>
@@ -168,7 +168,7 @@ class AccountPerformance
 
         <?php if (!empty($openByStage)): ?>
         <!-- Open deals by stage -->
-        <p class="detail-section-label" style="margin-top:1rem;">Open Deals by Stage</p>
+        <p class="detail-section-label detail-section-label--mt">Open Deals by Stage</p>
         <ul class="perf-stage-list">
             <?php foreach ($openByStage as $row): ?>
             <?php $badge = $stageBadge[$row['stage']] ?? 'badge--neutral'; ?>
@@ -180,7 +180,7 @@ class AccountPerformance
             <?php endforeach; ?>
         </ul>
         <?php elseif ($clv === 0.0): ?>
-        <div class="related-card__empty" style="padding:1.5rem 0 0.5rem;">
+        <div class="related-card__empty related-card__empty--compact">
             <i class="fa-regular fa-chart-bar" aria-hidden="true"></i>
             <p>No performance data yet.</p>
         </div>

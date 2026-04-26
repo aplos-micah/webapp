@@ -33,9 +33,9 @@
         <p class="login-card__sub">We sent a verification link to your email address. Click it to activate your account.</p>
         <?php endif; ?>
 
-        <p class="login-card__sub" style="margin-top:1.5rem;">Didn't receive an email? Check your spam folder, or request a new link.</p>
+        <p class="login-card__sub mt-lg">Didn't receive an email? Check your spam folder, or request a new link.</p>
 
-        <form class="login-form" method="POST" action="/resend-verification" novalidate style="margin-top:1rem;">
+        <form class="login-form mt-md" method="POST" action="/resend-verification" novalidate>
             <div class="form-group">
                 <label class="form-label" for="email">Email address</label>
                 <input

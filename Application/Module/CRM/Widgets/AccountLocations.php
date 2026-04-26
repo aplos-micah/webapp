@@ -121,7 +121,7 @@ class AccountLocations
 
         <!-- ── Inline add panel (hidden, toggled by header button) ── -->
         <div id="loc-add-wrap" hidden>
-            <hr class="divider--green" style="margin:0.5rem 0 0;">
+            <hr class="divider--green divider--top-sm">
             <?= $this->renderForm('add', [], 'add_location', $baseUrl, 0) ?>
         </div>
 
@@ -257,7 +257,7 @@ class AccountLocations
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="form-group" style="align-self:end;padding-bottom:0.5rem;">
+                    <div class="form-group form-group--align-end">
                         <label class="form-check">
                             <input type="checkbox" name="is_primary" value="1"<?= $chk('is_primary') ?>>
                             <span>Primary location</span>
@@ -311,7 +311,7 @@ class AccountLocations
                         Extended Address
                         <i class="fa-solid fa-chevron-down loc-form__chevron" aria-hidden="true"></i>
                     </summary>
-                    <div class="loc-form__grid" style="margin-top:0.75rem;">
+                    <div class="loc-form__grid">
                         <div class="form-group">
                             <label class="form-label" for="<?= $e($prefix) ?>_county">County</label>
                             <input id="<?= $e($prefix) ?>_county" type="text" name="county"
@@ -351,7 +351,7 @@ class AccountLocations
                         Geospatial
                         <i class="fa-solid fa-chevron-down loc-form__chevron" aria-hidden="true"></i>
                     </summary>
-                    <div class="loc-form__grid" style="margin-top:0.75rem;">
+                    <div class="loc-form__grid">
                         <div class="form-group">
                             <label class="form-label" for="<?= $e($prefix) ?>_lat">Latitude</label>
                             <input id="<?= $e($prefix) ?>_lat" type="number" name="latitude" step="any"
@@ -381,7 +381,7 @@ class AccountLocations
                         Logistics &amp; Access
                         <i class="fa-solid fa-chevron-down loc-form__chevron" aria-hidden="true"></i>
                     </summary>
-                    <div class="loc-form__grid" style="margin-top:0.75rem;">
+                    <div class="loc-form__grid">
                         <div class="form-group">
                             <label class="form-label" for="<?= $e($prefix) ?>_hours">Receiving Hours</label>
                             <input id="<?= $e($prefix) ?>_hours" type="text" name="receiving_hours"
@@ -402,13 +402,13 @@ class AccountLocations
                             <input id="<?= $e($prefix) ?>_gate" type="text" name="gate_entry_code"
                                    class="input" value="<?= $v('gate_entry_code') ?>">
                         </div>
-                        <div class="form-group" style="align-self:center;padding-top:1.25rem;">
+                        <div class="form-group form-group--align-center">
                             <label class="form-check">
                                 <input type="checkbox" name="liftgate_required" value="1"<?= $chk('liftgate_required') ?>>
                                 <span>Liftgate required</span>
                             </label>
                         </div>
-                        <div class="form-group" style="align-self:center;padding-top:1.25rem;">
+                        <div class="form-group form-group--align-center">
                             <label class="form-check">
                                 <input type="checkbox" name="forklift_available" value="1"<?= $chk('forklift_available') ?>>
                                 <span>Forklift on-site</span>

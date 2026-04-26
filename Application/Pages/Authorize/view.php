@@ -32,7 +32,7 @@
                 is requesting access to your AplosCRM data.
             </p>
 
-            <ul style="margin: 0 0 1.5rem; padding-left: 1.25rem; color: var(--color-text-secondary, #555);">
+            <ul class="scope-list">
                 <li>Read accounts, contacts, opportunities, and products</li>
             </ul>
 
@@ -42,12 +42,12 @@
                 <input type="hidden" name="code_challenge"  value="<?= htmlspecialchars($data['code_challenge'], ENT_QUOTES, 'UTF-8') ?>">
                 <input type="hidden" name="state"           value="<?= htmlspecialchars($data['state'],          ENT_QUOTES, 'UTF-8') ?>">
 
-                <div style="display: flex; gap: 0.75rem;">
-                    <button type="submit" name="_action" value="allow" class="btn btn--primary" style="flex: 1;">
+                <div class="btn-row">
+                    <button type="submit" name="_action" value="allow" class="btn btn--primary btn--flex">
                         Allow Access
                         <i class="fa-solid fa-check" aria-hidden="true"></i>
                     </button>
-                    <button type="submit" name="_action" value="deny" class="btn btn--secondary" style="flex: 1;">
+                    <button type="submit" name="_action" value="deny" class="btn btn--secondary btn--flex">
                         Deny
                     </button>
                 </div>
