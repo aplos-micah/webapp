@@ -297,22 +297,12 @@ class Router
 
     private static function load404(string $templateFile): void
     {
-        // Logged-in users get redirected home with a toast rather than a 404 page.
         if (self::isLoggedIn()) {
             self::setFlash('error', 'The page you were looking for could not be found.');
             self::redirect('/home');
         }
 
-        http_response_code(404);
-        $viewFile = __DIR__ . '/Pages/404/view.php';
-        if (!file_exists($viewFile)) {
-            echo '404 Not Found';
-            return;
-        }
-        ob_start();
-        require $viewFile;
-        $content = ob_get_clean();
-        require $templateFile;
+        self::redirect('/login');
     }
 
     private static function setFlash(string $type, string $message): void
