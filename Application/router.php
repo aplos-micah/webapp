@@ -52,6 +52,18 @@ class Router
             return;
         }
 
+        // API discovery — GET /api
+        if ($slug === 'api') {
+            if (!self::isLoggedIn()) {
+                Response::json(['ok' => false, 'error' => 'Unauthorized.'], 401)->send();
+            }
+            $response = require __DIR__ . '/Api/controller.php';
+            if ($response instanceof Response) {
+                $response->send();
+            }
+            Response::json(['ok' => false, 'error' => 'No response from API discovery.'], 500)->send();
+        }
+
         // MCP track — JSON-RPC over HTTP, no view or template
         if ($slug === 'api/mcp') {
             self::dispatchMcp();
