@@ -1,11 +1,11 @@
 <?php
 
 /**
- * GET /api
+ * GET /api_v2
  *
- * API discovery — dynamically scans Application/Module/ for modules that have
- * an Api/ subfolder and returns the endpoints accessible to the authenticated
- * user based on each module's access configuration.
+ * API v2 discovery — dynamically scans Application/Module/ for modules that
+ * have an Api/ subfolder and returns the endpoints accessible to the
+ * authenticated user, with module-prefixed URLs (/api_v2/{module}/{endpoint}).
  *
  * Each endpoint may provide a meta.php alongside its controller.php to
  * self-describe its method, description, and accepted parameters.

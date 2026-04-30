@@ -39,6 +39,18 @@ class Router
             return;
         }
 
+        // OAuth protected resource metadata — RFC 9728, tells clients where the auth server is
+        if ($slug === '.well-known/oauth-protected-resource'
+            || str_starts_with($slug, '.well-known/oauth-protected-resource/')) {
+            $scheme  = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+            $host    = $_SERVER['HTTP_HOST'] ?? '';
+            $baseUrl = rtrim(getenv('APP_URL') ?: "{$scheme}://{$host}", '/');
+            Response::json([
+                'resource'              => $baseUrl,
+                'authorization_servers' => [$baseUrl],
+            ])->send();
+        }
+
         // OAuth authorize — user-facing consent page, no auth gate (handles it internally)
         if ($slug === 'authorize') {
             self::dispatchOAuthAuthorize();
@@ -49,6 +61,32 @@ class Router
         // Also handle /token (Claude.ai MCP connector uses this path)
         if ($slug === 'oauth/token' || $slug === 'token') {
             self::dispatchOAuthToken();
+            return;
+        }
+
+        // API v2 discovery — GET /api_v2
+        if ($slug === 'api_v2') {
+            if (!self::isLoggedIn()) {
+                Response::json(['ok' => false, 'error' => 'Unauthorized.'], 401)->send();
+            }
+            $response = require __DIR__ . '/Api_v2/controller.php';
+            if ($response instanceof Response) {
+                $response->send();
+            }
+            Response::json(['ok' => false, 'error' => 'No response from API discovery.'], 500)->send();
+        }
+
+        // API v2 track — module-scoped: api_v2/{module}/{endpoint}
+        if (str_starts_with($slug, 'api_v2/')) {
+            if (!self::isLoggedIn()) {
+                Response::json(['ok' => false, 'error' => 'Unauthorized.'], 401)->send();
+            }
+            self::dispatchApiV2($slug);
+        }
+
+        // MCP v2 — dynamic module-scoped MCP
+        if ($slug === 'api/mcp_v2') {
+            self::dispatchMcpV2();
             return;
         }
 
@@ -236,6 +274,70 @@ class Router
         return array_merge($defaults, self::$pages[$slug] ?? [], $moduleConfig, $pageOverrides);
     }
 
+    private static function dispatchApiV2(string $slug): never
+    {
+        // Require both module and endpoint segments: api_v2/{module}/{endpoint}
+        $parts = explode('/', substr($slug, 7), 2);
+        if (count($parts) < 2 || $parts[0] === '' || $parts[1] === '') {
+            Response::json(['ok' => false, 'error' => 'Endpoint not found.'], 404)->send();
+        }
+        [$moduleName, $endpointName] = $parts;
+
+        // Case-insensitive module lookup
+        $modulesRoot = __DIR__ . '/Module';
+        $moduleDir   = null;
+        foreach (scandir($modulesRoot) as $entry) {
+            if ($entry !== '.' && $entry !== '..' && strtolower($entry) === $moduleName && is_dir($modulesRoot . '/' . $entry)) {
+                $moduleDir = $modulesRoot . '/' . $entry;
+                break;
+            }
+        }
+        if ($moduleDir === null) {
+            Response::json(['ok' => false, 'error' => 'Endpoint not found.'], 404)->send();
+        }
+
+        // Enforce module access rules from module.php
+        $moduleConfigFile = $moduleDir . '/module.php';
+        if (file_exists($moduleConfigFile)) {
+            $config = require $moduleConfigFile;
+            if (!empty($config['requiresUserType']) && self::userType() !== $config['requiresUserType']) {
+                Response::json(['ok' => false, 'error' => 'Unauthorized.'], 401)->send();
+            }
+            foreach ($config as $key => $val) {
+                if (str_starts_with($key, 'requiresModule') && $val === true) {
+                    $sessionKey = 'module_' . strtolower(substr($key, 14));
+                    if (session_status() === PHP_SESSION_NONE) session_start();
+                    if (empty($_SESSION[$sessionKey])) {
+                        Response::json(['ok' => false, 'error' => 'Unauthorized.'], 401)->send();
+                    }
+                }
+            }
+        }
+
+        // Case-insensitive endpoint lookup in Module/{Name}/Api/
+        $apiRoot     = $moduleDir . '/Api';
+        $endpointDir = null;
+        if (is_dir($apiRoot)) {
+            foreach (scandir($apiRoot) as $entry) {
+                if ($entry !== '.' && $entry !== '..' && strtolower($entry) === $endpointName && is_dir($apiRoot . '/' . $entry)) {
+                    $endpointDir = $apiRoot . '/' . $entry;
+                    break;
+                }
+            }
+        }
+
+        if ($endpointDir === null || !file_exists($endpointDir . '/controller.php')) {
+            Response::json(['ok' => false, 'error' => 'Endpoint not found.'], 404)->send();
+        }
+
+        $response = require $endpointDir . '/controller.php';
+        if ($response instanceof Response) {
+            $response->send();
+        }
+
+        Response::json(['ok' => false, 'error' => 'No response from endpoint.'], 500)->send();
+    }
+
     private static function dispatchApi(string $slug): never
     {
         // All API routes require an authenticated session
@@ -258,6 +360,17 @@ class Router
         }
 
         Response::json(['ok' => false, 'error' => 'No response from endpoint.'], 500)->send();
+    }
+
+    private static function dispatchMcpV2(): never
+    {
+        $controllerFile = __DIR__ . '/Mcp_v2/controller.php';
+        $response = require $controllerFile;
+        if ($response instanceof Response) {
+            $response->send();
+        }
+
+        Response::json(['error' => 'No response from MCP v2 endpoint.'], 500)->send();
     }
 
     private static function dispatchOAuthMeta(): never

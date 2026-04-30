@@ -103,9 +103,18 @@ ServerSignature Off
 # ============================================================
 # Limit HTTP Request Methods
 # ============================================================
-<LimitExcept GET POST>
-    Require all denied
-</LimitExcept>
+
+# Allow OPTIONS on MCP endpoints for CORS preflight
+<If "%{REQUEST_URI} =~ m#^/api/mcp#">
+    <LimitExcept GET POST OPTIONS>
+        Require all denied
+    </LimitExcept>
+</If>
+<Else>
+    <LimitExcept GET POST>
+        Require all denied
+    </LimitExcept>
+</Else>
 
 # ============================================================
 # Prevent Content Type Sniffing via POST Flooding

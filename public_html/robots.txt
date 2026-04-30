@@ -1,2 +1,15 @@
 User-agent: *
 Disallow: /
+
+# Allow MCP and API endpoints for Claude and other AI assistants
+User-agent: Claude-Desktop
+Allow: /api/
+Allow: /.well-known/
+
+User-agent: claude-web
+Allow: /api/
+Allow: /.well-known/
+
+User-agent: anthropic-ai
+Allow: /api/
+Allow: /.well-known/
