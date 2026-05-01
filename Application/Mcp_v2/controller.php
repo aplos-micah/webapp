@@ -200,9 +200,25 @@ foreach (scandir($modulesRoot) as $moduleName) {
     }
 }
 
+function mcpv2_handle_create(string $service, array $args, ?array $tokenUser): array
+{
+    unset($args['id']);
+
+    if ($tokenUser && empty($args['owner_id'])) {
+        $args['owner_id'] = $tokenUser['id'] ?? null;
+    }
+
+    $result = Container::get($service)->create($args);
+
+    return tool_text_v2(json_pretty_v2($result['ok']
+        ? ['ok' => true, 'id' => $result['id']]
+        : ['ok' => false, 'error' => $result['error']]
+    ));
+}
+
 // ── Tool dispatcher ───────────────────────────────────────────────────────────
 
-function mcpv2_call(string $name, array $args, array $toolMap): array
+function mcpv2_call(string $name, array $args, array $toolMap, ?array $tokenUser = null): array
 {
     $tool = $toolMap[$name] ?? null;
     if ($tool === null) {
@@ -229,6 +245,11 @@ function mcpv2_call(string $name, array $args, array $toolMap): array
             $args,
             $label
         ),
+        'create' => mcpv2_handle_create(
+            $tool['service'],
+            $args,
+            $tokenUser
+        ),
         default => throw new InvalidArgumentException("Unknown handler type: {$tool['handler']}"),
     };
 }
@@ -253,7 +274,7 @@ switch ($method) {
         $toolName = $params['name']      ?? '';
         $toolArgs = $params['arguments'] ?? [];
         try {
-            return mcpv2_ok($id, mcpv2_call($toolName, $toolArgs, $toolMap));
+            return mcpv2_ok($id, mcpv2_call($toolName, $toolArgs, $toolMap, $tokenUser));
         } catch (InvalidArgumentException $e) {
             return mcpv2_err($id, -32601, $e->getMessage());
         } catch (Throwable $e) {

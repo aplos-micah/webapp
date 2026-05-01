@@ -29,4 +29,27 @@ return [
         'rel_key'     => 'line_items',
         'label'       => 'Opportunity',
     ],
+    [
+        'name'        => 'create_opportunity',
+        'description' => 'Create a new CRM opportunity. Returns the new opportunity ID on success.',
+        'inputSchema' => [
+            'type'       => 'object',
+            'properties' => [
+                'opportunity_name'  => ['type' => 'string',  'description' => 'Opportunity name (required)'],
+                'stage'             => ['type' => 'string',  'description' => 'Pipeline stage (New, Building, Review, Quote, Negotiating, Closed Won, Closed Lost)'],
+                'amount'            => ['type' => 'number',  'description' => 'Opportunity value in USD'],
+                'close_date'        => ['type' => 'string',  'description' => 'Expected close date (YYYY-MM-DD)'],
+                'account_id'        => ['type' => 'integer', 'description' => 'ID of the associated account'],
+                'contact_id'        => ['type' => 'integer', 'description' => 'ID of the associated contact'],
+                'probability'       => ['type' => 'integer', 'description' => 'Win probability 0–100'],
+                'forecast_category' => ['type' => 'string',  'description' => 'Forecast category (Omitted, Pipeline, Best Case, Commit, Closed)'],
+                'opportunity_type'  => ['type' => 'string',  'description' => 'Opportunity type'],
+                'lead_source'       => ['type' => 'string',  'description' => 'Lead source'],
+                'description'       => ['type' => 'string',  'description' => 'Notes or description'],
+            ],
+            'required' => ['opportunity_name'],
+        ],
+        'handler' => 'create',
+        'service' => 'opportunity',
+    ],
 ];

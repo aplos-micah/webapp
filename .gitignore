@@ -1,2 +1,16 @@
 configuration/.env
 storage/logs/*.log
+.DS_Store
+Application/.DS_Store
+Application/Module/.DS_Store
+Application/Module/Admin/.DS_Store
+Application/Module/Admin/Pages/.DS_Store
+Application/Pages/.DS_Store
+Application/sql/.DS_Store
+.DS_Store
+.DS_Store
+Application/.DS_Store
+Application/Module/.DS_Store
+Application/Module/Admin/Pages/.DS_Store
+Application/Pages/.DS_Store
+Application/sql/.DS_Store
