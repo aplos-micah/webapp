@@ -200,7 +200,24 @@ foreach (scandir($modulesRoot) as $moduleName) {
     }
 }
 
-function mcpv2_handle_create(string $service, array $args, ?array $tokenUser): array
+function mcpv2_handle_update(string $service, array $args, string $label): array
+{
+    $id = (int) ($args['id'] ?? 0);
+    if ($id <= 0) {
+        return tool_text_v2(json_pretty_v2(['ok' => false, 'error' => 'id must be a positive integer']));
+    }
+
+    unset($args['id']);
+
+    $result = Container::get($service)->update($id, $args);
+
+    return tool_text_v2(json_pretty_v2($result['ok']
+        ? ['ok' => true]
+        : ['ok' => false, 'error' => $result['error']]
+    ));
+}
+
+function mcpv2_handle_create(string $service, array $args, ?array $tokenUser, array $tool = []): array
 {
     unset($args['id']);
 
@@ -210,10 +227,17 @@ function mcpv2_handle_create(string $service, array $args, ?array $tokenUser): a
 
     $result = Container::get($service)->create($args);
 
-    return tool_text_v2(json_pretty_v2($result['ok']
-        ? ['ok' => true, 'id' => $result['id']]
-        : ['ok' => false, 'error' => $result['error']]
-    ));
+    if (!$result['ok']) {
+        return tool_text_v2(json_pretty_v2(['ok' => false, 'error' => $result['error']]));
+    }
+
+    $text = json_pretty_v2(['ok' => true, 'id' => $result['id']]);
+
+    if (!empty($tool['follow_up'])) {
+        $text .= "\n\n" . $tool['follow_up'];
+    }
+
+    return tool_text_v2($text);
 }
 
 // ── Tool dispatcher ───────────────────────────────────────────────────────────
@@ -245,10 +269,16 @@ function mcpv2_call(string $name, array $args, array $toolMap, ?array $tokenUser
             $args,
             $label
         ),
+        'update' => mcpv2_handle_update(
+            $tool['service'],
+            $args,
+            $label
+        ),
         'create' => mcpv2_handle_create(
             $tool['service'],
             $args,
-            $tokenUser
+            $tokenUser,
+            $tool
         ),
         default => throw new InvalidArgumentException("Unknown handler type: {$tool['handler']}"),
     };
