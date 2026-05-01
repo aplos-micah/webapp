@@ -87,8 +87,8 @@ if ($totalPages > 1) {
 
 <?php if (empty($companies) && $search === ''): ?>
 
-<div class="card dash-panel">
-    <div class="dash-panel__empty">
+<div class="card content-panel">
+    <div class="content-panel__empty">
         <i class="fa-regular fa-building" aria-hidden="true"></i>
         <p>No companies found.</p>
     </div>
@@ -96,8 +96,8 @@ if ($totalPages > 1) {
 
 <?php elseif (empty($companies)): ?>
 
-<div class="card dash-panel">
-    <div class="dash-panel__empty">
+<div class="card content-panel">
+    <div class="content-panel__empty">
         <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
         <p>No companies match <strong><?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?></strong>.</p>
     </div>
@@ -147,8 +147,8 @@ if ($totalPages > 1) {
                     <td><?= (int) $c['member_count'] ?></td>
                     <td><?= htmlspecialchars($c['created_at'] ?? '—', ENT_QUOTES, 'UTF-8') ?></td>
                 </tr>
-                <tr class="li-edit-row" id="company-edit-<?= $cid ?>" hidden>
-                    <td colspan="6" class="li-edit-cell">
+                <tr class="inline-edit-row" id="company-edit-<?= $cid ?>" hidden>
+                    <td colspan="6" class="inline-edit-cell">
                         <form method="POST" action="/admin/companylist" novalidate>
                             <input type="hidden" name="_action"    value="update_company">
                             <input type="hidden" name="company_id" value="<?= $cid ?>">
@@ -156,7 +156,7 @@ if ($totalPages > 1) {
                             <input type="hidden" name="_sort"      value="<?= htmlspecialchars($sort,   ENT_QUOTES, 'UTF-8') ?>">
                             <input type="hidden" name="_dir"       value="<?= htmlspecialchars($dir,    ENT_QUOTES, 'UTF-8') ?>">
                             <input type="hidden" name="_page"      value="<?= $currentPage ?>">
-                            <div class="li-edit-grid">
+                            <div class="inline-edit-grid">
                                 <div>
                                     <div class="form-row">
                                         <div class="form-group form-group--grow">

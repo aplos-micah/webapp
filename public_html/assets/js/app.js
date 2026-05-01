@@ -20,8 +20,8 @@ document.addEventListener('click', function (e) {
 
 (function () {
     var toggle  = document.getElementById('sidebar-toggle');
-    var sidebar = document.getElementById('app-sidebar');
-    var overlay = document.getElementById('sidebar-overlay');
+    var sidebar = document.getElementById('side-nav');
+    var overlay = document.getElementById('nav-overlay');
 
     if (!toggle || !sidebar || !overlay) return;
 

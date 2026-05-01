@@ -94,8 +94,8 @@ $userTypeBadge = [
 
 <?php if (empty($users) && $search === ''): ?>
 
-<div class="card dash-panel">
-    <div class="dash-panel__empty">
+<div class="card content-panel">
+    <div class="content-panel__empty">
         <i class="fa-regular fa-user" aria-hidden="true"></i>
         <p>No users found.</p>
     </div>
@@ -103,8 +103,8 @@ $userTypeBadge = [
 
 <?php elseif (empty($users)): ?>
 
-<div class="card dash-panel">
-    <div class="dash-panel__empty">
+<div class="card content-panel">
+    <div class="content-panel__empty">
         <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
         <p>No users match <strong><?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?></strong>.</p>
     </div>
@@ -151,8 +151,8 @@ $userTypeBadge = [
                     </td>
                     <td><?= htmlspecialchars($u['created_at'] ?? '—', ENT_QUOTES, 'UTF-8') ?></td>
                 </tr>
-                <tr class="li-edit-row" id="user-edit-<?= $uid ?>" hidden>
-                    <td colspan="6" class="li-edit-cell">
+                <tr class="inline-edit-row" id="user-edit-<?= $uid ?>" hidden>
+                    <td colspan="6" class="inline-edit-cell">
                         <form method="POST" action="/admin/userlist" novalidate>
                             <input type="hidden" name="_action" value="update_user">
                             <input type="hidden" name="user_id" value="<?= $uid ?>">
@@ -160,7 +160,7 @@ $userTypeBadge = [
                             <input type="hidden" name="_sort"   value="<?= htmlspecialchars($sort,   ENT_QUOTES, 'UTF-8') ?>">
                             <input type="hidden" name="_dir"    value="<?= htmlspecialchars($dir,    ENT_QUOTES, 'UTF-8') ?>">
                             <input type="hidden" name="_page"   value="<?= $currentPage ?>">
-                            <div class="li-edit-grid">
+                            <div class="inline-edit-grid">
                                 <div>
                                     <div class="form-row">
                                         <div class="form-group form-group--grow">

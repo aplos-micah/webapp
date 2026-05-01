@@ -45,10 +45,10 @@ $val = fn(string $field, string $default = '') => htmlspecialchars($_POST[$field
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="account_search">Account</label>
-                    <div class="account-lookup" data-initial-id="<?= $val('account_id') ?>" data-initial-name="">
-                        <input type="text" id="account_search" class="input account-lookup__input" autocomplete="off" placeholder="Type to search accounts…">
-                        <input type="hidden" name="account_id" class="account-lookup__value" value="<?= $val('account_id') ?>">
-                        <div class="account-lookup__results" hidden></div>
+                    <div class="entity-lookup" data-initial-id="<?= $val('account_id') ?>" data-initial-name="">
+                        <input type="text" id="account_search" class="input entity-lookup__input" autocomplete="off" placeholder="Type to search accounts…">
+                        <input type="hidden" name="account_id" class="entity-lookup__value" value="<?= $val('account_id') ?>">
+                        <div class="entity-lookup__results" hidden></div>
                     </div>
                 </div>
                 <div class="form-group">

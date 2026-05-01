@@ -43,23 +43,23 @@ class DashLeads
         $e = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
 
         if (empty($leads)) {
-            return '<div class="dash-panel__empty">'
+            return '<div class="content-panel__empty">'
                  . '<i class="fa-regular fa-bolt" aria-hidden="true"></i>'
                  . '<p>No leads yet. <a href="/crm/contacts/new">Add a contact</a> and mark them as a Lead.</p>'
                  . '</div>';
         }
 
-        $html = '<ul class="dash-widget-list">';
+        $html = '<ul class="record-list">';
         foreach ($leads as $l) {
             $name   = trim($e($l['first_name']) . ' ' . $e($l['last_name']));
             $sub    = $l['account_name'] ? $e($l['account_name']) : ($l['job_title'] ? $e($l['job_title']) : null);
             $source = $l['lead_source'] ? $e($l['lead_source']) : null;
 
-            $html .= '<li class="dash-widget-list__item">';
-            $html .= '<div class="dash-widget-list__main">';
-            $html .= '<a href="/crm/contacts/details?id=' . (int)$l['id'] . '" class="dash-widget-list__name">' . $name . '</a>';
+            $html .= '<li class="record-list__item">';
+            $html .= '<div class="record-list__main">';
+            $html .= '<a href="/crm/contacts/details?id=' . (int)$l['id'] . '" class="record-list__name">' . $name . '</a>';
             if ($sub) {
-                $html .= '<span class="dash-widget-list__sub">' . $sub . '</span>';
+                $html .= '<span class="record-list__sub">' . $sub . '</span>';
             }
             $html .= '</div>';
             if ($source) {
@@ -68,7 +68,7 @@ class DashLeads
             $html .= '</li>';
         }
         $html .= '</ul>';
-        $html .= '<div class="dash-widget-footer"><a href="/crm/contacts/list">View all contacts</a></div>';
+        $html .= '<div class="widget-footer"><a href="/crm/contacts/list">View all contacts</a></div>';
 
         return $html;
     }

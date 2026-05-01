@@ -33,7 +33,7 @@ class AccountOpportunities
         $opps = $this->getOpportunities($accountId);
 
         if (empty($opps)) {
-            return '<div class="related-card__empty">'
+            return '<div class="tile-card__empty">'
                  . '<i class="fa-regular fa-handshake" aria-hidden="true"></i>'
                  . '<p>No open opportunities for this account.</p>'
                  . '</div>';
@@ -50,7 +50,7 @@ class AccountOpportunities
         ];
 
         ob_start(); ?>
-        <ul class="opp-widget-list">
+        <ul class="record-list">
         <?php foreach ($opps as $o):
             $badge      = $stageBadge[$o['stage'] ?? ''] ?? 'badge--neutral';
             $amount     = $o['amount'] !== null ? '$' . number_format((float) $o['amount'], 0) : null;
@@ -60,27 +60,27 @@ class AccountOpportunities
             // Flag overdue close dates
             $isOverdue  = $closeDate && $closeDate < date('Y-m-d');
         ?>
-        <li class="opp-widget-list__item">
-            <div class="opp-widget-list__top">
+        <li class="record-list__item">
+            <div class="record-list__top">
                 <a href="/crm/opportunities/details?id=<?= (int) $o['id'] ?>"
-                   class="opp-widget-list__name">
+                   class="record-list__name">
                     <?= $e($o['opportunity_name']) ?>
                 </a>
                 <span class="badge <?= $badge ?>"><?= $e($o['stage']) ?></span>
             </div>
-            <div class="opp-widget-list__meta">
+            <div class="record-list__meta">
                 <?php if ($amount): ?>
-                <span class="opp-widget-list__amount"><?= $amount ?></span>
+                <span class="record-list__value"><?= $amount ?></span>
                 <?php endif; ?>
                 <?php if ($prob): ?>
-                <span class="opp-widget-list__prob"><?= $prob ?> prob.</span>
+                <span class="record-list__prob"><?= $prob ?> prob.</span>
                 <?php endif; ?>
                 <?php if ($closeDate): ?>
-                <span class="opp-widget-list__date <?= $isOverdue ? 'opp-widget-list__date--overdue' : '' ?>">
+                <span class="record-list__date <?= $isOverdue ? 'record-list__date--overdue' : '' ?>">
                     <i class="fa-regular fa-calendar" aria-hidden="true"></i>
                     <?= $e($closeDate) ?>
                     <?php if ($isOverdue): ?>
-                    <span class="opp-widget-list__overdue-label">Overdue</span>
+                    <span class="record-list__overdue-label">Overdue</span>
                     <?php endif; ?>
                 </span>
                 <?php endif; ?>
@@ -88,8 +88,8 @@ class AccountOpportunities
         </li>
         <?php endforeach; ?>
         </ul>
-        <div class="widget-contact-list__footer">
-            <a href="/crm/opportunities/list" class="widget-contact-list__all">
+        <div class="record-list__footer">
+            <a href="/crm/opportunities/list" class="record-list__all">
                 <?= count($opps) ?> open deal<?= count($opps) !== 1 ? 's' : '' ?> — View all
             </a>
         </div>

@@ -65,37 +65,37 @@ class DashOpenDeals
         ];
 
         if (empty($deals)) {
-            return '<div class="dash-panel__empty">'
+            return '<div class="content-panel__empty">'
                  . '<i class="fa-regular fa-handshake" aria-hidden="true"></i>'
                  . '<p>No open deals. <a href="/crm/opportunities/new">Create one</a>.</p>'
                  . '</div>';
         }
 
-        $html = '<ul class="dash-widget-list">';
+        $html = '<ul class="record-list">';
         foreach ($deals as $d) {
             $badge = $stageBadge[$d['stage'] ?? ''] ?? 'badge--neutral';
             $amount = $d['amount'] !== null
                 ? 'USD ' . number_format((float) $d['amount'], 0)
                 : null;
 
-            $html .= '<li class="dash-widget-list__item">';
-            $html .= '<div class="dash-widget-list__main">';
-            $html .= '<a href="/crm/opportunities/details?id=' . (int)$d['id'] . '" class="dash-widget-list__name">'
+            $html .= '<li class="record-list__item">';
+            $html .= '<div class="record-list__main">';
+            $html .= '<a href="/crm/opportunities/details?id=' . (int)$d['id'] . '" class="record-list__name">'
                    . $e($d['opportunity_name']) . '</a>';
             if ($d['account_name']) {
-                $html .= '<span class="dash-widget-list__sub">' . $e($d['account_name']) . '</span>';
+                $html .= '<span class="record-list__sub">' . $e($d['account_name']) . '</span>';
             }
             $html .= '</div>';
-            $html .= '<div class="dash-widget-list__right">';
+            $html .= '<div class="record-list__right">';
             $html .= '<span class="badge ' . $badge . '">' . $e($d['stage']) . '</span>';
             if ($amount) {
-                $html .= '<span class="dash-widget-list__amount">' . $amount . '</span>';
+                $html .= '<span class="record-list__amount">' . $amount . '</span>';
             }
             $html .= '</div>';
             $html .= '</li>';
         }
         $html .= '</ul>';
-        $html .= '<div class="dash-widget-footer"><a href="/crm/opportunities/list">View all opportunities</a></div>';
+        $html .= '<div class="widget-footer"><a href="/crm/opportunities/list">View all opportunities</a></div>';
 
         return $html;
     }

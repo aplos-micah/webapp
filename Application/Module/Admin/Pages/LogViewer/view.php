@@ -121,8 +121,8 @@ if ($totalPages > 1) {
 
 <?php if (empty($entries)): ?>
 
-<div class="card dash-panel">
-    <div class="dash-panel__empty">
+<div class="card content-panel">
+    <div class="content-panel__empty">
         <i class="fa-regular fa-file-lines" aria-hidden="true"></i>
         <p>
             <?php if ($levelFilter): ?>

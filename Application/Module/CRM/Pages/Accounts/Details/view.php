@@ -51,12 +51,12 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
 </div>
 <?php endif; ?>
 
-<div class="account-detail-layout">
+<div class="detail-layout">
 
     <!-- ══════════════════════════════════════════════════════════════════════
          LEFT COLUMN — Related content (drag to reorder)
          ══════════════════════════════════════════════════════════════════════ -->
-    <div class="account-detail-layout__related" id="related-tiles" data-save-url="/crm/accounts/savelayout">
+    <div class="detail-layout__aside" id="related-tiles" data-save-url="/crm/accounts/savelayout">
         <?php
         $tiles = [
             'opportunities' => [
@@ -93,10 +93,10 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
         foreach ($tileOrder as $key):
             $tile = $tiles[$key];
         ?>
-        <div class="card related-card" draggable="true" data-tile="<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>">
-            <div class="related-card__header">
-                <h2 class="related-card__title">
-                    <i class="related-card__drag-handle fa-solid fa-grip-vertical" aria-hidden="true" title="Drag to reorder"></i>
+        <div class="card tile-card" draggable="true" data-tile="<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>">
+            <div class="tile-card__header">
+                <h2 class="tile-card__title">
+                    <i class="tile-card__drag-handle fa-solid fa-grip-vertical" aria-hidden="true" title="Drag to reorder"></i>
                     <i class="<?= $tile['icon'] ?>" aria-hidden="true"></i>
                     <?= htmlspecialchars($tile['label'], ENT_QUOTES, 'UTF-8') ?>
                 </h2>
@@ -127,7 +127,7 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
             <?php elseif ($key === 'locations'): ?>
             <?= $locationsWidget->render((int) $account['id'], '/crm/accounts/details?id=' . (int) $account['id']) ?>
             <?php else: ?>
-            <div class="related-card__empty">
+            <div class="tile-card__empty">
                 <i class="<?= $tile['empty'][0] ?>" aria-hidden="true"></i>
                 <p><?= htmlspecialchars($tile['empty'][1], ENT_QUOTES, 'UTF-8') ?></p>
             </div>
@@ -144,7 +144,7 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
           action="/crm/accounts/details?id=<?= $account['id'] ?>&edit"
           novalidate>
     <?php endif; ?>
-    <div class="account-detail-layout__info">
+    <div class="detail-layout__primary">
 
         <!-- Account Information -->
         <div class="card profile-card">
@@ -154,9 +154,9 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
             </h2>
 
             <!-- Identity -->
-            <p class="detail-section-label">Identity</p>
+            <p class="section-label">Identity</p>
             <?php if ($editMode): ?>
-            <div class="edit-group">
+            <div class="edit-section">
                 <div class="form-row">
                     <div class="form-group form-group--grow">
                         <label class="form-label" for="name">Account Name <span class="form-required">*</span></label>
@@ -188,24 +188,24 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
                 </div>
             </div>
             <?php else: ?>
-            <dl class="detail-list">
-                <div class="detail-list__row">
+            <dl class="field-list">
+                <div class="field-list__row">
                     <dt>Account Name</dt>
                     <dd><?= $val($account['name']) ?></dd>
                 </div>
-                <div class="detail-list__row">
+                <div class="field-list__row">
                     <dt>Account Number</dt>
                     <dd><?= $val($account['account_number']) ?></dd>
                 </div>
-                <div class="detail-list__row">
+                <div class="field-list__row">
                     <dt>Account Site</dt>
                     <dd><?= $val($account['site']) ?></dd>
                 </div>
-                <div class="detail-list__row">
+                <div class="field-list__row">
                     <dt>Parent Account</dt>
                     <dd><?= $val($account['parent_id']) ?></dd>
                 </div>
-                <div class="detail-list__row">
+                <div class="field-list__row">
                     <dt>Company Domain</dt>
                     <dd>
                         <?php if (!empty($account['website'])): ?>
@@ -221,9 +221,9 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
             <?php endif; ?>
 
             <!-- Classification -->
-            <p class="detail-section-label">Classification</p>
+            <p class="section-label">Classification</p>
             <?php if ($editMode): ?>
-            <div class="edit-group">
+            <div class="edit-section">
                 <div class="form-row">
                     <div class="form-group form-group--grow">
                         <label class="form-label" for="type">Account Type</label>
@@ -250,20 +250,20 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
                 </div>
             </div>
             <?php else: ?>
-            <dl class="detail-list">
-                <div class="detail-list__row">
+            <dl class="field-list">
+                <div class="field-list__row">
                     <dt>Account Type</dt>
                     <dd><?= $val($account['type']) ?></dd>
                 </div>
-                <div class="detail-list__row">
+                <div class="field-list__row">
                     <dt>Status</dt>
                     <dd><?= $val($account['status']) ?></dd>
                 </div>
-                <div class="detail-list__row">
+                <div class="field-list__row">
                     <dt>Industry</dt>
                     <dd><?= $val($account['industry']) ?></dd>
                 </div>
-                <div class="detail-list__row">
+                <div class="field-list__row">
                     <dt>Ownership</dt>
                     <dd><?= $val($account['ownership']) ?></dd>
                 </div>
@@ -271,9 +271,9 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
             <?php endif; ?>
 
             <!-- Business -->
-            <p class="detail-section-label">Business</p>
+            <p class="section-label">Business</p>
             <?php if ($editMode): ?>
-            <div class="edit-group">
+            <div class="edit-section">
                 <div class="form-row">
                     <div class="form-group form-group--grow">
                         <label class="form-label" for="annual_revenue">Annual Revenue</label>
@@ -301,20 +301,20 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
                 </div>
             </div>
             <?php else: ?>
-            <dl class="detail-list">
-                <div class="detail-list__row">
+            <dl class="field-list">
+                <div class="field-list__row">
                     <dt>Annual Revenue</dt>
                     <dd><?= $account['annual_revenue'] !== null ? '$' . number_format((float) $account['annual_revenue'], 2) : '<span class="text-muted">—</span>' ?></dd>
                 </div>
-                <div class="detail-list__row">
+                <div class="field-list__row">
                     <dt>Number of Employees</dt>
                     <dd><?= $val($account['employee_count']) ?></dd>
                 </div>
-                <div class="detail-list__row">
+                <div class="field-list__row">
                     <dt>Account Owner</dt>
                     <dd><?= $val($account['owner_id']) ?></dd>
                 </div>
-                <div class="detail-list__row">
+                <div class="field-list__row">
                     <dt>Last Interaction</dt>
                     <dd><?= $val($account['last_activity_at']) ?></dd>
                 </div>
@@ -322,32 +322,32 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
             <?php endif; ?>
 
             <!-- Description -->
-            <p class="detail-section-label">Description</p>
+            <p class="section-label">Description</p>
             <?php if ($editMode): ?>
-            <div class="edit-group">
+            <div class="edit-section">
                 <div class="form-group">
                     <textarea name="description" class="input" rows="4"
                               placeholder="Brief summary of the company's business…"><?= $field($account['description']) ?></textarea>
                 </div>
             </div>
             <?php elseif (!empty($account['description'])): ?>
-            <p class="detail-description"><?= nl2br($val($account['description'])) ?></p>
+            <p class="field-text"><?= nl2br($val($account['description'])) ?></p>
             <?php else: ?>
-            <p class="detail-description"><span class="text-muted">—</span></p>
+            <p class="field-text"><span class="text-muted">—</span></p>
             <?php endif; ?>
 
             <!-- Record (always read-only) -->
-            <p class="detail-section-label">Record</p>
-            <dl class="detail-list">
-                <div class="detail-list__row">
+            <p class="section-label">Record</p>
+            <dl class="field-list">
+                <div class="field-list__row">
                     <dt>Account ID</dt>
                     <dd><?= $val($account['id']) ?></dd>
                 </div>
-                <div class="detail-list__row">
+                <div class="field-list__row">
                     <dt>Created</dt>
                     <dd><?= $val($account['created_at']) ?></dd>
                 </div>
-                <div class="detail-list__row">
+                <div class="field-list__row">
                     <dt>Last Updated</dt>
                     <dd><?= $val($account['updated_at']) ?></dd>
                 </div>
@@ -362,7 +362,7 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
             </h2>
 
             <?php if ($editMode): ?>
-            <div class="edit-group">
+            <div class="edit-section">
                 <div class="form-group">
                     <label class="form-label" for="billing_address">Billing Address</label>
                     <textarea id="billing_address" name="billing_address" class="input" rows="3"
@@ -375,12 +375,12 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
                 </div>
             </div>
             <?php else: ?>
-            <dl class="detail-list">
-                <div class="detail-list__row detail-list__row--block">
+            <dl class="field-list">
+                <div class="field-list__row field-list__row--block">
                     <dt>Billing Address</dt>
                     <dd><?= !empty($account['billing_address']) ? nl2br($val($account['billing_address'])) : '<span class="text-muted">—</span>' ?></dd>
                 </div>
-                <div class="detail-list__row detail-list__row--block">
+                <div class="field-list__row field-list__row--block">
                     <dt>Shipping Address</dt>
                     <dd><?= !empty($account['shipping_address']) ? nl2br($val($account['shipping_address'])) : '<span class="text-muted">—</span>' ?></dd>
                 </div>

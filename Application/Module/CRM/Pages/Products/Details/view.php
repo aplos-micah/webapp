@@ -79,7 +79,7 @@ $sel = function(string $field, string $opt) use ($product): string {
     </h2>
 
     <?php if ($editMode): ?>
-    <div class="edit-group">
+    <div class="edit-section">
         <div class="form-row">
             <div class="form-group form-group--grow">
                 <label class="form-label" for="product_name">Product Name <span class="form-required">*</span></label>
@@ -133,17 +133,17 @@ $sel = function(string $field, string $opt) use ($product): string {
         </div>
     </div>
     <?php else: ?>
-    <dl class="detail-list">
-        <div class="detail-list__row"><dt>Product Name</dt><dd><?= $val($product['product_name']) ?></dd></div>
-        <div class="detail-list__row"><dt>SKU</dt><dd><?= $val($product['sku']) ?></dd></div>
-        <div class="detail-list__row"><dt>Product Family</dt><dd><?= $val($product['product_family']) ?></dd></div>
-        <div class="detail-list__row"><dt>Product Type</dt><dd><?= $val($product['product_type']) ?></dd></div>
-        <div class="detail-list__row"><dt>Lifecycle Status</dt><dd><?= $val($product['lifecycle_status']) ?></dd></div>
-        <div class="detail-list__row"><dt>Active</dt><dd><?= $product['is_active'] ? 'Yes' : 'No' ?></dd></div>
+    <dl class="field-list">
+        <div class="field-list__row"><dt>Product Name</dt><dd><?= $val($product['product_name']) ?></dd></div>
+        <div class="field-list__row"><dt>SKU</dt><dd><?= $val($product['sku']) ?></dd></div>
+        <div class="field-list__row"><dt>Product Family</dt><dd><?= $val($product['product_family']) ?></dd></div>
+        <div class="field-list__row"><dt>Product Type</dt><dd><?= $val($product['product_type']) ?></dd></div>
+        <div class="field-list__row"><dt>Lifecycle Status</dt><dd><?= $val($product['lifecycle_status']) ?></dd></div>
+        <div class="field-list__row"><dt>Active</dt><dd><?= $product['is_active'] ? 'Yes' : 'No' ?></dd></div>
     </dl>
     <?php if (!empty($product['product_description'])): ?>
-    <p class="detail-section-label">Description</p>
-    <p class="detail-description"><?= nl2br($val($product['product_description'])) ?></p>
+    <p class="section-label">Description</p>
+    <p class="field-text"><?= nl2br($val($product['product_description'])) ?></p>
     <?php endif; ?>
     <?php endif; ?>
 </div>
@@ -156,7 +156,7 @@ $sel = function(string $field, string $opt) use ($product): string {
     </h2>
 
     <?php if ($editMode): ?>
-    <div class="edit-group">
+    <div class="edit-section">
         <div class="form-row">
             <div class="form-group form-group--grow">
                 <label class="form-label" for="list_price">List Price</label>
@@ -208,22 +208,22 @@ $sel = function(string $field, string $opt) use ($product): string {
         </div>
     </div>
     <?php else: ?>
-    <dl class="detail-list">
-        <div class="detail-list__row">
+    <dl class="field-list">
+        <div class="field-list__row">
             <dt>List Price</dt>
             <dd><?= $product['list_price'] !== null
                 ? htmlspecialchars($product['currency'] ?? 'USD', ENT_QUOTES, 'UTF-8') . ' ' . number_format((float) $product['list_price'], 2)
                 : '<span class="text-muted">—</span>' ?></dd>
         </div>
-        <div class="detail-list__row">
+        <div class="field-list__row">
             <dt>Unit Cost</dt>
             <dd><?= $product['unit_cost'] !== null
                 ? htmlspecialchars($product['currency'] ?? 'USD', ENT_QUOTES, 'UTF-8') . ' ' . number_format((float) $product['unit_cost'], 2)
                 : '<span class="text-muted">—</span>' ?></dd>
         </div>
-        <div class="detail-list__row"><dt>Unit of Measure</dt><dd><?= $val($product['unit_of_measure']) ?></dd></div>
-        <div class="detail-list__row"><dt>Pricing Model</dt><dd><?= $val($product['pricing_model']) ?></dd></div>
-        <div class="detail-list__row"><dt>Tax Category</dt><dd><?= $val($product['tax_category']) ?></dd></div>
+        <div class="field-list__row"><dt>Unit of Measure</dt><dd><?= $val($product['unit_of_measure']) ?></dd></div>
+        <div class="field-list__row"><dt>Pricing Model</dt><dd><?= $val($product['pricing_model']) ?></dd></div>
+        <div class="field-list__row"><dt>Tax Category</dt><dd><?= $val($product['tax_category']) ?></dd></div>
     </dl>
     <?php endif; ?>
 </div>
@@ -236,7 +236,7 @@ $sel = function(string $field, string $opt) use ($product): string {
     </h2>
 
     <?php if ($editMode): ?>
-    <div class="edit-group">
+    <div class="edit-section">
         <div class="form-row">
             <div class="form-group form-group--grow">
                 <label class="form-label" for="subscription_term_months">Subscription Term (months)</label>
@@ -272,16 +272,16 @@ $sel = function(string $field, string $opt) use ($product): string {
         </div>
     </div>
     <?php else: ?>
-    <dl class="detail-list">
-        <div class="detail-list__row"><dt>Subscription Term</dt><dd><?= $product['subscription_term_months'] !== null ? $val($product['subscription_term_months']) . ' months' : '<span class="text-muted">—</span>' ?></dd></div>
-        <div class="detail-list__row"><dt>Usage Metrics</dt><dd><?= $val($product['usage_metrics']) ?></dd></div>
-        <div class="detail-list__row"><dt>Weight</dt><dd><?= $val($product['weight']) ?></dd></div>
-        <div class="detail-list__row"><dt>Dimensions</dt><dd><?= $val($product['dimensions']) ?></dd></div>
-        <div class="detail-list__row"><dt>Material</dt><dd><?= $val($product['material']) ?></dd></div>
+    <dl class="field-list">
+        <div class="field-list__row"><dt>Subscription Term</dt><dd><?= $product['subscription_term_months'] !== null ? $val($product['subscription_term_months']) . ' months' : '<span class="text-muted">—</span>' ?></dd></div>
+        <div class="field-list__row"><dt>Usage Metrics</dt><dd><?= $val($product['usage_metrics']) ?></dd></div>
+        <div class="field-list__row"><dt>Weight</dt><dd><?= $val($product['weight']) ?></dd></div>
+        <div class="field-list__row"><dt>Dimensions</dt><dd><?= $val($product['dimensions']) ?></dd></div>
+        <div class="field-list__row"><dt>Material</dt><dd><?= $val($product['material']) ?></dd></div>
     </dl>
     <?php if (!empty($product['competitive_notes'])): ?>
-    <p class="detail-section-label">Competitive Notes</p>
-    <p class="detail-description"><?= nl2br($val($product['competitive_notes'])) ?></p>
+    <p class="section-label">Competitive Notes</p>
+    <p class="field-text"><?= nl2br($val($product['competitive_notes'])) ?></p>
     <?php endif; ?>
     <?php endif; ?>
 </div>
@@ -292,10 +292,10 @@ $sel = function(string $field, string $opt) use ($product): string {
         <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
         Record
     </h2>
-    <dl class="detail-list">
-        <div class="detail-list__row"><dt>Product ID</dt><dd><?= (int) $product['id'] ?></dd></div>
-        <div class="detail-list__row"><dt>Created</dt><dd><?= $val($product['created_at']) ?></dd></div>
-        <div class="detail-list__row"><dt>Last Updated</dt><dd><?= $val($product['updated_at']) ?></dd></div>
+    <dl class="field-list">
+        <div class="field-list__row"><dt>Product ID</dt><dd><?= (int) $product['id'] ?></dd></div>
+        <div class="field-list__row"><dt>Created</dt><dd><?= $val($product['created_at']) ?></dd></div>
+        <div class="field-list__row"><dt>Last Updated</dt><dd><?= $val($product['updated_at']) ?></dd></div>
     </dl>
 </div>
 

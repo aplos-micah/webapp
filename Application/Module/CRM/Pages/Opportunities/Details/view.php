@@ -91,9 +91,9 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
 <hr class="divider--green mb-xl">
 
 <!-- Stage Progress Bar -->
-<div class="stage-progress <?= $isClosedLost ? 'stage-progress--lost' : '' ?> mb-xl">
+<div class="step-progress <?= $isClosedLost ? 'step-progress--error' : '' ?> mb-xl">
     <?php if ($isClosedLost): ?>
-        <div class="stage-progress__lost">
+        <div class="step-progress__lost">
             <i class="fa-solid fa-circle-xmark" aria-hidden="true"></i>
             Closed Lost
         </div>
@@ -104,18 +104,18 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
             $isActive = $activeIndex !== false && $i === $activeIndex;
             $cls      = $isDone ? 'is-done' : ($isActive ? 'is-active' : '');
         ?>
-        <div class="stage-progress__step <?= $cls ?>">
-            <div class="stage-progress__node">
+        <div class="step-progress__step <?= $cls ?>">
+            <div class="step-progress__node">
                 <?php if ($isDone): ?>
                 <i class="fa-solid fa-check" aria-hidden="true"></i>
                 <?php else: ?>
                 <span><?= $i + 1 ?></span>
                 <?php endif; ?>
             </div>
-            <div class="stage-progress__label"><?= htmlspecialchars($stage, ENT_QUOTES, 'UTF-8') ?></div>
+            <div class="step-progress__label"><?= htmlspecialchars($stage, ENT_QUOTES, 'UTF-8') ?></div>
         </div>
         <?php if ($i < count($pipelineStages) - 1): ?>
-        <div class="stage-progress__connector <?= $isDone ? 'is-done' : '' ?>"></div>
+        <div class="step-progress__connector <?= $isDone ? 'is-done' : '' ?>"></div>
         <?php endif; ?>
         <?php endforeach; ?>
     <?php endif; ?>
@@ -136,11 +136,11 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
 <?php endif; ?>
 
 <!-- Mobile tab bar (hidden on desktop via CSS) -->
-<div class="opp-tab-bar" id="opp-tab-bar" role="tablist">
-    <button class="opp-tab-bar__btn is-active" data-tab="detail" role="tab" aria-selected="true">
+<div class="tab-bar tab-bar--split" id="tab-bar" role="tablist">
+    <button class="tab-bar__btn is-active" data-tab="detail" role="tab" aria-selected="true">
         <i class="fa-solid fa-circle-info" aria-hidden="true"></i> Details
     </button>
-    <button class="opp-tab-bar__btn" data-tab="line-items" role="tab" aria-selected="false">
+    <button class="tab-bar__btn" data-tab="line-items" role="tab" aria-selected="false">
         <i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i> Products
     </button>
 </div>
@@ -149,16 +149,16 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
      Two-column layout: LEFT 2/3 = product line items | RIGHT 1/3 = details
      Mobile: tabbed — Details tab (default), Products tab
      ========================================================================= -->
-<div class="opp-layout">
+<div class="split-layout">
 
     <!-- =====================================================================
          LEFT / Products tab: Product Line Items (2/3)
          ===================================================================== -->
-    <div class="opp-layout__line-items" id="opp-panel-line-items">
+    <div class="split-layout__main" id="opp-panel-line-items">
 
-        <div class="card related-card">
-            <div class="related-card__header">
-                <h2 class="related-card__title">
+        <div class="card tile-card">
+            <div class="tile-card__header">
+                <h2 class="tile-card__title">
                     <i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i>
                     Product Line Items
                 </h2>
@@ -190,12 +190,12 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                         <?php $liId = (int) $li['id']; ?>
                         <tr data-li-id="<?= $liId ?>">
                             <td>
-                                <span class="line-item__name"><?= htmlspecialchars($li['product_name'], ENT_QUOTES, 'UTF-8') ?></span>
+                                <span class="item-name"><?= htmlspecialchars($li['product_name'], ENT_QUOTES, 'UTF-8') ?></span>
                                 <?php if ($li['service_date']): ?>
-                                <span class="line-item__sub">Svc: <?= htmlspecialchars($li['service_date'], ENT_QUOTES, 'UTF-8') ?></span>
+                                <span class="item-detail">Svc: <?= htmlspecialchars($li['service_date'], ENT_QUOTES, 'UTF-8') ?></span>
                                 <?php endif; ?>
                                 <?php if ($li['subscription_term']): ?>
-                                <span class="line-item__sub"><?= (int) $li['subscription_term'] ?> mo.</span>
+                                <span class="item-detail"><?= (int) $li['subscription_term'] ?> mo.</span>
                                 <?php endif; ?>
                             </td>
                             <td><span class="text-muted"><?= $li['sku'] ? htmlspecialchars($li['sku'], ENT_QUOTES, 'UTF-8') : '—' ?></span></td>
@@ -244,15 +244,15 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                             </td>
                         </tr>
                         <?php if (!$isClosed): ?>
-                        <tr class="li-edit-row" id="li-edit-<?= $liId ?>" hidden>
-                            <td colspan="9" class="li-edit-cell">
+                        <tr class="inline-edit-row" id="li-edit-<?= $liId ?>" hidden>
+                            <td colspan="9" class="inline-edit-cell">
                                 <form method="POST"
                                       action="/crm/opportunities/details?id=<?= $id ?><?= $editMode ? '&edit' : '' ?>"
                                       class="line-item-form"
                                       novalidate>
                                     <input type="hidden" name="_action"      value="update_line_item">
                                     <input type="hidden" name="line_item_id" value="<?= $liId ?>">
-                                    <div class="li-edit-grid">
+                                    <div class="inline-edit-grid">
                                         <div>
                                             <div class="form-row">
                                                 <div class="form-group form-group--grow">
@@ -345,7 +345,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                         <?php endforeach; ?>
                     </tbody>
                     <tfoot>
-                        <tr class="line-items-total">
+                        <tr class="items-total">
                             <td colspan="5" class="text-right"><strong>Grand Total</strong></td>
                             <td class="text-right"><strong>USD <?= number_format($lineItemsTotal, 2) ?></strong></td>
                             <td colspan="3"></td>
@@ -354,7 +354,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                 </table>
             </div>
             <?php else: ?>
-            <div class="related-card__empty">
+            <div class="tile-card__empty">
                 <i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i>
                 <p>No products added yet.</p>
             </div>
@@ -374,15 +374,15 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                         <div class="form-row">
                             <div class="form-group form-group--grow">
                                 <label class="form-label" for="product_search">Product <span class="form-required">*</span></label>
-                                <div class="product-lookup"
+                                <div class="entity-lookup"
                                      data-initial-id=""
                                      data-initial-name=""
                                      data-name-target="li_product_name"
                                      data-price-target="li_unit_price">
-                                    <input type="text" id="product_search" class="input product-lookup__input"
+                                    <input type="text" id="product_search" class="input entity-lookup__input"
                                            autocomplete="off" placeholder="Search by name or SKU…">
-                                    <input type="hidden" name="product_definition_id" class="product-lookup__value" value="">
-                                    <div class="product-lookup__results" hidden></div>
+                                    <input type="hidden" name="product_definition_id" class="entity-lookup__value" value="">
+                                    <div class="entity-lookup__results" hidden></div>
                                 </div>
                             </div>
                             <div class="form-group form-group--grow">
@@ -473,15 +473,15 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
             </div>
             <?php endif; ?>
 
-        </div><!-- /.related-card -->
+        </div><!-- /.tile-card -->
 
-    </div><!-- /.opp-layout__line-items -->
+    </div><!-- /.split-layout__main -->
 
     <!-- =====================================================================
          RIGHT / Details tab: Opportunity detail cards (1/3)
          Desktop: visible by default. Mobile: active when Details tab selected.
          ===================================================================== -->
-    <div class="opp-layout__detail is-active" id="opp-panel-detail">
+    <div class="split-layout__sidebar is-active" id="opp-panel-detail">
 
     <?php if ($editMode): ?>
     <form id="opp-edit-form" method="POST"
@@ -497,7 +497,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
         </h2>
 
         <?php if ($editMode): ?>
-        <div class="edit-group">
+        <div class="edit-section">
             <div class="form-row">
                 <div class="form-group form-group--grow">
                     <label class="form-label" for="opportunity_name">Opportunity Name <span class="form-required">*</span></label>
@@ -530,14 +530,14 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
             <div class="form-row">
                 <div class="form-group form-group--grow">
                     <label class="form-label" for="account_search">Account</label>
-                    <div class="account-lookup"
+                    <div class="entity-lookup"
                          data-initial-id="<?= $fld($opp['account_id']) ?>"
                          data-initial-name="<?= $fld($opp['account_name'] ?? '') ?>">
-                        <input type="text" id="account_search" class="input account-lookup__input"
+                        <input type="text" id="account_search" class="input entity-lookup__input"
                                autocomplete="off" placeholder="Type to search accounts…">
-                        <input type="hidden" name="account_id" class="account-lookup__value"
+                        <input type="hidden" name="account_id" class="entity-lookup__value"
                                value="<?= $fld($opp['account_id']) ?>">
-                        <div class="account-lookup__results" hidden></div>
+                        <div class="entity-lookup__results" hidden></div>
                     </div>
                 </div>
             </div>
@@ -568,24 +568,24 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
             <div class="form-row">
                 <div class="form-group form-group--grow">
                     <label class="form-label" for="contact_search">Contact</label>
-                    <div class="contact-lookup"
+                    <div class="entity-lookup"
                          data-initial-id="<?= $fld($opp['contact_id']) ?>"
                          data-initial-name="<?= $fld(trim($opp['contact_name'] ?? '')) ?>">
-                        <input type="text" id="contact_search" class="input contact-lookup__input"
+                        <input type="text" id="contact_search" class="input entity-lookup__input"
                                autocomplete="off" placeholder="Type to search contacts…">
-                        <input type="hidden" name="contact_id" class="contact-lookup__value"
+                        <input type="hidden" name="contact_id" class="entity-lookup__value"
                                value="<?= $fld($opp['contact_id']) ?>">
-                        <div class="contact-lookup__results" hidden></div>
+                        <div class="entity-lookup__results" hidden></div>
                     </div>
                 </div>
             </div>
         </div>
         <?php else: ?>
-        <dl class="detail-list">
-            <div class="detail-list__row"><dt>Name</dt><dd><?= $val($opp['opportunity_name']) ?></dd></div>
-            <div class="detail-list__row"><dt>Type</dt><dd><?= $val($opp['opportunity_type']) ?></dd></div>
-            <div class="detail-list__row"><dt>Lead Source</dt><dd><?= $val($opp['lead_source']) ?></dd></div>
-            <div class="detail-list__row">
+        <dl class="field-list">
+            <div class="field-list__row"><dt>Name</dt><dd><?= $val($opp['opportunity_name']) ?></dd></div>
+            <div class="field-list__row"><dt>Type</dt><dd><?= $val($opp['opportunity_type']) ?></dd></div>
+            <div class="field-list__row"><dt>Lead Source</dt><dd><?= $val($opp['lead_source']) ?></dd></div>
+            <div class="field-list__row">
                 <dt>Account</dt>
                 <dd>
                     <?php if (!empty($opp['account_id']) && !empty($opp['account_name'])): ?>
@@ -595,7 +595,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                     <?php else: ?><span class="text-muted">—</span><?php endif; ?>
                 </dd>
             </div>
-            <div class="detail-list__row">
+            <div class="field-list__row">
                 <dt>Bill To</dt>
                 <dd>
                     <?php if (!empty($opp['bill_to_location_id'])): ?>
@@ -610,7 +610,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                     <?php else: ?><span class="text-muted">—</span><?php endif; ?>
                 </dd>
             </div>
-            <div class="detail-list__row">
+            <div class="field-list__row">
                 <dt>Contact</dt>
                 <dd>
                     <?php if (!empty($opp['contact_id']) && !empty($opp['contact_name'])): ?>
@@ -632,7 +632,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
         </h2>
 
         <?php if ($editMode): ?>
-        <div class="edit-group">
+        <div class="edit-section">
             <div class="form-row">
                 <div class="form-group form-group--grow">
                     <label class="form-label" for="amount">Amount (USD)</label>
@@ -685,13 +685,13 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
             </div>
         </div>
         <?php else: ?>
-        <dl class="detail-list">
-            <div class="detail-list__row"><dt>Amount</dt><dd><?= $opp['amount'] !== null ? 'USD ' . number_format((float) $opp['amount'], 2) : '<span class="text-muted">—</span>' ?></dd></div>
-            <div class="detail-list__row"><dt>Probability</dt><dd><?= $opp['probability'] !== null ? (int) $opp['probability'] . '%' : '<span class="text-muted">—</span>' ?></dd></div>
-            <div class="detail-list__row"><dt>Forecast</dt><dd><?= $val($opp['forecast_category']) ?></dd></div>
-            <div class="detail-list__row"><dt>Close Date</dt><dd><?= $val($opp['close_date']) ?></dd></div>
-            <div class="detail-list__row"><dt>Plan Type</dt><dd><?= $val($opp['plan_type']) ?></dd></div>
-            <div class="detail-list__row"><dt>Billing Term</dt><dd><?= $val($opp['billing_term']) ?></dd></div>
+        <dl class="field-list">
+            <div class="field-list__row"><dt>Amount</dt><dd><?= $opp['amount'] !== null ? 'USD ' . number_format((float) $opp['amount'], 2) : '<span class="text-muted">—</span>' ?></dd></div>
+            <div class="field-list__row"><dt>Probability</dt><dd><?= $opp['probability'] !== null ? (int) $opp['probability'] . '%' : '<span class="text-muted">—</span>' ?></dd></div>
+            <div class="field-list__row"><dt>Forecast</dt><dd><?= $val($opp['forecast_category']) ?></dd></div>
+            <div class="field-list__row"><dt>Close Date</dt><dd><?= $val($opp['close_date']) ?></dd></div>
+            <div class="field-list__row"><dt>Plan Type</dt><dd><?= $val($opp['plan_type']) ?></dd></div>
+            <div class="field-list__row"><dt>Billing Term</dt><dd><?= $val($opp['billing_term']) ?></dd></div>
         </dl>
         <?php endif; ?>
     </div>
@@ -704,7 +704,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
         </h2>
 
         <?php if ($editMode): ?>
-        <div class="edit-group">
+        <div class="edit-section">
             <div class="form-row">
                 <div class="form-group form-group--grow">
                     <label class="form-label" for="stage">Stage</label>
@@ -728,12 +728,12 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
             </div>
         </div>
         <?php else: ?>
-        <dl class="detail-list">
-            <div class="detail-list__row">
+        <dl class="field-list">
+            <div class="field-list__row">
                 <dt>Stage</dt>
                 <dd><?php if (!empty($opp['stage'])): ?><span class="badge <?= $stageCls ?>"><?= $val($opp['stage']) ?></span><?php else: ?><span class="text-muted">—</span><?php endif; ?></dd>
             </div>
-            <div class="detail-list__row"><dt>Loss Reason</dt><dd><?= $val($opp['loss_reason']) ?></dd></div>
+            <div class="field-list__row"><dt>Loss Reason</dt><dd><?= $val($opp['loss_reason']) ?></dd></div>
         </dl>
         <?php endif; ?>
     </div>
@@ -746,7 +746,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
         </h2>
 
         <?php if ($editMode): ?>
-        <div class="edit-group">
+        <div class="edit-section">
             <div class="form-row">
                 <div class="form-group form-group--grow">
                     <label class="form-label" for="decision_timeline">Decision Timeline</label>
@@ -791,10 +791,10 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
             </div>
         </div>
         <?php else: ?>
-        <dl class="detail-list">
-            <div class="detail-list__row"><dt>Budget Confirmed</dt><dd><?= $opp['budget_confirmed'] ? 'Yes' : 'No' ?></dd></div>
-            <div class="detail-list__row"><dt>Decision Timeline</dt><dd><?= $val($opp['decision_timeline']) ?></dd></div>
-            <div class="detail-list__row">
+        <dl class="field-list">
+            <div class="field-list__row"><dt>Budget Confirmed</dt><dd><?= $opp['budget_confirmed'] ? 'Yes' : 'No' ?></dd></div>
+            <div class="field-list__row"><dt>Decision Timeline</dt><dd><?= $val($opp['decision_timeline']) ?></dd></div>
+            <div class="field-list__row">
                 <dt>Stakeholders</dt>
                 <dd>
                     <?php if (!empty($stakeholders)): ?>
@@ -802,7 +802,7 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
                     <?php else: ?><span class="text-muted">—</span><?php endif; ?>
                 </dd>
             </div>
-            <div class="detail-list__row">
+            <div class="field-list__row">
                 <dt>Competitors</dt>
                 <dd>
                     <?php if (!empty($competitors)): ?>
@@ -821,15 +821,15 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
             Notes
         </h2>
         <?php if ($editMode): ?>
-        <div class="edit-group">
+        <div class="edit-section">
             <div class="form-group">
                 <textarea name="description" class="input" rows="4"><?= $fld($opp['description']) ?></textarea>
             </div>
         </div>
         <?php elseif (!empty($opp['description'])): ?>
-        <p class="detail-description"><?= nl2br($val($opp['description'])) ?></p>
+        <p class="field-text"><?= nl2br($val($opp['description'])) ?></p>
         <?php else: ?>
-        <p class="detail-description"><span class="text-muted">—</span></p>
+        <p class="field-text"><span class="text-muted">—</span></p>
         <?php endif; ?>
     </div>
 
@@ -839,10 +839,10 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
             <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
             Record
         </h2>
-        <dl class="detail-list">
-            <div class="detail-list__row"><dt>ID</dt><dd><?= (int) $opp['id'] ?></dd></div>
-            <div class="detail-list__row"><dt>Created</dt><dd><?= $val($opp['created_at']) ?></dd></div>
-            <div class="detail-list__row"><dt>Last Updated</dt><dd><?= $val($opp['updated_at']) ?></dd></div>
+        <dl class="field-list">
+            <div class="field-list__row"><dt>ID</dt><dd><?= (int) $opp['id'] ?></dd></div>
+            <div class="field-list__row"><dt>Created</dt><dd><?= $val($opp['created_at']) ?></dd></div>
+            <div class="field-list__row"><dt>Last Updated</dt><dd><?= $val($opp['updated_at']) ?></dd></div>
         </dl>
     </div>
 
@@ -856,8 +856,8 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
     </form>
     <?php endif; ?>
 
-    </div><!-- /.opp-layout__detail -->
+    </div><!-- /.split-layout__sidebar -->
 
-</div><!-- /.opp-layout -->
+</div><!-- /.split-layout -->
 
 

@@ -45,7 +45,7 @@
 <!-- Overall pass banner -->
 <?php if ($failed === 0): ?>
 <div class="card mb-xl pass-card">
-    <div class="dash-panel__empty">
+    <div class="content-panel__empty">
         <i class="fa-solid fa-circle-check icon-pass" aria-hidden="true"></i>
         <p>All <?= $total ?> assertions passed.</p>
     </div>

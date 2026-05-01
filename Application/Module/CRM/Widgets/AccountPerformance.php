@@ -116,27 +116,27 @@ class AccountPerformance
         ob_start(); ?>
 
         <!-- Stat blocks -->
-        <div class="perf-stats">
+        <div class="metric-grid">
 
-            <div class="perf-stat perf-stat--clv">
-                <div class="perf-stat__icon">
+            <div class="metric-block metric-block--primary">
+                <div class="metric-block__icon">
                     <i class="fa-solid fa-trophy" aria-hidden="true"></i>
                 </div>
-                <div class="perf-stat__body">
-                    <span class="perf-stat__label">Customer Lifetime Value</span>
-                    <span class="perf-stat__value"><?= $fmt($clv) ?></span>
-                    <span class="perf-stat__sub"><?= $wonCount ?> closed won deal<?= $wonCount !== 1 ? 's' : '' ?></span>
+                <div class="metric-block__body">
+                    <span class="metric-block__label">Customer Lifetime Value</span>
+                    <span class="metric-block__value"><?= $fmt($clv) ?></span>
+                    <span class="metric-block__sub"><?= $wonCount ?> closed won deal<?= $wonCount !== 1 ? 's' : '' ?></span>
                 </div>
             </div>
 
-            <div class="perf-stat perf-stat--pipeline">
-                <div class="perf-stat__icon">
+            <div class="metric-block metric-block--secondary">
+                <div class="metric-block__icon">
                     <i class="fa-solid fa-filter-circle-dollar" aria-hidden="true"></i>
                 </div>
-                <div class="perf-stat__body">
-                    <span class="perf-stat__label">Pipeline Value</span>
-                    <span class="perf-stat__value"><?= $fmt($pipeline) ?></span>
-                    <span class="perf-stat__sub"><?= count($openByStage) > 0 ? array_sum(array_column($openByStage, 'deal_count')) . ' open deal' . (array_sum(array_column($openByStage, 'deal_count')) !== 1 ? 's' : '') : 'No open deals' ?></span>
+                <div class="metric-block__body">
+                    <span class="metric-block__label">Pipeline Value</span>
+                    <span class="metric-block__value"><?= $fmt($pipeline) ?></span>
+                    <span class="metric-block__sub"><?= count($openByStage) > 0 ? array_sum(array_column($openByStage, 'deal_count')) . ' open deal' . (array_sum(array_column($openByStage, 'deal_count')) !== 1 ? 's' : '') : 'No open deals' ?></span>
                 </div>
             </div>
 
@@ -144,43 +144,43 @@ class AccountPerformance
 
         <?php if ($total > 0): ?>
         <!-- Proportion bar -->
-        <div class="perf-bar" title="Green = Closed Won (<?= $clvPct ?>%)  |  Blue = Pipeline (<?= $pipePct ?>%)">
+        <div class="proportion-bar" title="Green = Closed Won (<?= $clvPct ?>%)  |  Blue = Pipeline (<?= $pipePct ?>%)">
             <?php if ($clvPct > 0): ?>
-            <div class="perf-bar__segment perf-bar__segment--won"
+            <div class="proportion-bar__segment proportion-bar__segment--primary"
                  data-pct="<?= $clvPct ?>"
                  title="Closed Won <?= $clvPct ?>%"></div>
             <?php endif; ?>
             <?php if ($pipePct > 0): ?>
-            <div class="perf-bar__segment perf-bar__segment--pipeline"
+            <div class="proportion-bar__segment proportion-bar__segment--secondary"
                  data-pct="<?= $pipePct ?>"
                  title="Pipeline <?= $pipePct ?>%"></div>
             <?php endif; ?>
         </div>
-        <div class="perf-bar__legend">
-            <span class="perf-bar__legend-item perf-bar__legend-item--won">
-                <span class="perf-bar__legend-dot"></span> Won (<?= $clvPct ?>%)
+        <div class="proportion-bar__legend">
+            <span class="proportion-bar__legend-item proportion-bar__legend-item--primary">
+                <span class="proportion-bar__legend-dot"></span> Won (<?= $clvPct ?>%)
             </span>
-            <span class="perf-bar__legend-item perf-bar__legend-item--pipeline">
-                <span class="perf-bar__legend-dot"></span> Pipeline (<?= $pipePct ?>%)
+            <span class="proportion-bar__legend-item proportion-bar__legend-item--secondary">
+                <span class="proportion-bar__legend-dot"></span> Pipeline (<?= $pipePct ?>%)
             </span>
         </div>
         <?php endif; ?>
 
         <?php if (!empty($openByStage)): ?>
         <!-- Open deals by stage -->
-        <p class="detail-section-label detail-section-label--mt">Open Deals by Stage</p>
-        <ul class="perf-stage-list">
+        <p class="section-label section-label--mt">Open Deals by Stage</p>
+        <ul class="breakdown-list">
             <?php foreach ($openByStage as $row): ?>
             <?php $badge = $stageBadge[$row['stage']] ?? 'badge--neutral'; ?>
-            <li class="perf-stage-list__item">
+            <li class="breakdown-list__item">
                 <span class="badge <?= $badge ?>"><?= htmlspecialchars($row['stage'], ENT_QUOTES, 'UTF-8') ?></span>
-                <span class="perf-stage-list__count"><?= (int) $row['deal_count'] ?> deal<?= (int) $row['deal_count'] !== 1 ? 's' : '' ?></span>
-                <span class="perf-stage-list__value"><?= $fmt((float) $row['stage_value']) ?></span>
+                <span class="breakdown-list__count"><?= (int) $row['deal_count'] ?> deal<?= (int) $row['deal_count'] !== 1 ? 's' : '' ?></span>
+                <span class="breakdown-list__value"><?= $fmt((float) $row['stage_value']) ?></span>
             </li>
             <?php endforeach; ?>
         </ul>
         <?php elseif ($clv === 0.0): ?>
-        <div class="related-card__empty related-card__empty--compact">
+        <div class="tile-card__empty tile-card__empty--compact">
             <i class="fa-regular fa-chart-bar" aria-hidden="true"></i>
             <p>No performance data yet.</p>
         </div>

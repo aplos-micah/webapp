@@ -133,8 +133,8 @@
 
 <?php else: ?>
 
-<div class="card dash-panel mb-xl">
-    <div class="dash-panel__empty">
+<div class="card content-panel mb-xl">
+    <div class="content-panel__empty">
         <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
         <p>All migrations have been applied.</p>
     </div>

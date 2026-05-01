@@ -21,9 +21,9 @@
 require_once __DIR__ . '/../../Module/CRM/Widgets/AccountPerformance.php';
 $perfWidget = new AccountPerformance(new DB());
 ?>
-<div class="card related-card mb-xl">
-    <div class="related-card__header">
-        <h2 class="related-card__title">
+<div class="card tile-card mb-xl">
+    <div class="tile-card__header">
+        <h2 class="tile-card__title">
             <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
             CRM Performance
         </h2>
@@ -34,74 +34,74 @@ $perfWidget = new AccountPerformance(new DB());
 <hr class="divider--green mb-xl">
 
 <!-- Stat cards -->
-<div class="dash-stats">
+<div class="stats-grid">
 
-    <a href="/crm/contacts/list" class="dash-stat dash-stat--link">
-        <div class="dash-stat__icon icon-circle icon-circle--navy">
+    <a href="/crm/contacts/list" class="stat-card stat-card--link">
+        <div class="stat-card__icon icon-circle icon-circle--navy">
             <i class="fa-solid fa-address-book" aria-hidden="true"></i>
         </div>
-        <div class="dash-stat__body">
-            <span class="dash-stat__label eyebrow">Contacts</span>
-            <span class="dash-stat__value"><?= number_format($data['contacts_count']) ?></span>
+        <div class="stat-card__body">
+            <span class="stat-card__label eyebrow">Contacts</span>
+            <span class="stat-card__value"><?= number_format($data['contacts_count']) ?></span>
         </div>
     </a>
 
-    <a href="/crm/opportunities/list" class="dash-stat dash-stat--link">
-        <div class="dash-stat__icon icon-circle icon-circle--green">
+    <a href="/crm/opportunities/list" class="stat-card stat-card--link">
+        <div class="stat-card__icon icon-circle icon-circle--green">
             <i class="fa-solid fa-handshake" aria-hidden="true"></i>
         </div>
-        <div class="dash-stat__body">
-            <span class="dash-stat__label eyebrow">Open Deals</span>
-            <span class="dash-stat__value"><?= number_format($data['open_deals_count']) ?></span>
+        <div class="stat-card__body">
+            <span class="stat-card__label eyebrow">Open Deals</span>
+            <span class="stat-card__value"><?= number_format($data['open_deals_count']) ?></span>
             <?php if ($data['open_deals_value'] > 0): ?>
-            <span class="dash-stat__sub">USD <?= number_format($data['open_deals_value'], 0) ?></span>
+            <span class="stat-card__sub">USD <?= number_format($data['open_deals_value'], 0) ?></span>
             <?php endif; ?>
         </div>
     </a>
 
-    <a href="/crm/contacts/list" class="dash-stat dash-stat--link">
-        <div class="dash-stat__icon icon-circle icon-circle--mid-blue">
+    <a href="/crm/contacts/list" class="stat-card stat-card--link">
+        <div class="stat-card__icon icon-circle icon-circle--mid-blue">
             <i class="fa-solid fa-bolt" aria-hidden="true"></i>
         </div>
-        <div class="dash-stat__body">
-            <span class="dash-stat__label eyebrow">Leads</span>
-            <span class="dash-stat__value"><?= number_format($data['leads_count']) ?></span>
+        <div class="stat-card__body">
+            <span class="stat-card__label eyebrow">Leads</span>
+            <span class="stat-card__value"><?= number_format($data['leads_count']) ?></span>
         </div>
     </a>
 
-    <div class="dash-stat">
-        <div class="dash-stat__icon icon-circle icon-circle--orange">
+    <div class="stat-card">
+        <div class="stat-card__icon icon-circle icon-circle--orange">
             <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
         </div>
-        <div class="dash-stat__body">
-            <span class="dash-stat__label eyebrow">Tasks Due</span>
-            <span class="dash-stat__value">—</span>
+        <div class="stat-card__body">
+            <span class="stat-card__label eyebrow">Tasks Due</span>
+            <span class="stat-card__value">—</span>
         </div>
     </div>
 
 </div>
 
 <!-- CRM Widget tiles -->
-<div class="dash-panels dash-panels--three mb-lg">
+<div class="content-panels content-panels--three mb-lg">
 
-    <div class="card dash-panel">
-        <h2 class="dash-panel__title">
+    <div class="card content-panel">
+        <h2 class="content-panel__title">
             <i class="fa-solid fa-address-book" aria-hidden="true"></i>
             Recent Contacts
         </h2>
         <?= $data['contacts_tile'] ?>
     </div>
 
-    <div class="card dash-panel">
-        <h2 class="dash-panel__title">
+    <div class="card content-panel">
+        <h2 class="content-panel__title">
             <i class="fa-solid fa-handshake" aria-hidden="true"></i>
             Open Deals
         </h2>
         <?= $data['open_deals_tile'] ?>
     </div>
 
-    <div class="card dash-panel">
-        <h2 class="dash-panel__title">
+    <div class="card content-panel">
+        <h2 class="content-panel__title">
             <i class="fa-solid fa-bolt" aria-hidden="true"></i>
             Leads
         </h2>
@@ -111,21 +111,21 @@ $perfWidget = new AccountPerformance(new DB());
 </div>
 
 <!-- Lower panels -->
-<div class="dash-panels">
+<div class="content-panels">
 
-    <div class="card dash-panel">
-        <h2 class="dash-panel__title">
+    <div class="card content-panel">
+        <h2 class="content-panel__title">
             <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
             Recent Activity
         </h2>
-        <div class="dash-panel__empty">
+        <div class="content-panel__empty">
             <i class="fa-regular fa-folder-open" aria-hidden="true"></i>
             <p>No activity yet. Start by adding a contact or creating a deal.</p>
         </div>
     </div>
 
-    <div class="card dash-panel">
-        <h2 class="dash-panel__title">
+    <div class="card content-panel">
+        <h2 class="content-panel__title">
             <i class="fa-solid fa-bolt" aria-hidden="true"></i>
             Quick Actions
         </h2>

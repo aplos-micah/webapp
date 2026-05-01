@@ -20,11 +20,11 @@ $field = function(
     $displayed = ($raw !== '' && $raw !== null) ? htmlspecialchars((string) $raw, ENT_QUOTES, 'UTF-8') : '—';
     $inputVal  = htmlspecialchars((string) ($raw ?? ''), ENT_QUOTES, 'UTF-8');
 
-    echo '<div class="detail-list__row">';
-    echo '<dt class="detail-list__label">' . htmlspecialchars($label, ENT_QUOTES, 'UTF-8') . '</dt>';
+    echo '<div class="field-list__row">';
+    echo '<dt class="field-list__label">' . htmlspecialchars($label, ENT_QUOTES, 'UTF-8') . '</dt>';
 
     if ($editMode) {
-        echo '<dd class="detail-list__value edit-group">';
+        echo '<dd class="field-list__value edit-section">';
         if ($type === 'select') {
             echo '<select name="' . $name . '" class="input">';
             echo '<option value="">— Select —</option>';
@@ -42,7 +42,7 @@ $field = function(
         }
         echo '</dd>';
     } else {
-        echo '<dd class="detail-list__value">' . $displayed . '</dd>';
+        echo '<dd class="field-list__value">' . $displayed . '</dd>';
     }
     echo '</div>';
 };
@@ -90,7 +90,7 @@ $field = function(
 <form method="POST" action="/crm/contacts/details?id=<?= $id ?>">
 <?php endif; ?>
 
-<div class="account-detail-layout">
+<div class="detail-layout">
 
     <!-- Left: Related tiles -->
     <div class="related-tiles" id="related-tiles" data-save-url="/crm/contacts/savelayout">
@@ -104,16 +104,16 @@ $field = function(
             ];
             $meta = $tileLabels[$tile] ?? ['label' => ucfirst($tile), 'icon' => 'fa-solid fa-circle'];
         ?>
-        <div class="related-card card" draggable="true" data-tile="<?= $tile ?>">
-            <div class="related-card__header">
-                <span class="related-card__grip">
+        <div class="tile-card card" draggable="true" data-tile="<?= $tile ?>">
+            <div class="tile-card__header">
+                <span class="tile-card__grip">
                     <i class="fa-solid fa-grip-vertical" aria-hidden="true"></i>
                 </span>
-                <i class="<?= $meta['icon'] ?> related-card__icon" aria-hidden="true"></i>
-                <h3 class="related-card__title"><?= $meta['label'] ?></h3>
+                <i class="<?= $meta['icon'] ?> tile-card__icon" aria-hidden="true"></i>
+                <h3 class="tile-card__title"><?= $meta['label'] ?></h3>
             </div>
-            <div class="related-card__body">
-                <p class="related-card__placeholder">No <?= strtolower($meta['label']) ?> yet.</p>
+            <div class="tile-card__body">
+                <p class="tile-card__placeholder">No <?= strtolower($meta['label']) ?> yet.</p>
             </div>
         </div>
         <?php endforeach; ?>
@@ -125,27 +125,27 @@ $field = function(
         <!-- Basic Identity -->
         <div class="card mb-lg">
             <div class="card__header">
-                <h2 class="card__title detail-section-label">Basic Identity</h2>
+                <h2 class="card__title section-label">Basic Identity</h2>
             </div>
             <div class="card__body">
-                <dl class="detail-list">
+                <dl class="field-list">
                     <?php $field('First Name', 'first_name') ?>
                     <?php $field('Last Name',  'last_name') ?>
                     <?php $field('Job Title',  'job_title') ?>
-                    <div class="detail-list__row">
-                        <dt class="detail-list__label">Account</dt>
+                    <div class="field-list__row">
+                        <dt class="field-list__label">Account</dt>
                         <?php if ($editMode): ?>
-                        <dd class="detail-list__value edit-group">
-                            <div class="account-lookup"
+                        <dd class="field-list__value edit-section">
+                            <div class="entity-lookup"
                                  data-initial-id="<?= htmlspecialchars((string) ($contact['account_id'] ?? ''), ENT_QUOTES, 'UTF-8') ?>"
                                  data-initial-name="<?= htmlspecialchars($accountName ?? '', ENT_QUOTES, 'UTF-8') ?>">
-                                <input type="text" class="input account-lookup__input" autocomplete="off" placeholder="Type to search accounts…">
-                                <input type="hidden" name="account_id" class="account-lookup__value" value="<?= htmlspecialchars((string) ($contact['account_id'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
-                                <div class="account-lookup__results" hidden></div>
+                                <input type="text" class="input entity-lookup__input" autocomplete="off" placeholder="Type to search accounts…">
+                                <input type="hidden" name="account_id" class="entity-lookup__value" value="<?= htmlspecialchars((string) ($contact['account_id'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
+                                <div class="entity-lookup__results" hidden></div>
                             </div>
                         </dd>
                         <?php else: ?>
-                        <dd class="detail-list__value">
+                        <dd class="field-list__value">
                             <?php if (!empty($contact['account_id']) && $accountName): ?>
                             <a href="/crm/accounts/details?id=<?= (int) $contact['account_id'] ?>" class="table-link">
                                 <?= htmlspecialchars($accountName, ENT_QUOTES, 'UTF-8') ?>
@@ -161,9 +161,9 @@ $field = function(
                     <?php if ($editMode): ?>
                     <?php $field('LinkedIn URL', 'linkedin_url', 'url', [], 'https://linkedin.com/in/…') ?>
                     <?php else: ?>
-                    <div class="detail-list__row">
-                        <dt class="detail-list__label">LinkedIn URL</dt>
-                        <dd class="detail-list__value">
+                    <div class="field-list__row">
+                        <dt class="field-list__label">LinkedIn URL</dt>
+                        <dd class="field-list__value">
                             <?php if (!empty($contact['linkedin_url'])): ?>
                             <a href="<?= $val('linkedin_url') ?>" target="_blank" rel="noopener noreferrer" class="table-link"><?= $val('linkedin_url') ?></a>
                             <?php else: ?>—<?php endif; ?>
@@ -177,16 +177,16 @@ $field = function(
         <!-- Communication Channels -->
         <div class="card mb-lg">
             <div class="card__header">
-                <h2 class="card__title detail-section-label">Communication Channels</h2>
+                <h2 class="card__title section-label">Communication Channels</h2>
             </div>
             <div class="card__body">
-                <dl class="detail-list">
+                <dl class="field-list">
                     <?php if ($editMode): ?>
                     <?php $field('Primary Email', 'email', 'email') ?>
                     <?php else: ?>
-                    <div class="detail-list__row">
-                        <dt class="detail-list__label">Primary Email</dt>
-                        <dd class="detail-list__value">
+                    <div class="field-list__row">
+                        <dt class="field-list__label">Primary Email</dt>
+                        <dd class="field-list__value">
                             <?php if (!empty($contact['email'])): ?>
                             <a href="mailto:<?= $val('email') ?>" class="table-link"><?= $val('email') ?></a>
                             <?php else: ?>—<?php endif; ?>
@@ -204,25 +204,25 @@ $field = function(
         <!-- Relationship & Lifecycle -->
         <div class="card mb-lg">
             <div class="card__header">
-                <h2 class="card__title detail-section-label">Relationship &amp; Lifecycle</h2>
+                <h2 class="card__title section-label">Relationship &amp; Lifecycle</h2>
             </div>
             <div class="card__body">
-                <dl class="detail-list">
+                <dl class="field-list">
                     <?php $field('Lifecycle Stage', 'lifecycle_stage', 'select', ['Lead', 'MQL', 'SQL', 'Customer', 'Evangelist']) ?>
                     <?php $field('Status',          'status',          'select', ['Active', 'Inactive', 'Bounced']) ?>
                     <?php $field('Lead Source',     'lead_source') ?>
                     <?php $field('Last Contact Date', 'last_contact_at', 'datetime-local') ?>
                     <?php if ($editMode): ?>
-                    <div class="detail-list__row">
-                        <dt class="detail-list__label">Owner ID</dt>
-                        <dd class="detail-list__value edit-group">
+                    <div class="field-list__row">
+                        <dt class="field-list__label">Owner ID</dt>
+                        <dd class="field-list__value edit-section">
                             <input type="number" name="owner_id" class="input" value="<?= htmlspecialchars((string) ($contact['owner_id'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
                         </dd>
                     </div>
                     <?php else: ?>
-                    <div class="detail-list__row">
-                        <dt class="detail-list__label">Owner ID</dt>
-                        <dd class="detail-list__value"><?= $val('owner_id') ?></dd>
+                    <div class="field-list__row">
+                        <dt class="field-list__label">Owner ID</dt>
+                        <dd class="field-list__value"><?= $val('owner_id') ?></dd>
                     </div>
                     <?php endif; ?>
                 </dl>
@@ -232,10 +232,10 @@ $field = function(
         <!-- Engagement & Behavior -->
         <div class="card mb-lg">
             <div class="card__header">
-                <h2 class="card__title detail-section-label">Engagement &amp; Behavior</h2>
+                <h2 class="card__title section-label">Engagement &amp; Behavior</h2>
             </div>
             <div class="card__body">
-                <dl class="detail-list">
+                <dl class="field-list">
                     <?php $field('Lead Score',    'lead_score',    'number') ?>
                     <?php $field('Last Activity', 'last_activity') ?>
                     <?php $field('Interaction History', 'interaction_history', 'textarea') ?>
@@ -246,10 +246,10 @@ $field = function(
         <!-- Segmentation & Custom Data -->
         <div class="card mb-lg">
             <div class="card__header">
-                <h2 class="card__title detail-section-label">Segmentation &amp; Custom Data</h2>
+                <h2 class="card__title section-label">Segmentation &amp; Custom Data</h2>
             </div>
             <div class="card__body">
-                <dl class="detail-list">
+                <dl class="field-list">
                     <?php $field('Industry',     'industry') ?>
                     <?php $field('Buying Role',  'buying_role',  'select', ['Decision Maker', 'Influencer', 'Champion']) ?>
                     <?php $field('Renewal Date', 'renewal_date', 'date') ?>
@@ -260,21 +260,21 @@ $field = function(
         <!-- Record (always read-only) -->
         <div class="card mb-lg">
             <div class="card__header">
-                <h2 class="card__title detail-section-label">Record</h2>
+                <h2 class="card__title section-label">Record</h2>
             </div>
             <div class="card__body">
-                <dl class="detail-list">
-                    <div class="detail-list__row">
-                        <dt class="detail-list__label">Contact ID</dt>
-                        <dd class="detail-list__value"><?= (int) $contact['id'] ?></dd>
+                <dl class="field-list">
+                    <div class="field-list__row">
+                        <dt class="field-list__label">Contact ID</dt>
+                        <dd class="field-list__value"><?= (int) $contact['id'] ?></dd>
                     </div>
-                    <div class="detail-list__row">
-                        <dt class="detail-list__label">Created</dt>
-                        <dd class="detail-list__value"><?= $val('created_at') ?></dd>
+                    <div class="field-list__row">
+                        <dt class="field-list__label">Created</dt>
+                        <dd class="field-list__value"><?= $val('created_at') ?></dd>
                     </div>
-                    <div class="detail-list__row">
-                        <dt class="detail-list__label">Last Updated</dt>
-                        <dd class="detail-list__value"><?= $val('updated_at') ?></dd>
+                    <div class="field-list__row">
+                        <dt class="field-list__label">Last Updated</dt>
+                        <dd class="field-list__value"><?= $val('updated_at') ?></dd>
                     </div>
                 </dl>
             </div>
@@ -289,7 +289,7 @@ $field = function(
 
     </div><!-- /.account-info -->
 
-</div><!-- /.account-detail-layout -->
+</div><!-- /.detail-layout -->
 
 <?php if ($editMode): ?>
 </form>

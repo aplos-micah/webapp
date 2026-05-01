@@ -67,18 +67,18 @@ $chk = fn(string $f, string $opt) => in_array($opt, (array) ($_POST[$f] ?? []), 
         <div class="form-row">
             <div class="form-group form-group--grow">
                 <label class="form-label" for="account_id">Account</label>
-                <div class="account-lookup" data-initial-id="<?= $v('account_id') ?>" data-initial-name="">
-                    <input type="text" id="account_search" class="input account-lookup__input" autocomplete="off" placeholder="Type to search accounts…">
-                    <input type="hidden" name="account_id" class="account-lookup__value" value="<?= $v('account_id') ?>">
-                    <div class="account-lookup__results" hidden></div>
+                <div class="entity-lookup" data-initial-id="<?= $v('account_id') ?>" data-initial-name="">
+                    <input type="text" id="account_search" class="input entity-lookup__input" autocomplete="off" placeholder="Type to search accounts…">
+                    <input type="hidden" name="account_id" class="entity-lookup__value" value="<?= $v('account_id') ?>">
+                    <div class="entity-lookup__results" hidden></div>
                 </div>
             </div>
             <div class="form-group form-group--grow">
                 <label class="form-label" for="contact_search">Contact</label>
-                <div class="contact-lookup" data-initial-id="<?= $v('contact_id') ?>" data-initial-name="">
-                    <input type="text" id="contact_search" class="input contact-lookup__input" autocomplete="off" placeholder="Type to search contacts…">
-                    <input type="hidden" name="contact_id" class="contact-lookup__value" value="<?= $v('contact_id') ?>">
-                    <div class="contact-lookup__results" hidden></div>
+                <div class="entity-lookup" data-initial-id="<?= $v('contact_id') ?>" data-initial-name="">
+                    <input type="text" id="contact_search" class="input entity-lookup__input" autocomplete="off" placeholder="Type to search contacts…">
+                    <input type="hidden" name="contact_id" class="entity-lookup__value" value="<?= $v('contact_id') ?>">
+                    <div class="entity-lookup__results" hidden></div>
                 </div>
             </div>
         </div>

@@ -112,8 +112,8 @@ if ($totalPages > 1) {
 <div id="search-results">
 <?php if (empty($contacts) && $search === ''): ?>
 
-<div class="card dash-panel">
-    <div class="dash-panel__empty">
+<div class="card content-panel">
+    <div class="content-panel__empty">
         <i class="fa-regular fa-address-card" aria-hidden="true"></i>
         <p>No contacts yet. <a href="/crm/contacts/new">Add your first contact</a>.</p>
     </div>
@@ -121,8 +121,8 @@ if ($totalPages > 1) {
 
 <?php elseif (empty($contacts)): ?>
 
-<div class="card dash-panel">
-    <div class="dash-panel__empty">
+<div class="card content-panel">
+    <div class="content-panel__empty">
         <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
         <p>No contacts match <strong><?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?></strong>.</p>
     </div>

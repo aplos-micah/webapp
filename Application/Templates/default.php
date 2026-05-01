@@ -24,13 +24,13 @@
     <!-- App -->
     <script src="/assets/js/app.js" defer></script>
 </head>
-<body<?php if (Config::instance() === 'Test'): ?> class="has-test-banner"<?php endif; ?>>
+<body<?php if (Config::instance() === 'Test'): ?> class="has-env-banner"<?php endif; ?>>
 
     <!-- =========================================================
          TEST INSTANCE BANNER
          ========================================================= -->
     <?php if (Config::instance() === 'Test'): ?>
-    <div class="app-test-banner">
+    <div class="env-banner">
         <i class="fa-solid fa-flask" aria-hidden="true"></i>
         Test Instance — data entered here is not production data.
     </div>
@@ -42,18 +42,18 @@
     <!-- =========================================================
          TOP NAVIGATION BAR — brand only, no user chrome
          ========================================================= -->
-    <header class="app-nav" role="banner">
-        <div class="app-nav__inner">
-            <div class="app-nav__brand">
-                <div class="app-logo-mark" aria-hidden="true">
-                    <span class="app-logo-mark__bar app-logo-mark__bar--top"></span>
-                    <span class="app-logo-mark__bar app-logo-mark__bar--mid">
-                        <span class="app-logo-mark__pip"></span>
+    <header class="top-nav" role="banner">
+        <div class="top-nav__inner">
+            <div class="top-nav__brand">
+                <div class="logo-mark" aria-hidden="true">
+                    <span class="logo-mark__bar logo-mark__bar--top"></span>
+                    <span class="logo-mark__bar logo-mark__bar--mid">
+                        <span class="logo-mark__pip"></span>
                     </span>
-                    <span class="app-logo-mark__bar app-logo-mark__bar--bot"></span>
+                    <span class="logo-mark__bar logo-mark__bar--bot"></span>
                 </div>
-                <a href="/login" class="app-nav__wordmark" aria-label="AplosCRM">
-                    Aplos<span class="app-nav__wordmark-accent">CRM</span>
+                <a href="/login" class="top-nav__wordmark" aria-label="AplosCRM">
+                    Aplos<span class="top-nav__wordmark-accent">CRM</span>
                 </a>
             </div>
         </div>
@@ -62,7 +62,7 @@
     <!-- =========================================================
          MAIN CONTENT — full-height centred, no sidebar
          ========================================================= -->
-    <main class="app-main app-main--centered" id="main-content" tabindex="-1">
+    <main class="page-content page-content--centered" id="main-content" tabindex="-1">
         <?= $content ?? '' ?>
     </main>
 

@@ -92,14 +92,14 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
                     </form>
                 </td>
             </tr>
-            <tr class="li-edit-row" id="token-edit-<?= $tid ?>" hidden>
-                <td colspan="3" class="li-edit-cell">
+            <tr class="inline-edit-row" id="token-edit-<?= $tid ?>" hidden>
+                <td colspan="3" class="inline-edit-cell">
                     <form method="POST" action="/admin/manageoauth" novalidate>
                         <input type="hidden" name="_action"  value="update_token_expiry">
                         <input type="hidden" name="token_id" value="<?= $tid ?>">
                         <input type="hidden" name="_tab"     value="<?= htmlspecialchars($tab, ENT_QUOTES) ?>">
                         <input type="hidden" name="_page"    value="<?= $currentPage ?>">
-                        <div class="li-edit-grid">
+                        <div class="inline-edit-grid">
                             <div>
                                 <div class="form-row">
                                     <div class="form-group form-group--grow">
@@ -148,22 +148,22 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
 <hr class="divider--green mb-xl">
 
 <!-- Stats -->
-<div class="dash-stats mb-xl">
-    <div class="dash-stat card">
-        <p class="dash-stat__label">Registered Clients</p>
-        <p class="dash-stat__value"><?= count($clients) ?></p>
+<div class="stats-grid mb-xl">
+    <div class="stat-card card">
+        <p class="stat-card__label">Registered Clients</p>
+        <p class="stat-card__value"><?= count($clients) ?></p>
     </div>
-    <div class="dash-stat card">
-        <p class="dash-stat__label">Active Tokens</p>
-        <p class="dash-stat__value"><?= $activeCount ?></p>
+    <div class="stat-card card">
+        <p class="stat-card__label">Active Tokens</p>
+        <p class="stat-card__value"><?= $activeCount ?></p>
     </div>
-    <div class="dash-stat card">
-        <p class="dash-stat__label">Expired Tokens</p>
-        <p class="dash-stat__value"><?= $expiredCount ?></p>
+    <div class="stat-card card">
+        <p class="stat-card__label">Expired Tokens</p>
+        <p class="stat-card__value"><?= $expiredCount ?></p>
     </div>
-    <div class="dash-stat card">
-        <p class="dash-stat__label">Recent Auth Codes</p>
-        <p class="dash-stat__value"><?= count($codes) ?></p>
+    <div class="stat-card card">
+        <p class="stat-card__label">Recent Auth Codes</p>
+        <p class="stat-card__value"><?= count($codes) ?></p>
     </div>
 </div>
 
@@ -191,7 +191,7 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
     <form method="POST" action="/admin/manageoauth" novalidate>
         <input type="hidden" name="_action" value="register_client">
         <input type="hidden" name="_tab"    value="<?= htmlspecialchars($tab, ENT_QUOTES) ?>">
-        <div class="li-edit-grid">
+        <div class="inline-edit-grid">
             <div>
                 <div class="form-row">
                     <div class="form-group form-group--grow">
@@ -237,8 +237,8 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
 </div>
 
 <?php if (empty($clients)): ?>
-<div class="card dash-panel mb-xl">
-    <div class="dash-panel__empty">
+<div class="card content-panel mb-xl">
+    <div class="content-panel__empty">
         <i class="fa-solid fa-plug" aria-hidden="true"></i>
         <p><?= $ctab === 'disabled' ? 'No disabled clients.' : 'No active clients registered.' ?></p>
     </div>
@@ -335,8 +335,8 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
 <?php if ($tab === 'active'): ?>
 
 <?php if (empty($activeTokens)): ?>
-<div class="card dash-panel mb-xl">
-    <div class="dash-panel__empty">
+<div class="card content-panel mb-xl">
+    <div class="content-panel__empty">
         <i class="fa-solid fa-key" aria-hidden="true"></i>
         <p>No active tokens.</p>
     </div>
@@ -352,8 +352,8 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
 <?php else: ?>
 
 <?php if (empty($expiredTokens)): ?>
-<div class="card dash-panel mb-xl">
-    <div class="dash-panel__empty">
+<div class="card content-panel mb-xl">
+    <div class="content-panel__empty">
         <i class="fa-solid fa-clock" aria-hidden="true"></i>
         <p>No expired tokens awaiting purge.</p>
     </div>
@@ -384,8 +384,8 @@ $tokenTable = function(array $tokens, string $expiryLabel, string $postAction, s
 <p class="text-muted mb-md">Last 50 requests — codes are single-use and expire after 10 minutes.</p>
 
 <?php if (empty($codes)): ?>
-<div class="card dash-panel">
-    <div class="dash-panel__empty">
+<div class="card content-panel">
+    <div class="content-panel__empty">
         <i class="fa-solid fa-ticket" aria-hidden="true"></i>
         <p>No authorization codes on record.</p>
     </div>

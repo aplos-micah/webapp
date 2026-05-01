@@ -48,24 +48,24 @@ class DashContacts
         ];
 
         if (empty($contacts)) {
-            return '<div class="dash-panel__empty">'
+            return '<div class="content-panel__empty">'
                  . '<i class="fa-regular fa-address-book" aria-hidden="true"></i>'
                  . '<p>No contacts yet. <a href="/crm/contacts/new">Add your first contact</a>.</p>'
                  . '</div>';
         }
 
-        $html = '<ul class="dash-widget-list">';
+        $html = '<ul class="record-list">';
         foreach ($contacts as $c) {
             $name    = trim($e($c['first_name']) . ' ' . $e($c['last_name']));
             $sub     = $c['account_name'] ? $e($c['account_name']) : ($c['job_title'] ? $e($c['job_title']) : null);
             $stage   = $c['lifecycle_stage'] ?? '';
             $badge   = $lifecycleBadge[$stage] ?? 'badge--neutral';
 
-            $html .= '<li class="dash-widget-list__item">';
-            $html .= '<div class="dash-widget-list__main">';
-            $html .= '<a href="/crm/contacts/details?id=' . (int)$c['id'] . '" class="dash-widget-list__name">' . $name . '</a>';
+            $html .= '<li class="record-list__item">';
+            $html .= '<div class="record-list__main">';
+            $html .= '<a href="/crm/contacts/details?id=' . (int)$c['id'] . '" class="record-list__name">' . $name . '</a>';
             if ($sub) {
-                $html .= '<span class="dash-widget-list__sub">' . $sub . '</span>';
+                $html .= '<span class="record-list__sub">' . $sub . '</span>';
             }
             $html .= '</div>';
             if ($stage) {
@@ -74,7 +74,7 @@ class DashContacts
             $html .= '</li>';
         }
         $html .= '</ul>';
-        $html .= '<div class="dash-widget-footer"><a href="/crm/contacts/list">View all contacts</a></div>';
+        $html .= '<div class="widget-footer"><a href="/crm/contacts/list">View all contacts</a></div>';
 
         return $html;
     }

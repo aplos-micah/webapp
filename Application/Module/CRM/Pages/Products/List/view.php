@@ -96,8 +96,8 @@ if ($totalPages > 1) {
 <div id="search-results">
 <?php if (empty($products) && $search === ''): ?>
 
-<div class="card dash-panel">
-    <div class="dash-panel__empty">
+<div class="card content-panel">
+    <div class="content-panel__empty">
         <i class="fa-regular fa-box-open" aria-hidden="true"></i>
         <p>No products yet. <a href="/crm/products/new">Add your first product</a>.</p>
     </div>
@@ -105,8 +105,8 @@ if ($totalPages > 1) {
 
 <?php elseif (empty($products)): ?>
 
-<div class="card dash-panel">
-    <div class="dash-panel__empty">
+<div class="card content-panel">
+    <div class="content-panel__empty">
         <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
         <p>No products match <strong><?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?></strong>.</p>
     </div>

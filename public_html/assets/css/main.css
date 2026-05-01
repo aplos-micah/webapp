@@ -738,7 +738,7 @@ tbody td { padding: var(--table-cell-padding); color: var(--color-navy); vertica
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - var(--app-nav-height, 56px));
+  min-height: calc(100vh - var(--nav-height, 56px));
   padding: 2rem 1rem;
   background-color: var(--color-ice);
 }
@@ -763,8 +763,8 @@ tbody td { padding: var(--table-cell-padding); color: var(--color-navy); vertica
 
 .login-brand__mark { width: 28px; }
 
-.login-brand__mark .app-logo-mark__bar--top,
-.login-brand__mark .app-logo-mark__bar--bot {
+.login-brand__mark .logo-mark__bar--top,
+.login-brand__mark .logo-mark__bar--bot {
   background-color: var(--color-navy);
 }
 
@@ -901,14 +901,14 @@ tbody td { padding: var(--table-cell-padding); color: var(--color-navy); vertica
   white-space: nowrap;
 }
 
-.dash-stats {
+.stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--space-md);
   margin-bottom: var(--space-lg);
 }
 
-.dash-stat {
+.stat-card {
   display: flex;
   align-items: center;
   gap: var(--space-md);
@@ -918,15 +918,15 @@ tbody td { padding: var(--table-cell-padding); color: var(--color-navy); vertica
   box-shadow: 0 2px 12px rgba(11, 61, 107, 0.07);
 }
 
-.dash-stat__body {
+.stat-card__body {
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
 }
 
-.dash-stat__label { color: var(--color-mid-blue); }
+.stat-card__label { color: var(--color-mid-blue); }
 
-.dash-stat__value {
+.stat-card__value {
   font-family: var(--font-headline);
   font-size: 1.5rem;
   font-weight: var(--fw-bold);
@@ -934,13 +934,18 @@ tbody td { padding: var(--table-cell-padding); color: var(--color-navy); vertica
   line-height: 1;
 }
 
-.dash-panels {
+.panels-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-lg);
 }
 
-.dash-panel__title {
+.content-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-panel__title {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
@@ -951,12 +956,12 @@ tbody td { padding: var(--table-cell-padding); color: var(--color-navy); vertica
   margin-bottom: 1.25rem;
 }
 
-.dash-panel__title i {
+.content-panel__title i {
   color: var(--color-green);
   font-size: var(--fs-body-sm);
 }
 
-.dash-panel__empty {
+.content-panel__empty {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -966,8 +971,8 @@ tbody td { padding: var(--table-cell-padding); color: var(--color-navy); vertica
   color: var(--color-mid-blue);
 }
 
-.dash-panel__empty i { font-size: 1.75rem; opacity: 0.4; }
-.dash-panel__empty p { font-size: var(--fs-body-sm); }
+.content-panel__empty i { font-size: 1.75rem; opacity: 0.4; }
+.content-panel__empty p { font-size: var(--fs-body-sm); }
 
 .dash-actions {
   list-style: none;
@@ -999,12 +1004,12 @@ tbody td { padding: var(--table-cell-padding); color: var(--color-navy); vertica
 .dash-action__arrow { font-size: var(--fs-caption); color: var(--color-mid-blue); opacity: 0.6; }
 
 @media (max-width: 900px) {
-  .dash-stats  { grid-template-columns: repeat(2, 1fr); }
-  .dash-panels { grid-template-columns: 1fr; }
+  .stats-grid  { grid-template-columns: repeat(2, 1fr); }
+  .panels-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
-  .dash-stats        { grid-template-columns: 1fr 1fr; }
+  .stats-grid        { grid-template-columns: 1fr 1fr; }
   .dash-header__date { display: none; }
 }
 
@@ -1017,7 +1022,7 @@ tbody td { padding: var(--table-cell-padding); color: var(--color-navy); vertica
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - var(--app-nav-height, 56px));
+  min-height: calc(100vh - var(--nav-height, 56px));
   padding: 2rem 1rem;
   background-color: var(--color-ice);
 }
@@ -1265,8 +1270,8 @@ tbody td { padding: var(--table-cell-padding); color: var(--color-navy); vertica
 /* ── AccountLocations widget ─────────────────────────────────────────────── */
 .form-group--align-end     { align-self: end; padding-bottom: 0.5rem; }
 .form-group--align-center  { align-self: center; padding-top: 1.25rem; }
-.loc-form__details .loc-form__grid { margin-top: 0.75rem; }
+.address-form__details .form-collapsible { margin-top: 0.75rem; }
 
 /* ── AccountPerformance widget ───────────────────────────────────────────── */
-.detail-section-label--mt  { margin-top: 1rem; }
-.related-card__empty--compact { padding: 1.5rem 0 0.5rem; }
+.section-label--mt         { margin-top: 1rem; }
+.tile-card__empty--compact { padding: 1.5rem 0 0.5rem; }

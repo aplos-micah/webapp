@@ -6,12 +6,12 @@
 
         <!-- Logo -->
         <div class="login-brand" aria-hidden="true">
-            <div class="app-logo-mark login-brand__mark">
-                <span class="app-logo-mark__bar app-logo-mark__bar--top"></span>
-                <span class="app-logo-mark__bar app-logo-mark__bar--mid">
-                    <span class="app-logo-mark__pip"></span>
+            <div class="logo-mark login-brand__mark">
+                <span class="logo-mark__bar logo-mark__bar--top"></span>
+                <span class="logo-mark__bar logo-mark__bar--mid">
+                    <span class="logo-mark__pip"></span>
                 </span>
-                <span class="app-logo-mark__bar app-logo-mark__bar--bot"></span>
+                <span class="logo-mark__bar logo-mark__bar--bot"></span>
             </div>
             <span class="login-brand__wordmark">Aplos<span class="login-brand__accent">CRM</span></span>
         </div>

@@ -39,23 +39,23 @@ class AccountLocations
         ?>
 
         <?php if (empty($locations)): ?>
-        <div class="related-card__empty" id="loc-empty">
+        <div class="tile-card__empty" id="loc-empty">
             <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i>
             <p>No locations yet.</p>
         </div>
         <?php else: ?>
-        <ul class="loc-list" id="loc-list">
+        <ul class="address-list" id="address-list">
             <?php foreach ($locations as $loc): ?>
             <?php $locId = (int) $loc['id']; ?>
-            <li class="loc-list__item" data-loc-id="<?= $locId ?>">
+            <li class="address-list__item" data-loc-id="<?= $locId ?>">
 
                 <!-- ── Display row ── -->
-                <div class="loc-list__display" title="Double-click to edit">
-                    <div class="loc-list__main">
-                        <span class="loc-list__name">
+                <div class="address-list__display" title="Double-click to edit">
+                    <div class="address-list__content">
+                        <span class="address-list__name">
                             <?= $loc['location_name'] ? $e($loc['location_name']) : '<em class="text-muted">Unnamed</em>' ?>
                         </span>
-                        <div class="loc-list__badges">
+                        <div class="address-list__badges">
                             <?php if ($loc['location_type']): ?>
                             <span class="badge badge--info"><?= $e($loc['location_type']) ?></span>
                             <?php endif; ?>
@@ -89,11 +89,11 @@ class AccountLocations
                             implode(' ', array_filter([$loc['state_province'], $loc['zip_postal_code']])),
                         ]);
                         if ($addrParts): ?>
-                        <p class="loc-list__addr"><?= $e(implode(', ', $addrParts)) ?></p>
+                        <p class="address-list__address"><?= $e(implode(', ', $addrParts)) ?></p>
                         <?php endif; ?>
                     </div>
-                    <div class="loc-list__actions">
-                        <button type="button" class="btn btn--ghost btn--sm loc-edit-btn"
+                    <div class="address-list__actions">
+                        <button type="button" class="btn btn--ghost btn--sm inline-edit-btn"
                                 data-loc="<?= $locId ?>" title="Edit location">
                             <i class="fa-solid fa-pen" aria-hidden="true"></i>
                         </button>
@@ -110,7 +110,7 @@ class AccountLocations
                 </div>
 
                 <!-- ── Inline edit panel ── -->
-                <div class="loc-list__edit-panel" id="loc-edit-<?= $locId ?>" hidden>
+                <div class="inline-edit-panel" id="loc-edit-<?= $locId ?>" hidden>
                     <?= $this->renderForm('edit_' . $locId, $loc, 'update_location', $baseUrl, $locId) ?>
                 </div>
 
@@ -145,7 +145,7 @@ class AccountLocations
             // ── Open/close edit panels ────────────────────────────────────────
             function openLocEdit(locId) {
                 // Close all others first
-                document.querySelectorAll('.loc-list__edit-panel').forEach(p => {
+                document.querySelectorAll('.inline-edit-panel').forEach(p => {
                     p.hidden = true;
                 });
                 const panel = document.getElementById('loc-edit-' + locId);
@@ -161,7 +161,7 @@ class AccountLocations
             }
 
             // Edit pen buttons
-            document.querySelectorAll('.loc-edit-btn').forEach(btn => {
+            document.querySelectorAll('.inline-edit-btn').forEach(btn => {
                 btn.addEventListener('click', e => {
                     e.stopPropagation();
                     openLocEdit(btn.dataset.loc);
@@ -169,7 +169,7 @@ class AccountLocations
             });
 
             // Double-click on display row
-            document.querySelectorAll('.loc-list__display').forEach(row => {
+            document.querySelectorAll('.address-list__display').forEach(row => {
                 row.addEventListener('dblclick', () => {
                     const item = row.closest('[data-loc-id]');
                     if (item) openLocEdit(item.dataset.locId);
@@ -178,9 +178,9 @@ class AccountLocations
             });
 
             // Cancel buttons inside edit panels
-            document.querySelectorAll('.loc-edit-cancel').forEach(btn => {
+            document.querySelectorAll('.inline-edit-cancel').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const panel = btn.closest('.loc-list__edit-panel');
+                    const panel = btn.closest('.inline-edit-panel');
                     if (panel) panel.hidden = true;
                 });
             });
@@ -216,17 +216,17 @@ class AccountLocations
 
         ob_start();
         ?>
-        <form method="POST" action="<?= $e($baseUrl) ?>" class="loc-form" novalidate>
+        <form method="POST" action="<?= $e($baseUrl) ?>" class="address-form" novalidate>
             <input type="hidden" name="_action"     value="<?= $e($action) ?>">
             <?php if ($locId > 0): ?>
             <input type="hidden" name="location_id" value="<?= $locId ?>">
             <?php endif; ?>
 
-            <div class="loc-form__body">
+            <div class="address-form__body">
 
                 <!-- ── Section: Identity ── -->
-                <div class="loc-form__section-head">Identity</div>
-                <div class="loc-form__grid">
+                <div class="form-section-head">Identity</div>
+                <div class="address-form__grid">
                     <div class="form-group">
                         <label class="form-label" for="<?= $e($prefix) ?>_name">Location Name</label>
                         <input id="<?= $e($prefix) ?>_name" type="text" name="location_name"
@@ -266,9 +266,9 @@ class AccountLocations
                 </div>
 
                 <!-- ── Section: Address ── -->
-                <div class="loc-form__section-head">Address</div>
-                <div class="loc-form__grid">
-                    <div class="form-group loc-form__span2">
+                <div class="form-section-head">Address</div>
+                <div class="address-form__grid">
+                    <div class="form-group col-span-2">
                         <label class="form-label" for="<?= $e($prefix) ?>_addr1">Street Address</label>
                         <input id="<?= $e($prefix) ?>_addr1" type="text" name="street_address_1"
                                class="input" value="<?= $v('street_address_1') ?>" placeholder="123 Main St">
@@ -306,12 +306,12 @@ class AccountLocations
                 </div>
 
                 <!-- ── Section: Extended Address (collapsible) ── -->
-                <details class="loc-form__details">
-                    <summary class="loc-form__section-head loc-form__section-head--toggle">
+                <details class="form-collapsible">
+                    <summary class="form-section-head form-section-head--toggle">
                         Extended Address
-                        <i class="fa-solid fa-chevron-down loc-form__chevron" aria-hidden="true"></i>
+                        <i class="fa-solid fa-chevron-down chevron-icon" aria-hidden="true"></i>
                     </summary>
-                    <div class="loc-form__grid">
+                    <div class="address-form__grid">
                         <div class="form-group">
                             <label class="form-label" for="<?= $e($prefix) ?>_county">County</label>
                             <input id="<?= $e($prefix) ?>_county" type="text" name="county"
@@ -346,12 +346,12 @@ class AccountLocations
                 </details>
 
                 <!-- ── Section: Geospatial ── -->
-                <details class="loc-form__details">
-                    <summary class="loc-form__section-head loc-form__section-head--toggle">
+                <details class="form-collapsible">
+                    <summary class="form-section-head form-section-head--toggle">
                         Geospatial
-                        <i class="fa-solid fa-chevron-down loc-form__chevron" aria-hidden="true"></i>
+                        <i class="fa-solid fa-chevron-down chevron-icon" aria-hidden="true"></i>
                     </summary>
-                    <div class="loc-form__grid">
+                    <div class="address-form__grid">
                         <div class="form-group">
                             <label class="form-label" for="<?= $e($prefix) ?>_lat">Latitude</label>
                             <input id="<?= $e($prefix) ?>_lat" type="number" name="latitude" step="any"
@@ -376,12 +376,12 @@ class AccountLocations
                 </details>
 
                 <!-- ── Section: Logistics ── -->
-                <details class="loc-form__details">
-                    <summary class="loc-form__section-head loc-form__section-head--toggle">
+                <details class="form-collapsible">
+                    <summary class="form-section-head form-section-head--toggle">
                         Logistics &amp; Access
-                        <i class="fa-solid fa-chevron-down loc-form__chevron" aria-hidden="true"></i>
+                        <i class="fa-solid fa-chevron-down chevron-icon" aria-hidden="true"></i>
                     </summary>
-                    <div class="loc-form__grid">
+                    <div class="address-form__grid">
                         <div class="form-group">
                             <label class="form-label" for="<?= $e($prefix) ?>_hours">Receiving Hours</label>
                             <input id="<?= $e($prefix) ?>_hours" type="text" name="receiving_hours"
@@ -414,7 +414,7 @@ class AccountLocations
                                 <span>Forklift on-site</span>
                             </label>
                         </div>
-                        <div class="form-group loc-form__span2">
+                        <div class="form-group col-span-2">
                             <label class="form-label" for="<?= $e($prefix) ?>_dock">Dock Instructions</label>
                             <textarea id="<?= $e($prefix) ?>_dock" name="dock_instructions"
                                       class="input" rows="3"><?= $e($row['dock_instructions'] ?? '') ?></textarea>
@@ -422,12 +422,12 @@ class AccountLocations
                     </div>
                 </details>
 
-            </div><!-- /.loc-form__body -->
+            </div><!-- /.address-form__body -->
 
             <!-- ── Form actions ── -->
-            <div class="loc-form__footer">
+            <div class="address-form__footer">
                 <?php if ($action === 'update_location'): ?>
-                <button type="button" class="btn btn--ghost btn--sm loc-edit-cancel">Cancel</button>
+                <button type="button" class="btn btn--ghost btn--sm inline-edit-cancel">Cancel</button>
                 <button type="submit" class="btn btn--primary btn--sm">
                     <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> Save
                 </button>

@@ -52,7 +52,7 @@
         toggle.addEventListener('click', function () {
             wrap.hidden = !wrap.hidden;
             if (!wrap.hidden) {
-                var first = wrap.querySelector('.product-lookup__input');
+                var first = wrap.querySelector('.entity-lookup__input');
                 if (first) first.focus();
             }
         });
@@ -89,21 +89,21 @@
 
     document.querySelectorAll('.li-edit-cancel').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            var editRow = btn.closest('.li-edit-row');
+            var editRow = btn.closest('.inline-edit-row');
             if (editRow) closeLI(editRow.id.replace('li-edit-', ''));
         });
     });
 
     // Mobile tab switching
-    var tabBar        = document.getElementById('opp-tab-bar');
+    var tabBar        = document.getElementById('tab-bar');
     var panelDetail   = document.getElementById('opp-panel-detail');
     var panelLineItems = document.getElementById('opp-panel-line-items');
 
     if (tabBar && panelDetail && panelLineItems) {
         tabBar.addEventListener('click', function (e) {
-            var btn = e.target.closest('.opp-tab-bar__btn');
+            var btn = e.target.closest('.tab-bar__btn');
             if (!btn) return;
-            tabBar.querySelectorAll('.opp-tab-bar__btn').forEach(function (b) {
+            tabBar.querySelectorAll('.tab-bar__btn').forEach(function (b) {
                 b.classList.remove('is-active');
                 b.setAttribute('aria-selected', 'false');
             });
@@ -120,9 +120,9 @@
 
 (function () {
     function initLookup(widget) {
-        var input   = widget.querySelector('.account-lookup__input');
-        var hidden  = widget.querySelector('.account-lookup__value');
-        var results = widget.querySelector('.account-lookup__results');
+        var input   = widget.querySelector('.entity-lookup__input');
+        var hidden  = widget.querySelector('.entity-lookup__value');
+        var results = widget.querySelector('.entity-lookup__results');
         if (!input || !hidden || !results) return;
 
         if (widget.dataset.initialName) input.value = widget.dataset.initialName;
@@ -130,7 +130,7 @@
         var debounceTimer = null;
         var activeIndex   = -1;
 
-        function getOptions() { return Array.from(results.querySelectorAll('.account-lookup__option')); }
+        function getOptions() { return Array.from(results.querySelectorAll('.entity-lookup__option')); }
 
         function setActive(i) {
             getOptions().forEach(function (el, j) { el.classList.toggle('is-active', j === i); });
@@ -145,12 +145,12 @@
         function renderResults(items) {
             results.innerHTML = ''; activeIndex = -1;
             if (!items.length) {
-                results.innerHTML = '<div class="account-lookup__empty">No accounts found.</div>';
+                results.innerHTML = '<div class="entity-lookup__empty">No accounts found.</div>';
                 results.hidden = false; return;
             }
             items.forEach(function (item) {
                 var opt = document.createElement('div');
-                opt.className = 'account-lookup__option';
+                opt.className = 'entity-lookup__option';
                 opt.textContent = item.name;
                 opt.addEventListener('mousedown', function (e) { e.preventDefault(); selectOption(item.id, item.name); });
                 results.appendChild(opt);
@@ -183,16 +183,16 @@
         input.addEventListener('focus', function () { if (input.value.trim() && !hidden.value) search(input.value.trim()); });
     }
 
-    document.querySelectorAll('.account-lookup').forEach(initLookup);
+    document.querySelectorAll('.entity-lookup').forEach(initLookup);
 }());
 
 // ── CRM: Contact lookup autocomplete ─────────────────────────────────────────
 
 (function () {
     function initLookup(widget) {
-        var input   = widget.querySelector('.contact-lookup__input');
-        var hidden  = widget.querySelector('.contact-lookup__value');
-        var results = widget.querySelector('.contact-lookup__results');
+        var input   = widget.querySelector('.entity-lookup__input');
+        var hidden  = widget.querySelector('.entity-lookup__value');
+        var results = widget.querySelector('.entity-lookup__results');
         if (!input || !hidden || !results) return;
 
         if (widget.dataset.initialName) input.value = widget.dataset.initialName;
@@ -200,7 +200,7 @@
         var debounceTimer = null;
         var activeIndex   = -1;
 
-        function getOptions() { return Array.from(results.querySelectorAll('.contact-lookup__option')); }
+        function getOptions() { return Array.from(results.querySelectorAll('.entity-lookup__option')); }
 
         function setActive(i) {
             getOptions().forEach(function (el, j) { el.classList.toggle('is-active', j === i); });
@@ -215,12 +215,12 @@
         function renderResults(items) {
             results.innerHTML = ''; activeIndex = -1;
             if (!items.length) {
-                results.innerHTML = '<div class="contact-lookup__empty">No contacts found.</div>';
+                results.innerHTML = '<div class="entity-lookup__empty">No contacts found.</div>';
                 results.hidden = false; return;
             }
             items.forEach(function (item) {
                 var opt = document.createElement('div');
-                opt.className = 'contact-lookup__option';
+                opt.className = 'entity-lookup__option';
                 opt.textContent = item.name;
                 opt.addEventListener('mousedown', function (e) { e.preventDefault(); selectOption(item.id, item.name); });
                 results.appendChild(opt);
@@ -253,18 +253,18 @@
         input.addEventListener('focus', function () { if (input.value.trim() && !hidden.value) search(input.value.trim()); });
     }
 
-    document.querySelectorAll('.contact-lookup').forEach(initLookup);
+    document.querySelectorAll('.entity-lookup').forEach(initLookup);
 }());
 
 // ── CRM: Product lookup autocomplete + line item price calculation ─────────────
 
 (function () {
     function initProductLookup(widget) {
-        var input      = widget.querySelector('.product-lookup__input');
-        var hiddenId   = widget.querySelector('.product-lookup__value');
+        var input      = widget.querySelector('.entity-lookup__input');
+        var hiddenId   = widget.querySelector('.entity-lookup__value');
         var nameInput  = document.getElementById(widget.dataset.nameTarget);
         var priceInput = document.getElementById(widget.dataset.priceTarget);
-        var results    = widget.querySelector('.product-lookup__results');
+        var results    = widget.querySelector('.entity-lookup__results');
         if (!input || !hiddenId || !results) return;
 
         if (widget.dataset.initialName) input.value = widget.dataset.initialName;
@@ -272,7 +272,7 @@
         var debounceTimer = null;
         var activeIndex   = -1;
 
-        function getOptions() { return Array.from(results.querySelectorAll('.product-lookup__option')); }
+        function getOptions() { return Array.from(results.querySelectorAll('.entity-lookup__option')); }
 
         function setActive(i) {
             getOptions().forEach(function (el, j) { el.classList.toggle('is-active', j === i); });
@@ -293,17 +293,17 @@
         function renderResults(items) {
             results.innerHTML = ''; activeIndex = -1;
             if (!items.length) {
-                results.innerHTML = '<div class="product-lookup__empty">No products found.</div>';
+                results.innerHTML = '<div class="entity-lookup__empty">No products found.</div>';
                 results.hidden = false; return;
             }
             items.forEach(function (item) {
                 var opt = document.createElement('div');
-                opt.className = 'product-lookup__option';
-                var sku   = item.sku ? '<span class="product-lookup__sku">' + item.sku + '</span> ' : '';
+                opt.className = 'entity-lookup__option';
+                var sku   = item.sku ? '<span class="entity-lookup__meta">' + item.sku + '</span> ' : '';
                 var price = item.list_price !== null
-                    ? '<span class="product-lookup__price">$' + parseFloat(item.list_price).toLocaleString('en-US', { minimumFractionDigits: 2 }) + '</span>'
+                    ? '<span class="entity-lookup__price">$' + parseFloat(item.list_price).toLocaleString('en-US', { minimumFractionDigits: 2 }) + '</span>'
                     : '';
-                opt.innerHTML = sku + '<span class="product-lookup__name">' + item.product_name + '</span>' + price;
+                opt.innerHTML = sku + '<span class="entity-lookup__name">' + item.product_name + '</span>' + price;
                 opt.addEventListener('mousedown', function (e) { e.preventDefault(); selectOption(item); });
                 results.appendChild(opt);
             });
@@ -335,7 +335,7 @@
         input.addEventListener('focus', function () { if (input.value.trim() && !hiddenId.value) search(input.value.trim()); });
     }
 
-    document.querySelectorAll('.product-lookup').forEach(initProductLookup);
+    document.querySelectorAll('.entity-lookup').forEach(initProductLookup);
 
 
     // Line item price recalculation
@@ -367,7 +367,7 @@
 // ── CRM: Performance bar — set segment widths from data-pct attributes ─────────
 
 (function () {
-    document.querySelectorAll('.perf-bar__segment[data-pct]').forEach(function (el) {
+    document.querySelectorAll('.proportion-bar__segment[data-pct]').forEach(function (el) {
         el.style.width = el.dataset.pct + '%';
     });
 }());

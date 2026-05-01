@@ -34,7 +34,7 @@ function closeInlineEdit(attr, prefix) {
 
     document.querySelectorAll('.user-edit-cancel').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            var editRow = btn.closest('.li-edit-row');
+            var editRow = btn.closest('.inline-edit-row');
             if (editRow) close(editRow.id.replace('user-edit-', ''));
         });
     });
@@ -52,7 +52,7 @@ function closeInlineEdit(attr, prefix) {
 
     document.querySelectorAll('.company-edit-cancel').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            var editRow = btn.closest('.li-edit-row');
+            var editRow = btn.closest('.inline-edit-row');
             if (editRow) close(editRow.id.replace('company-edit-', ''));
         });
     });
@@ -70,7 +70,7 @@ function closeInlineEdit(attr, prefix) {
 
     document.querySelectorAll('.token-edit-cancel').forEach(function (btn) {
         btn.addEventListener('click', function () {
-            var editRow = btn.closest('.li-edit-row');
+            var editRow = btn.closest('.inline-edit-row');
             if (editRow) close(editRow.id.replace('token-edit-', ''));
         });
     });

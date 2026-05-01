@@ -35,13 +35,13 @@ $_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
     <script src="/assets/js/<?= htmlspecialchars($_moduleSegment, ENT_QUOTES, 'UTF-8') ?>.js" defer></script>
     <?php endif; ?>
 </head>
-<body<?php if (Config::instance() === 'Test'): ?> class="has-test-banner"<?php endif; ?>>
+<body<?php if (Config::instance() === 'Test'): ?> class="has-env-banner"<?php endif; ?>>
 
     <!-- =========================================================
          TEST INSTANCE BANNER
          ========================================================= -->
     <?php if (Config::instance() === 'Test'): ?>
-    <div class="app-test-banner">
+    <div class="env-banner">
         <i class="fa-solid fa-flask" aria-hidden="true"></i>
         Test Instance — data entered here is not production data.
     </div>
@@ -62,53 +62,53 @@ $_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
     <!-- =========================================================
          TOP NAVIGATION BAR
          ========================================================= -->
-    <header class="app-nav" role="banner">
-        <div class="app-nav__inner">
+    <header class="top-nav" role="banner">
+        <div class="top-nav__inner">
 
             <!-- Brand -->
-            <div class="app-nav__brand">
+            <div class="top-nav__brand">
                 <!-- Desktop: decorative logo mark -->
-                <div class="app-logo-mark app-logo-mark--desktop" aria-hidden="true">
-                    <span class="app-logo-mark__bar app-logo-mark__bar--top"></span>
-                    <span class="app-logo-mark__bar app-logo-mark__bar--mid">
-                        <span class="app-logo-mark__pip"></span>
+                <div class="logo-mark logo-mark--desktop" aria-hidden="true">
+                    <span class="logo-mark__bar logo-mark__bar--top"></span>
+                    <span class="logo-mark__bar logo-mark__bar--mid">
+                        <span class="logo-mark__pip"></span>
                     </span>
-                    <span class="app-logo-mark__bar app-logo-mark__bar--bot"></span>
+                    <span class="logo-mark__bar logo-mark__bar--bot"></span>
                 </div>
                 <!-- Mobile: logo mark doubles as sidebar toggle -->
-                <button class="app-nav__sidebar-toggle" id="sidebar-toggle"
-                        aria-label="Open navigation menu" aria-expanded="false" aria-controls="app-sidebar">
-                    <div class="app-logo-mark" aria-hidden="true">
-                        <span class="app-logo-mark__bar app-logo-mark__bar--top"></span>
-                        <span class="app-logo-mark__bar app-logo-mark__bar--mid">
-                            <span class="app-logo-mark__pip"></span>
+                <button class="top-nav__menu-toggle" id="sidebar-toggle"
+                        aria-label="Open navigation menu" aria-expanded="false" aria-controls="side-nav">
+                    <div class="logo-mark" aria-hidden="true">
+                        <span class="logo-mark__bar logo-mark__bar--top"></span>
+                        <span class="logo-mark__bar logo-mark__bar--mid">
+                            <span class="logo-mark__pip"></span>
                         </span>
-                        <span class="app-logo-mark__bar app-logo-mark__bar--bot"></span>
+                        <span class="logo-mark__bar logo-mark__bar--bot"></span>
                     </div>
                 </button>
-                <a href="/home" class="app-nav__wordmark" aria-label="AplosCRM — go to dashboard">
-                    Aplos<span class="app-nav__wordmark-accent">CRM</span>
+                <a href="/home" class="top-nav__wordmark" aria-label="AplosCRM — go to dashboard">
+                    Aplos<span class="top-nav__wordmark-accent">CRM</span>
                 </a>
             </div>
 
             <!-- Global nav links -->
-            <nav class="app-nav__links" aria-label="Global">
-                <a href="/home"     class="app-nav__link<?= $currentSlug === 'home'     ? ' is-active' : '' ?>">Dashboard</a>
+            <nav class="top-nav__links" aria-label="Global">
+                <a href="/home"     class="top-nav__link<?= $currentSlug === 'home'     ? ' is-active' : '' ?>">Dashboard</a>
                 <!--
-                    <a href="/contacts" class="app-nav__link<?= $currentSlug === 'contacts' ? ' is-active' : '' ?>">Contacts</a>
-                    <a href="/accounts" class="app-nav__link<?= $currentSlug === 'accounts' ? ' is-active' : '' ?>">Accounts</a>
-                    <a href="/pipeline" class="app-nav__link<?= $currentSlug === 'pipeline' ? ' is-active' : '' ?>">Pipeline</a>
+                    <a href="/contacts" class="top-nav__link<?= $currentSlug === 'contacts' ? ' is-active' : '' ?>">Contacts</a>
+                    <a href="/accounts" class="top-nav__link<?= $currentSlug === 'accounts' ? ' is-active' : '' ?>">Accounts</a>
+                    <a href="/pipeline" class="top-nav__link<?= $currentSlug === 'pipeline' ? ' is-active' : '' ?>">Pipeline</a>
                 -->
             </nav>
 
             <!-- User menu -->
-            <div class="app-nav__user">
+            <div class="top-nav__user">
                 <?php if (!empty($userInitials)): ?>
-                <a href="/profile" class="app-nav__avatar" aria-label="My profile — <?= htmlspecialchars($userName, ENT_QUOTES, 'UTF-8') ?>">
+                <a href="/profile" class="top-nav__avatar" aria-label="My profile — <?= htmlspecialchars($userName, ENT_QUOTES, 'UTF-8') ?>">
                     <?= htmlspecialchars($userInitials, ENT_QUOTES, 'UTF-8') ?>
                 </a>
                 <?php endif; ?>
-                <a href="/logout" class="app-nav__logout" title="Sign out">
+                <a href="/logout" class="top-nav__logout" title="Sign out">
                     Log Out
                 </a>
             </div>
@@ -121,18 +121,18 @@ $_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
     <!-- =========================================================
          APP BODY — sidebar + main content
          ========================================================= -->
-    <div class="app-body">
+    <div class="page-layout">
 
         <!-- Mobile overlay — closes sidebar when tapped -->
-        <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+        <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
 
         <!-- Sidebar navigation -->
-        <nav class="app-sidebar" id="app-sidebar" aria-label="Application">
-            <ul class="app-sidebar__nav" role="list">
+        <nav class="side-nav" id="side-nav" aria-label="Application">
+            <ul class="side-nav__list" role="list">
 
                 <li>
-                    <a href="/home" class="app-sidebar__link<?= $currentSlug === 'home' ? ' is-active' : '' ?>">
-                        <i class="fa-solid fa-gauge-high app-sidebar__icon" aria-hidden="true"></i>
+                    <a href="/home" class="side-nav__link<?= $currentSlug === 'home' ? ' is-active' : '' ?>">
+                        <i class="fa-solid fa-gauge-high side-nav__icon" aria-hidden="true"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
@@ -143,18 +143,18 @@ $_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
                 <?php require __DIR__ . '/../Module/Admin/Navigation.php'; ?>
                 <?php endif; ?>
 
-                <li class="app-sidebar__group-label"><span>Insights</span></li>
+                <li class="side-nav__group"><span>Insights</span></li>
 
                 <li>
-                    <a href="/company" class="app-sidebar__link<?= $currentSlug === 'company' ? ' is-active' : '' ?>">
-                        <i class="fa-solid fa-building app-sidebar__icon" aria-hidden="true"></i>
+                    <a href="/company" class="side-nav__link<?= $currentSlug === 'company' ? ' is-active' : '' ?>">
+                        <i class="fa-solid fa-building side-nav__icon" aria-hidden="true"></i>
                         <span>My Company</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/profile" class="app-sidebar__link<?= $currentSlug === 'profile' ? ' is-active' : '' ?>">
-                        <i class="fa-solid fa-circle-user app-sidebar__icon" aria-hidden="true"></i>
+                    <a href="/profile" class="side-nav__link<?= $currentSlug === 'profile' ? ' is-active' : '' ?>">
+                        <i class="fa-solid fa-circle-user side-nav__icon" aria-hidden="true"></i>
                         <span>My Profile</span>
                     </a>
                 </li>
@@ -164,8 +164,8 @@ $_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
         </nav>
 
         <!-- Main content -->
-        <main class="app-main" id="main-content" tabindex="-1">
-            <div class="app-main__inner">
+        <main class="page-content" id="main-content" tabindex="-1">
+            <div class="page-content__inner">
 
                 <?= $content ?? '' ?>
             </div>
