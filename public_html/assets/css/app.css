@@ -791,7 +791,7 @@ input.list-search__input::-webkit-search-cancel-button {
 
 .account-detail-layout {
     display: grid;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
     align-items: start;
 }
@@ -806,6 +806,7 @@ input.list-search__input::-webkit-search-cancel-button {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
+    order: -1;
 }
 
 /* Related cards */
