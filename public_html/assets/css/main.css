@@ -934,7 +934,7 @@ tbody td { padding: var(--table-cell-padding); color: var(--color-navy); vertica
   line-height: 1;
 }
 
-.panels-grid {
+.content-panels {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-lg);
@@ -1005,7 +1005,7 @@ tbody td { padding: var(--table-cell-padding); color: var(--color-navy); vertica
 
 @media (max-width: 900px) {
   .stats-grid  { grid-template-columns: repeat(2, 1fr); }
-  .panels-grid { grid-template-columns: 1fr; }
+  .content-panels { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {

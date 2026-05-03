@@ -100,3 +100,11 @@ document.addEventListener('click', function (e) {
     }, 1000);
 }());
 
+// ── Proportion bar — set segment widths from data-pct attributes ──────────────
+
+(function () {
+    document.querySelectorAll('.proportion-bar__segment[data-pct]').forEach(function (el) {
+        el.style.width = el.dataset.pct + '%';
+    });
+}());
+

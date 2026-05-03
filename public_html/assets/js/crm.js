@@ -364,10 +364,3 @@
     });
 }());
 
-// ── CRM: Performance bar — set segment widths from data-pct attributes ─────────
-
-(function () {
-    document.querySelectorAll('.proportion-bar__segment[data-pct]').forEach(function (el) {
-        el.style.width = el.dataset.pct + '%';
-    });
-}());
