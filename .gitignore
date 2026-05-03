@@ -14,3 +14,6 @@ Application/Module/.DS_Store
 Application/Module/Admin/Pages/.DS_Store
 Application/Pages/.DS_Store
 Application/sql/.DS_Store
+configuration/Module_Governance.md
+.gitignore
+configuration/module_recommendations.md
