@@ -1,0 +1,8 @@
+-- Migration: add module and platform_version tracking to the migrations table.
+--
+-- The schema upgrade (ADD COLUMN module, ADD COLUMN platform_version,
+-- composite unique key) is handled automatically by MigrationRunner::ensureTable()
+-- on first run. This file exists as the formal record of when that change
+-- was introduced (platform version 1.0.0).
+--
+-- No SQL to execute here — ensureTable() has already applied the changes.

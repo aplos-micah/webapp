@@ -1,6 +1,0 @@
-# Applied Migrations Log
-# Format: filename | date applied | environment
-# -----------------------------------------------
-# 20260413_example.sql | 2026-04-13 | local
-#
-#20260413_accounts.sql | 13-APR-26 | Applied to PRD and DEV

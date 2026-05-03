@@ -12,6 +12,7 @@
 require_once __DIR__ . '/Objects/AdminUser.php';
 require_once __DIR__ . '/Objects/AdminCompany.php';
 require_once __DIR__ . '/Objects/AdminOAuth.php';
+require_once __DIR__ . '/Objects/MigrationRunner.php';
 
 class AdminContainer
 {
@@ -26,9 +27,10 @@ class AdminContainer
     {
         $db = Container::db();
         return match ($id) {
-            'admin_user'    => new AdminUser($db),
-            'admin_company' => new AdminCompany($db),
-            'admin_oauth'   => new AdminOAuth($db),
+            'admin_user'       => new AdminUser($db),
+            'admin_company'    => new AdminCompany($db),
+            'admin_oauth'      => new AdminOAuth($db),
+            'migration_runner' => new MigrationRunner($db),
             default         => throw new RuntimeException("AdminContainer: unknown service '{$id}'"),
         };
     }
