@@ -90,30 +90,6 @@ class Router
             return;
         }
 
-        // API discovery — GET /api
-        if ($slug === 'api') {
-            if (!self::isLoggedIn()) {
-                Response::json(['ok' => false, 'error' => 'Unauthorized.'], 401)->send();
-            }
-            $response = require __DIR__ . '/Api/controller.php';
-            if ($response instanceof Response) {
-                $response->send();
-            }
-            Response::json(['ok' => false, 'error' => 'No response from API discovery.'], 500)->send();
-        }
-
-        // MCP track — JSON-RPC over HTTP, no view or template
-        if ($slug === 'api/mcp') {
-            self::dispatchMcp();
-            return;
-        }
-
-        // API track — JSON only, no view or template
-        if (str_starts_with($slug, 'api/')) {
-            self::dispatchApi($slug);
-            return;
-        }
-
         $pageDir      = self::resolvePageDir($slug);
         $pageConfig   = self::pageConfig($slug, $pageDir);
         $templateFile = __DIR__ . '/Templates/' . $pageConfig['template'];
@@ -338,30 +314,6 @@ class Router
         Response::json(['ok' => false, 'error' => 'No response from endpoint.'], 500)->send();
     }
 
-    private static function dispatchApi(string $slug): never
-    {
-        // All API routes require an authenticated session
-        if (!self::isLoggedIn()) {
-            Response::json(['ok' => false, 'error' => 'Unauthorized.'], 401)->send();
-        }
-
-        // Resolve: api/accounts → Application/Api/Accounts/controller.php
-        $segments = explode('/', substr($slug, 4), 2); // strip 'api/' prefix
-        $apiRoot  = __DIR__ . '/Api';
-        $apiDir   = self::resolveNestedPath($apiRoot, $segments);
-
-        if ($apiDir === null || !file_exists($apiDir . '/controller.php')) {
-            Response::json(['ok' => false, 'error' => 'Endpoint not found.'], 404)->send();
-        }
-
-        $response = require $apiDir . '/controller.php';
-        if ($response instanceof Response) {
-            $response->send();
-        }
-
-        Response::json(['ok' => false, 'error' => 'No response from endpoint.'], 500)->send();
-    }
-
     private static function dispatchMcpV2(): never
     {
         $controllerFile = __DIR__ . '/Mcp_v2/controller.php';
@@ -407,17 +359,6 @@ class Router
             $response->send();
         }
         Response::json(['error' => 'invalid_request', 'error_description' => 'No response.'], 500)->send();
-    }
-
-    private static function dispatchMcp(): never
-    {
-        $controllerFile = __DIR__ . '/Mcp/controller.php';
-        $response = require $controllerFile;
-        if ($response instanceof Response) {
-            $response->send();
-        }
-
-        Response::json(['error' => 'No response from MCP endpoint.'], 500)->send();
     }
 
     private static function load404(string $templateFile): void

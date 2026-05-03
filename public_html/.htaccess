@@ -105,7 +105,7 @@ ServerSignature Off
 # ============================================================
 
 # Allow OPTIONS on MCP endpoints for CORS preflight
-<If "%{REQUEST_URI} =~ m#^/api/mcp#">
+<If "%{REQUEST_URI} =~ m#^/api/mcp_v2#">
     <LimitExcept GET POST OPTIONS>
         Require all denied
     </LimitExcept>

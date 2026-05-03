@@ -6,7 +6,7 @@ A **Model Context Protocol (MCP) server** was added to AplosCRM. It exposes your
 
 The endpoint lives at:
 ```
-POST https://yourdomain.com/api/mcp
+POST https://yourdomain.com/api/mcp_v2
 ```
 
 It is routed through the existing PHP router alongside the `api/` track — no new web server config required.
@@ -46,7 +46,7 @@ MCP_API_KEY=6ea565ca9959371086dc828691a279f54556d8956bc4852a087de55457e24aba
 Before connecting Claude, confirm the endpoint is live. Run this from your terminal (replace the domain):
 
 ```bash
-curl -s -X POST https://yourdomain.com/api/mcp \
+curl -s -X POST https://yourdomain.com/api/mcp_v2 \
   -H "Content-Type: application/json" \
   -H "X-Mcp-Key: 6ea565ca9959371086dc828691a279f54556d8956bc4852a087de55457e24aba" \
   -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"1.0"}}}'
@@ -67,7 +67,7 @@ Expected response:
 
 To list available tools:
 ```bash
-curl -s -X POST https://yourdomain.com/api/mcp \
+curl -s -X POST https://yourdomain.com/api/mcp_v2 \
   -H "Content-Type: application/json" \
   -H "X-Mcp-Key: 6ea565ca9959371086dc828691a279f54556d8956bc4852a087de55457e24aba" \
   -d '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'
@@ -83,7 +83,7 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json`:
 {
   "mcpServers": {
     "aplos-crm": {
-      "url": "https://yourdomain.com/api/mcp",
+      "url": "https://yourdomain.com/api/mcp_v2",
       "headers": {
         "X-Mcp-Key": "6ea565ca9959371086dc828691a279f54556d8956bc4852a087de55457e24aba"
       }
@@ -102,7 +102,7 @@ Run once to register the server:
 
 ```bash
 claude mcp add aplos-crm \
-  --url https://yourdomain.com/api/mcp \
+  --url https://yourdomain.com/api/mcp_v2 \
   --header "X-Mcp-Key: 6ea565ca9959371086dc828691a279f54556d8956bc4852a087de55457e24aba"
 ```
 
