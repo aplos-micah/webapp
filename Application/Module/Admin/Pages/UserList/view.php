@@ -141,7 +141,7 @@ $userTypeBadge = [
                             <?= htmlspecialchars($u['user_type'] ?? '—', ENT_QUOTES, 'UTF-8') ?>
                         </span>
                     </td>
-                    <td><?= htmlspecialchars($u['Module_CRM'] ?? '—', ENT_QUOTES, 'UTF-8') ?></td>
+                    <td><?= htmlspecialchars($u['crm_tier'] ?? '—', ENT_QUOTES, 'UTF-8') ?></td>
                     <td>
                         <?php if ($u['is_active']): ?>
                         <span class="badge badge--success">Active</span>
@@ -189,9 +189,9 @@ $userTypeBadge = [
                                         </div>
                                         <div class="form-group form-group--grow">
                                             <label class="form-label" for="u_crm_<?= $uid ?>">CRM Access</label>
-                                            <select id="u_crm_<?= $uid ?>" name="Module_CRM" class="input">
+                                            <select id="u_crm_<?= $uid ?>" name="crm_tier" class="input">
                                                 <?php foreach (['Free', 'User', 'Manager'] as $lvl): ?>
-                                                <option value="<?= $lvl ?>"<?= ($u['Module_CRM'] === $lvl) ? ' selected' : '' ?>><?= $lvl ?></option>
+                                                <option value="<?= $lvl ?>"<?= (($u['crm_tier'] ?? 'Free') === $lvl) ? ' selected' : '' ?>><?= $lvl ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>

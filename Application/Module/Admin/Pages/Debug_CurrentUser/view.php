@@ -31,7 +31,7 @@
             <tbody>
                 <?php
                 $dbFields = [
-                    'id', 'name', 'email', 'user_type', 'Module_CRM',
+                    'id', 'name', 'email', 'user_type',
                     'phone', 'job_title', 'timezone', 'is_active',
                     'created_at', 'updated_at',
                 ];
@@ -45,6 +45,21 @@
                     <td class="debug-val"><?= $value ?></td>
                 </tr>
                 <?php endforeach; ?>
+                <tr>
+                    <td class="debug-key">module_tiers</td>
+                    <td class="debug-val">
+                        <?php
+                        $tiers = $user['module_tiers'] ?? [];
+                        if (empty($tiers)) {
+                            echo '<span class="debug-null">none</span>';
+                        } else {
+                            foreach ($tiers as $mod => $tier) {
+                                echo htmlspecialchars($mod . ': ' . $tier, ENT_QUOTES, 'UTF-8') . '<br>';
+                            }
+                        }
+                        ?>
+                    </td>
+                </tr>
             </tbody>
         </table>
 

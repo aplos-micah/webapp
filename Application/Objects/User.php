@@ -23,8 +23,8 @@ class User
     /** Valid user types */
     const TYPES = ['admin', 'manager', 'user', 'free'];
 
-    /** Valid CRM module access levels */
-    const MODULE_CRM_VALUES = ['Free', 'User', 'Manager'];
+    /** Valid module access tiers */
+    const MODULE_TIER_VALUES = ['Free', 'User', 'Manager'];
 
     public function __construct(DB $db)
     {
@@ -43,13 +43,13 @@ class User
      *   user_id int|null    — new user's ID on success
      *   error   string|null — human-readable reason on failure
      */
-    public function register(string $name, string $email, string $password, string $userType = 'free', string $moduleCrm = 'Free'): array
+    public function register(string $name, string $email, string $password, string $userType = 'free', string $crmTier = 'Free'): array
     {
-        $name      = trim($name);
-        $email     = strtolower(trim($email));
-        $password  = trim($password);
-        $userType  = in_array($userType, self::TYPES, true) ? $userType : 'user';
-        $moduleCrm = in_array($moduleCrm, self::MODULE_CRM_VALUES, true) ? $moduleCrm : 'Free';
+        $name     = trim($name);
+        $email    = strtolower(trim($email));
+        $password = trim($password);
+        $userType = in_array($userType, self::TYPES, true) ? $userType : 'user';
+        $crmTier  = in_array($crmTier, self::MODULE_TIER_VALUES, true) ? $crmTier : 'Free';
 
         if ($err = Validator::required($name, 'Name')
                  ?? Validator::required($email, 'Email')
@@ -71,8 +71,14 @@ class User
 
         $hash   = password_hash($password, PASSWORD_BCRYPT, ['cost' => self::HASH_COST]);
         $userId = $this->db->insert(
-            'INSERT INTO users (name, email, password_hash, user_type, Module_CRM) VALUES (?, ?, ?, ?, ?)',
-            [$name, $email, $hash, $userType, $moduleCrm]
+            'INSERT INTO users (name, email, password_hash, user_type) VALUES (?, ?, ?, ?)',
+            [$name, $email, $hash, $userType]
+        );
+
+        $this->db->execute(
+            'INSERT INTO user_module_access (user_id, module, tier) VALUES (?, ?, ?)
+             ON DUPLICATE KEY UPDATE tier = VALUES(tier)',
+            [(int) $userId, 'crm', $crmTier]
         );
 
         return ['ok' => true, 'user_id' => (int) $userId, 'error' => null];
@@ -94,7 +100,7 @@ class User
         // Alias the column to bypass the DB class password-stripping guard
         // so we can call password_verify — the alias is never returned.
         $row = $this->db->queryOne(
-            'SELECT id, name, email, user_type, Module_CRM, is_active, email_verified_at, created_at,
+            'SELECT id, name, email, user_type, is_active, email_verified_at, created_at,
                     password_hash AS _auth
                FROM users
               WHERE email = ?
@@ -120,6 +126,7 @@ class User
         }
 
         unset($row['_auth']);
+        $row['module_tiers'] = $this->loadModuleTiers((int) $row['id']);
         return $row;
     }
 
@@ -349,23 +356,31 @@ class User
     /** Return a user row by ID (no password fields), or null if not found. */
     public function findById(int $id): ?array
     {
-        return $this->db->queryOne(
-            'SELECT id, name, email, user_type, Module_CRM, module_crm_settings,
+        $row = $this->db->queryOne(
+            'SELECT id, name, email, user_type, module_crm_settings,
                     phone, job_title, timezone, is_active, company_id, created_at, updated_at
                FROM users WHERE id = ? LIMIT 1',
             [$id]
         );
+        if ($row) {
+            $row['module_tiers'] = $this->loadModuleTiers($id);
+        }
+        return $row ?: null;
     }
 
     /** Return a user row by email (no password fields), or null if not found. */
     public function findByEmail(string $email): ?array
     {
-        return $this->db->queryOne(
-            'SELECT id, name, email, user_type, Module_CRM, module_crm_settings,
+        $row = $this->db->queryOne(
+            'SELECT id, name, email, user_type, module_crm_settings,
                     phone, job_title, timezone, is_active, created_at, updated_at
                FROM users WHERE email = ? LIMIT 1',
             [strtolower(trim($email))]
         );
+        if ($row) {
+            $row['module_tiers'] = $this->loadModuleTiers((int) $row['id']);
+        }
+        return $row ?: null;
     }
 
     /**
@@ -404,6 +419,23 @@ class User
     // =========================================================================
     // Internals
     // =========================================================================
+
+    /**
+     * Load all module tiers for a user from user_module_access.
+     * Returns a lowercase-keyed map: ['crm' => 'User', 'itsm' => 'Free']
+     */
+    private function loadModuleTiers(int $userId): array
+    {
+        $rows  = $this->db->query(
+            'SELECT module, tier FROM user_module_access WHERE user_id = ?',
+            [$userId]
+        );
+        $tiers = [];
+        foreach ($rows as $row) {
+            $tiers[strtolower($row['module'])] = $row['tier'];
+        }
+        return $tiers;
+    }
 
     private function emailExists(string $email): bool
     {

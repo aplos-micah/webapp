@@ -131,7 +131,7 @@ class OAuthServer
         $hash = hash('sha256', $bearerToken);
 
         $token = $this->db->queryOne(
-            'SELECT t.user_id, t.expires_at, u.id, u.name, u.email, u.user_type, u.Module_CRM
+            'SELECT t.user_id, t.expires_at, u.id, u.name, u.email, u.user_type
                FROM oauth_tokens t
                JOIN users u ON u.id = t.user_id
               WHERE t.token_hash = ? LIMIT 1',
@@ -141,6 +141,17 @@ class OAuthServer
         if (!$token || strtotime($token['expires_at']) < time()) {
             return null;
         }
+
+        // Load all module tiers for this token's user
+        $tiers = [];
+        $rows  = $this->db->query(
+            'SELECT module, tier FROM user_module_access WHERE user_id = ?',
+            [(int) $token['user_id']]
+        );
+        foreach ($rows as $row) {
+            $tiers[strtolower($row['module'])] = $row['tier'];
+        }
+        $token['module_tiers'] = $tiers;
 
         return $token;
     }

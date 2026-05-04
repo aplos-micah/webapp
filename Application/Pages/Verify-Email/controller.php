@@ -27,7 +27,11 @@ $_SESSION['user_id']    = $user['id'];
 $_SESSION['user_name']  = $user['name']      ?? '';
 $_SESSION['user_email'] = $user['email']     ?? '';
 $_SESSION['user_type']  = $user['user_type']  ?? 'free';
-$_SESSION['module_crm'] = $user['Module_CRM'] ?? 'Free';
+$tiers = $user['module_tiers'] ?? [];
+$_SESSION['module_access'] = $tiers;
+foreach ($tiers as $mod => $tier) {
+    $_SESSION['module_' . $mod] = $tier;
+}
 unset($_SESSION['pending_verify_email']);
 
 $redirectTo = '/home';

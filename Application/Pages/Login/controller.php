@@ -45,7 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_name']  = $user['name']      ?? '';
                 $_SESSION['user_email'] = $user['email']     ?? '';
                 $_SESSION['user_type']  = $user['user_type']  ?? 'free';
-                $_SESSION['module_crm'] = $user['Module_CRM'] ?? 'Free';
+                $tiers = $user['module_tiers'] ?? [];
+                $_SESSION['module_access'] = $tiers;
+                foreach ($tiers as $mod => $tier) {
+                    $_SESSION['module_' . $mod] = $tier;
+                }
                 if (!empty($_SESSION['pending_invite'])) {
                     $pendingToken = $_SESSION['pending_invite'];
                     unset($_SESSION['pending_invite']);

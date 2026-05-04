@@ -14,7 +14,6 @@ CREATE TABLE IF NOT EXISTS users (
     email               VARCHAR(255)    NOT NULL,
     password_hash       VARCHAR(255)    NOT NULL,
     user_type           ENUM('admin','manager','user','free') NOT NULL DEFAULT 'free',
-    Module_CRM          ENUM('Free','User','Manager') NOT NULL DEFAULT 'Free',
     phone               VARCHAR(30)     NULL DEFAULT NULL,
     job_title           VARCHAR(120)    NULL DEFAULT NULL,
     timezone            VARCHAR(64)     NOT NULL DEFAULT 'America/Chicago',
@@ -44,6 +43,23 @@ CREATE TABLE IF NOT EXISTS password_resets (
     KEY idx_password_resets_user  (user_id),
     CONSTRAINT fk_password_resets_user
         FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------------------------------
+-- user_module_access
+-- -----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS user_module_access (
+    id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_id    INT UNSIGNED NOT NULL,
+    module     VARCHAR(100) NOT NULL,
+    tier       ENUM('Free','User','Manager') NOT NULL DEFAULT 'Free',
+    granted_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    granted_by INT UNSIGNED NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_user_module (user_id, module),
+    KEY idx_uma_module (module),
+    CONSTRAINT fk_uma_user    FOREIGN KEY (user_id)    REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_uma_grantor FOREIGN KEY (granted_by) REFERENCES users(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------------------------

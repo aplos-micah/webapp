@@ -41,19 +41,23 @@ class AdminUser
         if ($search !== '') {
             $like = '%' . $search . '%';
             return $this->db->query(
-                "SELECT id, name, email, user_type, Module_CRM, is_active, created_at
-                   FROM users
-                  WHERE name LIKE ? OR email LIKE ?
-                  ORDER BY {$sort} {$dir}
+                "SELECT u.id, u.name, u.email, u.user_type, u.is_active, u.created_at,
+                        uma.tier AS crm_tier
+                   FROM users u
+                   LEFT JOIN user_module_access uma ON uma.user_id = u.id AND uma.module = 'crm'
+                  WHERE u.name LIKE ? OR u.email LIKE ?
+                  ORDER BY u.{$sort} {$dir}
                   LIMIT ? OFFSET ?",
                 [$like, $like, $limit, $offset]
             );
         }
 
         return $this->db->query(
-            "SELECT id, name, email, user_type, Module_CRM, is_active, created_at
-               FROM users
-              ORDER BY {$sort} {$dir}
+            "SELECT u.id, u.name, u.email, u.user_type, u.is_active, u.created_at,
+                    uma.tier AS crm_tier
+               FROM users u
+               LEFT JOIN user_module_access uma ON uma.user_id = u.id AND uma.module = 'crm'
+              ORDER BY u.{$sort} {$dir}
               LIMIT ? OFFSET ?",
             [$limit, $offset]
         );
@@ -65,11 +69,11 @@ class AdminUser
      */
     public function updateByAdmin(int $id, array $data): array
     {
-        $name      = trim($data['name']       ?? '');
-        $email     = strtolower(trim($data['email'] ?? ''));
-        $userType  = in_array($data['user_type']  ?? '', User::TYPES,             true) ? $data['user_type']  : 'user';
-        $moduleCrm = in_array($data['Module_CRM'] ?? '', User::MODULE_CRM_VALUES, true) ? $data['Module_CRM'] : 'Free';
-        $isActive  = (int) ($data['is_active'] ?? 0) === 1 ? 1 : 0;
+        $name     = trim($data['name']      ?? '');
+        $email    = strtolower(trim($data['email'] ?? ''));
+        $userType = in_array($data['user_type'] ?? '', User::TYPES, true) ? $data['user_type'] : 'user';
+        $crmTier  = in_array($data['crm_tier']  ?? '', User::MODULE_TIER_VALUES, true) ? $data['crm_tier'] : 'Free';
+        $isActive = (int) ($data['is_active'] ?? 0) === 1 ? 1 : 0;
 
         if ($err = Validator::required($name, 'Name')) {
             return ['ok' => false, 'error' => $err];
@@ -88,9 +92,16 @@ class AdminUser
 
         $this->db->execute(
             'UPDATE users
-                SET name = ?, email = ?, user_type = ?, Module_CRM = ?, is_active = ?, updated_at = ?
+                SET name = ?, email = ?, user_type = ?, is_active = ?, updated_at = ?
               WHERE id = ?',
-            [$name, $email, $userType, $moduleCrm, $isActive, date('Y-m-d H:i:s'), $id]
+            [$name, $email, $userType, $isActive, date('Y-m-d H:i:s'), $id]
+        );
+
+        $this->db->execute(
+            'INSERT INTO user_module_access (user_id, module, tier, granted_by)
+             VALUES (?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE tier = VALUES(tier), granted_by = VALUES(granted_by)',
+            [$id, 'crm', $crmTier, $_SESSION['user_id'] ?? null]
         );
 
         return ['ok' => true, 'error' => null];

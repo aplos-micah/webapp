@@ -166,10 +166,10 @@ foreach (scandir($modulesRoot) as $moduleName) {
     // requiresModule* check
     foreach ($config as $key => $val) {
         if (str_starts_with($key, 'requiresModule') && $val === true) {
-            $modulePart   = substr($key, 14); // e.g. 'CRM'
-            $dbKey        = 'Module_' . $modulePart; // e.g. 'Module_CRM' (DB column name)
-            $sessionKey   = 'module_' . strtolower($modulePart); // e.g. 'module_crm' (session key)
-            $sessionValue = $tokenUser[$dbKey] ?? $tokenUser[$sessionKey] ?? ($_SESSION[$sessionKey] ?? '');
+            $modulePart   = strtolower(substr($key, 14)); // e.g. 'crm'
+            $sessionKey   = 'module_' . $modulePart;      // e.g. 'module_crm'
+            $sessionValue = ($tokenUser['module_tiers'][$modulePart] ?? null)
+                         ?? ($_SESSION[$sessionKey] ?? '');
             if (empty($sessionValue)) continue 2;
         }
     }
