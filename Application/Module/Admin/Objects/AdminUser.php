@@ -63,6 +63,62 @@ class AdminUser
         );
     }
 
+    /** Return a single user row by ID, or null if not found. */
+    public function findById(int $id): ?array
+    {
+        return $this->db->queryOne(
+            'SELECT id, name, email, user_type, is_active, phone, job_title,
+                    timezone, email_verified_at, company_id, created_at, updated_at
+               FROM users WHERE id = ? LIMIT 1',
+            [$id]
+        ) ?: null;
+    }
+
+    /**
+     * Return all user_module_access rows for a user, keyed by module name.
+     * ['crm' => ['tier', 'granted_at', 'granted_by', 'granted_by_name'], ...]
+     */
+    public function getModuleAccess(int $userId): array
+    {
+        $rows = $this->db->query(
+            'SELECT uma.module, uma.tier, uma.granted_at, uma.granted_by,
+                    u.name AS granted_by_name
+               FROM user_module_access uma
+               LEFT JOIN users u ON u.id = uma.granted_by
+              WHERE uma.user_id = ?
+              ORDER BY uma.module ASC',
+            [$userId]
+        );
+        $access = [];
+        foreach ($rows as $row) {
+            $access[$row['module']] = $row;
+        }
+        return $access;
+    }
+
+    /**
+     * Upsert or remove a module access row for a user.
+     * $tier = 'none' removes the row; otherwise inserts/updates.
+     */
+    public function setModuleAccess(int $userId, string $module, string $tier, int $grantedBy): void
+    {
+        $module = strtolower(trim($module));
+        if ($tier === 'none' || $tier === '') {
+            $this->db->execute(
+                'DELETE FROM user_module_access WHERE user_id = ? AND module = ?',
+                [$userId, $module]
+            );
+            return;
+        }
+        $tier = in_array($tier, User::MODULE_TIER_VALUES, true) ? $tier : 'Free';
+        $this->db->execute(
+            'INSERT INTO user_module_access (user_id, module, tier, granted_by)
+             VALUES (?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE tier = VALUES(tier), granted_by = VALUES(granted_by)',
+            [$userId, $module, $tier, $grantedBy]
+        );
+    }
+
     /**
      * Update a user's core fields as an admin.
      * Returns ['ok' => bool, 'error' => string|null].

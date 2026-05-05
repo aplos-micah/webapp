@@ -137,11 +137,24 @@ $_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
                     </a>
                 </li>
 
-                <?php require __DIR__ . '/../Module/CRM/Navigation.php'; ?>
-
-                <?php if (($_SESSION['user_type'] ?? '') === 'admin'): ?>
-                <?php require __DIR__ . '/../Module/Admin/Navigation.php'; ?>
-                <?php endif; ?>
+                <?php
+                $_modulesDir    = __DIR__ . '/../Module';
+                $_moduleEntries = array_filter(scandir($_modulesDir), fn($e) => $e !== '.' && $e !== '..');
+                sort($_moduleEntries);
+                foreach ($_moduleEntries as $_moduleEntry):
+                    $_navFile    = $_modulesDir . '/' . $_moduleEntry . '/Navigation.php';
+                    $_configFile = $_modulesDir . '/' . $_moduleEntry . '/module.php';
+                    if (!file_exists($_navFile)) continue;
+                    $_modConfig = file_exists($_configFile) ? (require $_configFile) : [];
+                    if (!empty($_modConfig['requiresUserType']) && ($_SESSION['user_type'] ?? '') !== $_modConfig['requiresUserType']) continue;
+                    foreach ($_modConfig as $_mk => $_mv) {
+                        if (str_starts_with($_mk, 'requiresModule') && $_mv === true) {
+                            if (empty($_SESSION['module_' . strtolower(substr($_mk, 14))])) continue 2;
+                        }
+                    }
+                    require $_navFile;
+                endforeach;
+                ?>
 
                 <li class="side-nav__group"><span>Insights</span></li>
 

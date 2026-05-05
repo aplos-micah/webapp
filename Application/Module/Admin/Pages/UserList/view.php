@@ -130,7 +130,11 @@ $userTypeBadge = [
                 <?php foreach ($users as $u): ?>
                 <?php $uid = (int) $u['id']; ?>
                 <tr data-user-id="<?= $uid ?>" class="row-clickable">
-                    <td><?= htmlspecialchars($u['name'], ENT_QUOTES, 'UTF-8') ?></td>
+                    <td>
+                        <a href="/admin/users/details?id=<?= $u['id'] ?>" class="table-link">
+                            <?= htmlspecialchars($u['name'], ENT_QUOTES, 'UTF-8') ?>
+                        </a>
+                    </td>
                     <td>
                         <a href="mailto:<?= htmlspecialchars($u['email'], ENT_QUOTES, 'UTF-8') ?>" class="table-link">
                             <?= htmlspecialchars($u['email'], ENT_QUOTES, 'UTF-8') ?>
