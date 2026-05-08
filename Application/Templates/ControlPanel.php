@@ -23,8 +23,8 @@ $_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
     <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/assets/css/main.css?v=6.1">
+    <link rel="stylesheet" href="/assets/css/app.css?v=6.1">
 
     <!-- htmx -->
     <script src="/assets/vendor/htmx.min.js" defer></script>

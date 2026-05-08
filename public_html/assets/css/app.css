@@ -369,6 +369,7 @@ body.has-env-banner .side-nav {
 
 .page-content {
     flex: 1;
+    min-width: 0;
     margin-left: var(--sidebar-width);
     min-height: 100vh;
     background-color: var(--content-bg);
