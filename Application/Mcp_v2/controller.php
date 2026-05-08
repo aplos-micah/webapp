@@ -90,15 +90,26 @@ function json_pretty_v2(mixed $data): string
     return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 }
 
+// ── Container resolver — picks the module container or falls back to core ─────
+
+function mcpv2_container(string $module, string $service): object
+{
+    $class = $module . 'Container';
+    if (class_exists($class)) {
+        return $class::get($service);
+    }
+    return Container::get($service);
+}
+
 // ── Tool handlers ─────────────────────────────────────────────────────────────
 
-function mcpv2_handle_list(string $service, array $args): array
+function mcpv2_handle_list(string $module, string $service, array $args): array
 {
     $search = trim($args['search'] ?? '');
     $limit  = min(100, max(1, (int) ($args['limit']  ?? 20)));
     $offset = max(0,          (int) ($args['offset'] ?? 0));
 
-    $obj   = Container::get($service);
+    $obj   = mcpv2_container($module, $service);
     $total = $obj->count($search);
     $data  = $obj->findAll($limit, $offset, $search);
 
@@ -109,33 +120,33 @@ function mcpv2_handle_list(string $service, array $args): array
     ]));
 }
 
-function mcpv2_handle_get(string $service, array $args, string $label): array
+function mcpv2_handle_get(string $module, string $service, array $args, string $label): array
 {
     $id = (int) ($args['id'] ?? 0);
     if ($id <= 0) {
         return tool_text_v2(json_pretty_v2(['ok' => false, 'error' => 'id must be a positive integer']));
     }
 
-    $record = Container::get($service)->findById($id);
+    $record = mcpv2_container($module, $service)->findById($id);
 
     return $record
         ? tool_text_v2(json_pretty_v2(['ok' => true, 'data' => $record]))
         : tool_text_v2(json_pretty_v2(['ok' => false, 'error' => "{$label} not found."]));
 }
 
-function mcpv2_handle_get_with_items(string $service, string $relService, string $relMethod, string $relKey, array $args, string $label): array
+function mcpv2_handle_get_with_items(string $module, string $service, string $relService, string $relMethod, string $relKey, array $args, string $label): array
 {
     $id = (int) ($args['id'] ?? 0);
     if ($id <= 0) {
         return tool_text_v2(json_pretty_v2(['ok' => false, 'error' => 'id must be a positive integer']));
     }
 
-    $record = Container::get($service)->findById($id);
+    $record = mcpv2_container($module, $service)->findById($id);
     if (!$record) {
         return tool_text_v2(json_pretty_v2(['ok' => false, 'error' => "{$label} not found."]));
     }
 
-    $record[$relKey] = Container::get($relService)->{$relMethod}($id);
+    $record[$relKey] = mcpv2_container($module, $relService)->{$relMethod}($id);
 
     return tool_text_v2(json_pretty_v2(['ok' => true, 'data' => $record]));
 }
@@ -195,12 +206,12 @@ foreach (scandir($modulesRoot) as $moduleName) {
                 'description' => $tool['description'],
                 'inputSchema' => $tool['inputSchema'],
             ];
-            $toolMap[$tool['name']] = $tool;
+            $toolMap[$tool['name']] = array_merge($tool, ['_module' => $moduleName]);
         }
     }
 }
 
-function mcpv2_handle_update(string $service, array $args, string $label): array
+function mcpv2_handle_update(string $module, string $service, array $args, string $label): array
 {
     $id = (int) ($args['id'] ?? 0);
     if ($id <= 0) {
@@ -209,7 +220,7 @@ function mcpv2_handle_update(string $service, array $args, string $label): array
 
     unset($args['id']);
 
-    $result = Container::get($service)->update($id, $args);
+    $result = mcpv2_container($module, $service)->update($id, $args);
 
     return tool_text_v2(json_pretty_v2($result['ok']
         ? ['ok' => true]
@@ -217,7 +228,7 @@ function mcpv2_handle_update(string $service, array $args, string $label): array
     ));
 }
 
-function mcpv2_handle_create(string $service, array $args, ?array $tokenUser, array $tool = []): array
+function mcpv2_handle_create(string $module, string $service, array $args, ?array $tokenUser, array $tool = []): array
 {
     unset($args['id']);
 
@@ -225,7 +236,7 @@ function mcpv2_handle_create(string $service, array $args, ?array $tokenUser, ar
         $args['owner_id'] = $tokenUser['id'] ?? null;
     }
 
-    $result = Container::get($service)->create($args);
+    $result = mcpv2_container($module, $service)->create($args);
 
     if (!$result['ok']) {
         return tool_text_v2(json_pretty_v2(['ok' => false, 'error' => $result['error']]));
@@ -249,19 +260,23 @@ function mcpv2_call(string $name, array $args, array $toolMap, ?array $tokenUser
         throw new InvalidArgumentException("Unknown tool: {$name}");
     }
 
-    $label = $tool['label'] ?? ucfirst($tool['service'] ?? '');
+    $module = $tool['_module'] ?? '';
+    $label  = $tool['label']   ?? ucfirst($tool['service'] ?? '');
 
     return match ($tool['handler']) {
         'list' => mcpv2_handle_list(
+            $module,
             $tool['service'],
             $args
         ),
         'get' => mcpv2_handle_get(
+            $module,
             $tool['service'],
             $args,
             $label
         ),
         'get_with_items' => mcpv2_handle_get_with_items(
+            $module,
             $tool['service'],
             $tool['rel_service'],
             $tool['rel_method'],
@@ -270,11 +285,13 @@ function mcpv2_call(string $name, array $args, array $toolMap, ?array $tokenUser
             $label
         ),
         'update' => mcpv2_handle_update(
+            $module,
             $tool['service'],
             $args,
             $label
         ),
         'create' => mcpv2_handle_create(
+            $module,
             $tool['service'],
             $args,
             $tokenUser,

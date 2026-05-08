@@ -14,8 +14,14 @@ require_once __DIR__ . '/Objects/Sanitization.php';
 require_once __DIR__ . '/../configuration/config.php';
 require_once __DIR__ . '/Objects/DB.php';
 require_once __DIR__ . '/Objects/Container.php';
-require_once __DIR__ . '/Module/Admin/Container.php';
-require_once __DIR__ . '/Module/CRM/Container.php';
+foreach (scandir(__DIR__ . '/Module') as $_mod) {
+    $_containerFile = __DIR__ . '/Module/' . $_mod . '/Container.php';
+    if (is_file($_containerFile)) {
+        require_once $_containerFile;
+    }
+}
+unset($_mod, $_containerFile);
+
 require_once __DIR__ . '/router.php';
 
 Sanitization::sanitizeAll();

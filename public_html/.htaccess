@@ -54,8 +54,9 @@ ServerSignature Off
     RewriteCond %{HTTP_USER_AGENT} (masscan|nikto|sqlmap|nmap|dirbuster|gobuster|wfuzz|nuclei|acunetix|nessus|openvas|zgrab|curl/7\.[0-2]) [NC]
     RewriteRule .* - [F,L]
 
-    # Block empty user agents
+    # Block empty user agents (exempt MCP endpoint — server-to-server calls may omit UA)
     RewriteCond %{HTTP_USER_AGENT} ^$
+    RewriteCond %{REQUEST_URI} !^/api/mcp_v2
     RewriteRule .* - [F,L]
 </IfModule>
 
