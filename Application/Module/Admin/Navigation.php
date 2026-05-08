@@ -56,3 +56,10 @@
         <span>Validator Tests</span>
     </a>
 </li>
+
+<li>
+    <a href="/admin/guide" class="side-nav__link<?= $currentSlug === 'admin/guide' ? ' is-active' : '' ?>">
+        <i class="fa-solid fa-book-open side-nav__icon" aria-hidden="true"></i>
+        <span>Admin Guide</span>
+    </a>
+</li>

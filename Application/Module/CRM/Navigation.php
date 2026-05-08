@@ -34,3 +34,10 @@
         <span>Products</span>
     </a>
 </li>
+
+<li>
+    <a href="/crm/guide" class="side-nav__link<?= $currentSlug === 'crm/guide' ? ' is-active' : '' ?>">
+        <i class="fa-solid fa-book-open side-nav__icon" aria-hidden="true"></i>
+        <span>User Guide</span>
+    </a>
+</li>
