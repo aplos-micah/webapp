@@ -132,47 +132,22 @@ if ($totalPages > 1) {
 
 <div class="card">
     <?= $paginationHtml ?>
-
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th><a href="<?= $sortLink('name') ?>" class="sort-link">Account Name <?= $sortIcon('name') ?></a></th>
-                <th><a href="<?= $sortLink('account_number') ?>" class="sort-link">Account # <?= $sortIcon('account_number') ?></a></th>
-                <th><a href="<?= $sortLink('type') ?>" class="sort-link">Type <?= $sortIcon('type') ?></a></th>
-                <th><a href="<?= $sortLink('industry') ?>" class="sort-link">Industry <?= $sortIcon('industry') ?></a></th>
-                <th><a href="<?= $sortLink('status') ?>" class="sort-link">Status <?= $sortIcon('status') ?></a></th>
-                <th><a href="<?= $sortLink('website') ?>" class="sort-link">Website <?= $sortIcon('website') ?></a></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($accounts as $account): ?>
-            <tr>
-                <td>
-                    <a href="/crm/accounts/details?id=<?= (int) $account['id'] ?>" class="table-link">
-                        <?= htmlspecialchars($account['name'], ENT_QUOTES, 'UTF-8') ?>
-                    </a>
-                </td>
-                <td data-label="Account #"><?= htmlspecialchars($account['account_number'] ?? '—', ENT_QUOTES, 'UTF-8') ?></td>
-                <td data-label="Type"><?= htmlspecialchars($account['type'] ?? '—', ENT_QUOTES, 'UTF-8') ?></td>
-                <td data-label="Industry"><?= htmlspecialchars($account['industry'] ?? '—', ENT_QUOTES, 'UTF-8') ?></td>
-                <td data-label="Status">
-                    <?php if (!empty($account['status'])): ?>
-                    <span class="badge badge--info"><?= htmlspecialchars($account['status'], ENT_QUOTES, 'UTF-8') ?></span>
-                    <?php else: ?>—<?php endif; ?>
-                </td>
-                <td data-label="Website">
-                    <?php if (!empty($account['website'])): ?>
-                    <a href="<?= htmlspecialchars($account['website'], ENT_QUOTES, 'UTF-8') ?>"
-                       target="_blank" rel="noopener noreferrer" class="table-link">
-                        <?= htmlspecialchars($account['website'], ENT_QUOTES, 'UTF-8') ?>
-                    </a>
-                    <?php else: ?>—<?php endif; ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-
+    <?= DataTable::render([
+        'columns' => [
+            ['label' => 'Account Name', 'key' => 'name',           'sort' => 'name',           'primary' => true,
+             'href'  => fn($r) => '/crm/accounts/details?id=' . (int) $r['id']],
+            ['label' => 'Account #',    'key' => 'account_number', 'sort' => 'account_number'],
+            ['label' => 'Type',         'key' => 'type',           'sort' => 'type'],
+            ['label' => 'Industry',     'key' => 'industry',       'sort' => 'industry'],
+            ['label' => 'Status',       'key' => 'status',         'sort' => 'status',
+             'badge' => ['Active' => 'badge--info', 'Demo' => 'badge--neutral', 'Inactive' => 'badge--neutral']],
+            ['label' => 'Website', 'sort' => 'website',
+             'render' => fn($r, $e) => !empty($r['website'])
+                 ? '<a href="' . $e($r['website']) . '" target="_blank" rel="noopener noreferrer" class="table-link">' . $e($r['website']) . '</a>'
+                 : '—'],
+        ],
+        'rows' => $accounts, 'sort' => $sort, 'dir' => $dir, 'qs' => $qs,
+    ]) ?>
     <?= $paginationHtml ?>
 </div>
 

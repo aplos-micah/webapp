@@ -160,39 +160,16 @@ $pct = fn(int $n) => $total > 0 ? round(($n / $total) * 100) : 0;
         <?php endif; ?>
     </h2>
 
-    <?php if (empty($expiring)): ?>
-    <div class="content-panel__empty">
-        <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-        <p>No warranties expiring in the next 30 days.</p>
-    </div>
-    <?php else: ?>
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>Asset Tag</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Warranty Expires</th>
-                    <th>Assigned To</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($expiring as $a): ?>
-                <tr>
-                    <td>
-                        <a href="/assets/assets/details?id=<?= (int) $a['id'] ?>" class="table-link">
-                            <?= $e($a['asset_tag'] ?: 'ASSET-??????') ?>
-                        </a>
-                    </td>
-                    <td><?= $e($a['name']) ?></td>
-                    <td><?= $e($a['type'] ?? '—') ?></td>
-                    <td><?= $e(substr($a['warranty_expires'] ?? '', 0, 10)) ?></td>
-                    <td><?= $e($a['assigned_name'] ?? '—') ?></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <?php endif; ?>
+    <?= DataTable::render([
+        'columns' => [
+            ['label' => 'Asset Tag',       'sort' => null, 'primary' => true,
+             'render' => fn($r, $e) => '<a href="/assets/assets/details?id=' . (int) $r['id'] . '" class="table-link">' . $e($r['asset_tag'] ?: 'ASSET-??????') . '</a>'],
+            ['label' => 'Name',            'key' => 'name'],
+            ['label' => 'Type',            'key' => 'type'],
+            ['label' => 'Warranty Expires','key' => 'warranty_expires', 'date' => true],
+            ['label' => 'Assigned To',     'key' => 'assigned_name'],
+        ],
+        'rows'  => $expiring,
+        'empty' => ['icon' => 'fa-solid fa-circle-check', 'message' => 'No warranties expiring in the next 30 days.'],
+    ]) ?>
 </div>

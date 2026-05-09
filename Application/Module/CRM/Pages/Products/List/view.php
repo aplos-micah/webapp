@@ -116,55 +116,26 @@ if ($totalPages > 1) {
 
 <div class="card">
     <?= $paginationHtml ?>
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th><a href="<?= $sortLink('product_name') ?>" class="sort-link">Product Name <?= $sortIcon('product_name') ?></a></th>
-                    <th><a href="<?= $sortLink('sku') ?>" class="sort-link">SKU <?= $sortIcon('sku') ?></a></th>
-                    <th><a href="<?= $sortLink('product_family') ?>" class="sort-link">Family <?= $sortIcon('product_family') ?></a></th>
-                    <th><a href="<?= $sortLink('product_type') ?>" class="sort-link">Type <?= $sortIcon('product_type') ?></a></th>
-                    <th><a href="<?= $sortLink('list_price') ?>" class="sort-link">List Price <?= $sortIcon('list_price') ?></a></th>
-                    <th><a href="<?= $sortLink('lifecycle_status') ?>" class="sort-link">Status <?= $sortIcon('lifecycle_status') ?></a></th>
-                    <th>Active</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($products as $p): ?>
-                <tr>
-                    <td>
-                        <a href="/crm/products/details?id=<?= (int) $p['id'] ?>" class="table-link">
-                            <?= htmlspecialchars($p['product_name'], ENT_QUOTES, 'UTF-8') ?>
-                        </a>
-                    </td>
-                    <td><?= htmlspecialchars($p['sku'] ?? '—', ENT_QUOTES, 'UTF-8') ?></td>
-                    <td><?= htmlspecialchars($p['product_family'] ?? '—', ENT_QUOTES, 'UTF-8') ?></td>
-                    <td><?= htmlspecialchars($p['product_type'] ?? '—', ENT_QUOTES, 'UTF-8') ?></td>
-                    <td>
-                        <?php if ($p['list_price'] !== null): ?>
-                        <?= htmlspecialchars($p['currency'] ?? 'USD', ENT_QUOTES, 'UTF-8') ?>
-                        <?= number_format((float) $p['list_price'], 2) ?>
-                        <?php else: ?>
-                        —
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if (!empty($p['lifecycle_status'])): ?>
-                        <span class="badge badge--info"><?= htmlspecialchars($p['lifecycle_status'], ENT_QUOTES, 'UTF-8') ?></span>
-                        <?php else: ?>—<?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if ($p['is_active']): ?>
-                        <span class="badge badge--success">Yes</span>
-                        <?php else: ?>
-                        <span class="badge badge--neutral">No</span>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+    <?= DataTable::render([
+        'columns' => [
+            ['label' => 'Product Name', 'sort' => 'product_name',    'primary' => true,
+             'render' => fn($r, $e) => '<a href="/crm/products/details?id=' . (int) $r['id'] . '" class="table-link">' . $e($r['product_name']) . '</a>'],
+            ['label' => 'SKU',          'key' => 'sku',              'sort' => 'sku'],
+            ['label' => 'Family',       'key' => 'product_family',   'sort' => 'product_family'],
+            ['label' => 'Type',         'key' => 'product_type',     'sort' => 'product_type'],
+            ['label' => 'List Price',   'sort' => 'list_price',
+             'render' => fn($r, $e) => $r['list_price'] !== null
+                 ? $e($r['currency'] ?? 'USD') . ' ' . number_format((float) $r['list_price'], 2)
+                 : '—'],
+            ['label' => 'Status',       'key' => 'lifecycle_status', 'sort' => 'lifecycle_status',
+             'badge' => ['Current' => 'badge--info', 'Discontinued' => 'badge--neutral']],
+            ['label' => 'Active',
+             'render' => fn($r, $e) => $r['is_active']
+                 ? '<span class="badge badge--success">Yes</span>'
+                 : '<span class="badge badge--neutral">No</span>'],
+        ],
+        'rows' => $products, 'sort' => $sort, 'dir' => $dir, 'qs' => $qs,
+    ]) ?>
     <?= $paginationHtml ?>
 </div>
 

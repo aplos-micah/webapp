@@ -42,12 +42,12 @@ $pageTitle = 'Assets User Guide';
                 <tr><th>Type</th><th>When to use</th></tr>
             </thead>
             <tbody>
-                <tr><td><strong>Hardware</strong></td><td>Physical computing equipment — servers, desktops, laptops, peripherals</td></tr>
-                <tr><td><strong>Software</strong></td><td>Installed applications or platforms tracked individually (e.g. a specific server OS)</td></tr>
-                <tr><td><strong>Network</strong></td><td>Switches, routers, firewalls, access points, cabling infrastructure</td></tr>
-                <tr><td><strong>Mobile</strong></td><td>Phones, tablets, and handheld devices</td></tr>
-                <tr><td><strong>License</strong></td><td>Software licenses, subscriptions, and entitlements not tied to a single device</td></tr>
-                <tr><td><strong>Other</strong></td><td>Assets that do not fit another category — AV equipment, office tech, etc.</td></tr>
+                <tr><td><strong>Hardware</strong></td><td data-label="When to use">Physical computing equipment — servers, desktops, laptops, peripherals</td></tr>
+                <tr><td><strong>Software</strong></td><td data-label="When to use">Installed applications or platforms tracked individually (e.g. a specific server OS)</td></tr>
+                <tr><td><strong>Network</strong></td><td data-label="When to use">Switches, routers, firewalls, access points, cabling infrastructure</td></tr>
+                <tr><td><strong>Mobile</strong></td><td data-label="When to use">Phones, tablets, and handheld devices</td></tr>
+                <tr><td><strong>License</strong></td><td data-label="When to use">Software licenses, subscriptions, and entitlements not tied to a single device</td></tr>
+                <tr><td><strong>Other</strong></td><td data-label="When to use">Assets that do not fit another category — AV equipment, office tech, etc.</td></tr>
             </tbody>
         </table>
         <p><strong>Category</strong> provides a secondary level of detail within a type (e.g. Type = Hardware, Category = Laptop). Use the closest match; use "Other" if nothing fits.</p>
@@ -68,11 +68,11 @@ $pageTitle = 'Assets User Guide';
                 <tr><th>Status</th><th>Meaning</th></tr>
             </thead>
             <tbody>
-                <tr><td><span class="badge badge--success">Active</span></td><td>In use and assigned to a user or location</td></tr>
-                <tr><td><span class="badge badge--info">In Stock</span></td><td>Available for deployment — received but not yet assigned</td></tr>
-                <tr><td><span class="badge badge--warning">In Repair</span></td><td>Temporarily out of service — being repaired or serviced</td></tr>
-                <tr><td><span class="badge badge--neutral">Retired</span></td><td>No longer in use — decommissioned but retained in records</td></tr>
-                <tr><td><span class="badge badge--neutral">Lost/Stolen</span></td><td>Asset is missing or reported stolen — retain for audit purposes</td></tr>
+                <tr><td><span class="badge badge--success">Active</span></td><td data-label="Meaning">In use and assigned to a user or location</td></tr>
+                <tr><td><span class="badge badge--info">In Stock</span></td><td data-label="Meaning">Available for deployment — received but not yet assigned</td></tr>
+                <tr><td><span class="badge badge--warning">In Repair</span></td><td data-label="Meaning">Temporarily out of service — being repaired or serviced</td></tr>
+                <tr><td><span class="badge badge--neutral">Retired</span></td><td data-label="Meaning">No longer in use — decommissioned but retained in records</td></tr>
+                <tr><td><span class="badge badge--neutral">Lost/Stolen</span></td><td data-label="Meaning">Asset is missing or reported stolen — retain for audit purposes</td></tr>
             </tbody>
         </table>
     </div>

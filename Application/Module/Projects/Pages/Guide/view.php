@@ -33,28 +33,28 @@
             <tbody>
                 <tr>
                     <td><strong>Initiation</strong></td>
-                    <td>Define the project at a high level and get approval to proceed</td>
-                    <td>Write the project brief, identify stakeholders, confirm viability</td>
+                    <td data-label="Purpose">Define the project at a high level and get approval to proceed</td>
+                    <td data-label="Key activities">Write the project brief, identify stakeholders, confirm viability</td>
                 </tr>
                 <tr>
                     <td><strong>Planning</strong></td>
-                    <td>Define scope, schedule, budget, and risks in detail</td>
-                    <td>Set start/due dates, allocate budget, break down work, identify dependencies</td>
+                    <td data-label="Purpose">Define scope, schedule, budget, and risks in detail</td>
+                    <td data-label="Key activities">Set start/due dates, allocate budget, break down work, identify dependencies</td>
                 </tr>
                 <tr>
                     <td><strong>Execution</strong></td>
-                    <td>Do the work</td>
-                    <td>Assign tasks, track progress, manage team, deliver outputs</td>
+                    <td data-label="Purpose">Do the work</td>
+                    <td data-label="Key activities">Assign tasks, track progress, manage team, deliver outputs</td>
                 </tr>
                 <tr>
                     <td><strong>Monitoring</strong></td>
-                    <td>Track against plan and adjust as needed</td>
-                    <td>Compare actuals to plan, manage scope changes, update stakeholders</td>
+                    <td data-label="Purpose">Track against plan and adjust as needed</td>
+                    <td data-label="Key activities">Compare actuals to plan, manage scope changes, update stakeholders</td>
                 </tr>
                 <tr>
                     <td><strong>Closure</strong></td>
-                    <td>Formally complete the project and capture lessons learned</td>
-                    <td>Confirm deliverables accepted, release resources, document retrospective</td>
+                    <td data-label="Purpose">Formally complete the project and capture lessons learned</td>
+                    <td data-label="Key activities">Confirm deliverables accepted, release resources, document retrospective</td>
                 </tr>
             </tbody>
         </table>
@@ -73,11 +73,11 @@
                 <tr><th>Status</th><th>Meaning</th></tr>
             </thead>
             <tbody>
-                <tr><td><span class="badge badge--neutral">Draft</span></td><td>Being defined — not yet approved or started</td></tr>
-                <tr><td><span class="badge badge--success">Active</span></td><td>Approved and in progress</td></tr>
-                <tr><td><span class="badge badge--warning">On Hold</span></td><td>Paused — waiting on a dependency, decision, or resource</td></tr>
-                <tr><td><span class="badge badge--info">Completed</span></td><td>All deliverables accepted and closure complete</td></tr>
-                <tr><td><span class="badge badge--neutral">Cancelled</span></td><td>Stopped before completion — retained for record purposes</td></tr>
+                <tr><td><span class="badge badge--neutral">Draft</span></td><td data-label="Meaning">Being defined — not yet approved or started</td></tr>
+                <tr><td><span class="badge badge--success">Active</span></td><td data-label="Meaning">Approved and in progress</td></tr>
+                <tr><td><span class="badge badge--warning">On Hold</span></td><td data-label="Meaning">Paused — waiting on a dependency, decision, or resource</td></tr>
+                <tr><td><span class="badge badge--info">Completed</span></td><td data-label="Meaning">All deliverables accepted and closure complete</td></tr>
+                <tr><td><span class="badge badge--neutral">Cancelled</span></td><td data-label="Meaning">Stopped before completion — retained for record purposes</td></tr>
             </tbody>
         </table>
     </div>
@@ -93,10 +93,10 @@
         <table class="data-table">
             <thead><tr><th>Priority</th><th>When to use</th></tr></thead>
             <tbody>
-                <tr><td><span class="badge badge--warning">Critical</span></td><td>Business stops or regulatory breach if not delivered on time</td></tr>
-                <tr><td><span class="badge badge--info">High</span></td><td>Significant business impact — senior stakeholder dependency</td></tr>
-                <tr><td><span class="badge badge--neutral">Medium</span></td><td>Important but not urgent — can absorb minor delays</td></tr>
-                <tr><td><span class="badge badge--neutral">Low</span></td><td>Nice to have — can be deprioritised if capacity is constrained</td></tr>
+                <tr><td><span class="badge badge--warning">Critical</span></td><td data-label="When to use">Business stops or regulatory breach if not delivered on time</td></tr>
+                <tr><td><span class="badge badge--info">High</span></td><td data-label="When to use">Significant business impact — senior stakeholder dependency</td></tr>
+                <tr><td><span class="badge badge--neutral">Medium</span></td><td data-label="When to use">Important but not urgent — can absorb minor delays</td></tr>
+                <tr><td><span class="badge badge--neutral">Low</span></td><td data-label="When to use">Nice to have — can be deprioritised if capacity is constrained</td></tr>
             </tbody>
         </table>
     </div>

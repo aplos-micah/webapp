@@ -153,43 +153,27 @@ if ($totalPages > 1) {
 
 <?php else: ?>
 
-<div class="card">
-    <?= $paginationHtml ?>
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th><a href="<?= $sortLink('title') ?>" class="sort-link">Title <?= $sortIcon('title') ?></a></th>
-                    <th><a href="<?= $sortLink('category') ?>" class="sort-link">Category <?= $sortIcon('category') ?></a></th>
-                    <th><a href="<?= $sortLink('status') ?>" class="sort-link">Status <?= $sortIcon('status') ?></a></th>
-                    <th>Author</th>
-                    <th><a href="<?= $sortLink('view_count') ?>" class="sort-link">Views <?= $sortIcon('view_count') ?></a></th>
-                    <th><a href="<?= $sortLink('updated_at') ?>" class="sort-link">Updated <?= $sortIcon('updated_at') ?></a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($articles as $article): ?>
-                <tr>
-                    <td>
-                        <a href="/kb/articles/details?id=<?= (int) $article['id'] ?>" class="table-link">
-                            <?= $e($article['title']) ?>
-                        </a>
-                    </td>
-                    <td><?= $e($article['category'] ?? '—') ?></td>
-                    <td>
-                        <span class="badge <?= $statusBadge[$article['status']] ?? 'badge--neutral' ?>">
-                            <?= $e($article['status']) ?>
-                        </span>
-                    </td>
-                    <td><?= $e($article['author_name'] ?? '—') ?></td>
-                    <td><?= number_format((int) ($article['view_count'] ?? 0)) ?></td>
-                    <td><?= $e(substr($article['updated_at'] ?? '', 0, 10)) ?></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <?= $paginationHtml ?>
+<div class="card<?= empty($articles) ? ' content-panel' : '' ?>">
+    <?php if (!empty($articles)): ?><?= $paginationHtml ?><?php endif; ?>
+    <?= DataTable::render([
+        'columns' => [
+            ['label' => 'Title',    'sort' => 'title',      'primary' => true,
+             'render' => fn($r, $e) => '<a href="/kb/articles/details?id=' . (int) $r['id'] . '" class="table-link">' . $e($r['title']) . '</a>'],
+            ['label' => 'Category', 'key' => 'category',    'sort' => 'category'],
+            ['label' => 'Status',   'key' => 'status',      'sort' => 'status',      'badge' => $statusBadge],
+            ['label' => 'Author',   'key' => 'author_name'],
+            ['label' => 'Views',    'sort' => 'view_count',
+             'render' => fn($r, $e) => number_format((int) ($r['view_count'] ?? 0))],
+            ['label' => 'Updated',  'key' => 'updated_at',  'sort' => 'updated_at',  'date' => true],
+        ],
+        'rows'           => $articles,
+        'sort'           => $sort, 'dir' => $dir, 'qs' => $qs,
+        'has_filters'    => $search !== '' || $status !== '' || $category !== '',
+        'empty'          => ['icon' => 'fa-regular fa-file-lines', 'message' => 'No articles yet.',
+                             'link' => ['href' => '/kb/articles/new', 'text' => 'Write the first article']],
+        'filtered_empty' => 'No articles match your filters.',
+    ]) ?>
+    <?php if (!empty($articles)): ?><?= $paginationHtml ?><?php endif; ?>
 </div>
 
 <?php endif; ?>

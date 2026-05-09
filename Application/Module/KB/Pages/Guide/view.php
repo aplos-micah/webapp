@@ -39,18 +39,18 @@ $pageTitle = 'Knowledge Base User Guide';
             <tbody>
                 <tr>
                     <td><span class="badge badge--neutral">Draft</span></td>
-                    <td>Work in progress — not yet ready for publication</td>
-                    <td>Author only</td>
+                    <td data-label="Meaning">Work in progress — not yet ready for publication</td>
+                    <td data-label="Visible To">Author only</td>
                 </tr>
                 <tr>
                     <td><span class="badge badge--success">Published</span></td>
-                    <td>Reviewed, accurate, and ready to read</td>
-                    <td>All KB users</td>
+                    <td data-label="Meaning">Reviewed, accurate, and ready to read</td>
+                    <td data-label="Visible To">All KB users</td>
                 </tr>
                 <tr>
                     <td><span class="badge badge--neutral">Archived</span></td>
-                    <td>No longer current — kept for historical reference</td>
-                    <td>Author and Admin only</td>
+                    <td data-label="Meaning">No longer current — kept for historical reference</td>
+                    <td data-label="Visible To">Author and Admin only</td>
                 </tr>
             </tbody>
         </table>
@@ -69,12 +69,12 @@ $pageTitle = 'Knowledge Base User Guide';
                 <tr><th>Category</th><th>When to use</th></tr>
             </thead>
             <tbody>
-                <tr><td><strong>Procedure</strong></td><td>Step-by-step instructions for completing a task (e.g. "How to set up VPN")</td></tr>
-                <tr><td><strong>Troubleshooting</strong></td><td>Diagnosis and resolution steps for a known problem (e.g. "Wi-Fi drops every hour")</td></tr>
-                <tr><td><strong>FAQ</strong></td><td>Frequently asked questions with concise answers</td></tr>
-                <tr><td><strong>Policy</strong></td><td>Rules, standards, or requirements the team must follow</td></tr>
-                <tr><td><strong>Reference</strong></td><td>Reference tables, glossaries, or lookup material</td></tr>
-                <tr><td><strong>Other</strong></td><td>Anything that does not fit another category</td></tr>
+                <tr><td><strong>Procedure</strong></td><td data-label="When to use">Step-by-step instructions for completing a task (e.g. "How to set up VPN")</td></tr>
+                <tr><td><strong>Troubleshooting</strong></td><td data-label="When to use">Diagnosis and resolution steps for a known problem (e.g. "Wi-Fi drops every hour")</td></tr>
+                <tr><td><strong>FAQ</strong></td><td data-label="When to use">Frequently asked questions with concise answers</td></tr>
+                <tr><td><strong>Policy</strong></td><td data-label="When to use">Rules, standards, or requirements the team must follow</td></tr>
+                <tr><td><strong>Reference</strong></td><td data-label="When to use">Reference tables, glossaries, or lookup material</td></tr>
+                <tr><td><strong>Other</strong></td><td data-label="When to use">Anything that does not fit another category</td></tr>
             </tbody>
         </table>
     </div>

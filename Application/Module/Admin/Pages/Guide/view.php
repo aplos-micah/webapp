@@ -64,35 +64,33 @@
     <p class="instructions__p">Users are managed from <strong>Admin → Users</strong>. Click a user's name to open their detail page for full profile and access management. Use the inline edit (double-click a row) for quick field updates.</p>
 
     <p class="section-label">User types</p>
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr><th>Type</th><th>Description</th><th>Module access</th></tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><span class="badge badge--warning">admin</span></td>
-                    <td>Full platform access including the Admin module</td>
-                    <td>All modules + Admin</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge--info">manager</span></td>
-                    <td>Team or account management capabilities</td>
-                    <td>Determined by module access tiers</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge--neutral">user</span></td>
-                    <td>Standard user — most users will have this type</td>
-                    <td>Determined by module access tiers</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge--neutral">free</span></td>
-                    <td>Self-registered account with minimal access</td>
-                    <td>Free tier only until upgraded</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table class="data-table">
+        <thead>
+            <tr><th>Type</th><th>Description</th><th>Module access</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="badge badge--warning">admin</span></td>
+                <td data-label="Description">Full platform access including the Admin module</td>
+                <td data-label="Module access">All modules + Admin</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge--info">manager</span></td>
+                <td data-label="Description">Team or account management capabilities</td>
+                <td data-label="Module access">Determined by module access tiers</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge--neutral">user</span></td>
+                <td data-label="Description">Standard user — most users will have this type</td>
+                <td data-label="Module access">Determined by module access tiers</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge--neutral">free</span></td>
+                <td data-label="Description">Self-registered account with minimal access</td>
+                <td data-label="Module access">Free tier only until upgraded</td>
+            </tr>
+        </tbody>
+    </table>
 
     <p class="section-label section-label--mt">User status</p>
     <dl class="field-list">
@@ -118,18 +116,16 @@
     <p class="instructions__p">Module access is managed separately from user type. A user must have a non-empty access tier for a module to see it in their sidebar and use its API/MCP tools.</p>
 
     <p class="section-label">Access tiers</p>
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr><th>Tier</th><th>Typical use</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><span class="badge badge--neutral">Free</span></td><td>Read-only or basic access. The module is visible but features may be restricted by the module's own logic.</td></tr>
-                <tr><td><span class="badge badge--info">User</span></td><td>Standard usage — can create, view, and edit records owned by or assigned to them.</td></tr>
-                <tr><td><span class="badge badge--warning">Manager</span></td><td>Full access including all records, reporting, and configuration within the module.</td></tr>
-            </tbody>
-        </table>
-    </div>
+    <table class="data-table">
+        <thead>
+            <tr><th>Tier</th><th>Typical use</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><span class="badge badge--neutral">Free</span></td><td data-label="Typical use">Read-only or basic access. The module is visible but features may be restricted by the module's own logic.</td></tr>
+            <tr><td><span class="badge badge--info">User</span></td><td data-label="Typical use">Standard usage — can create, view, and edit records owned by or assigned to them.</td></tr>
+            <tr><td><span class="badge badge--warning">Manager</span></td><td data-label="Typical use">Full access including all records, reporting, and configuration within the module.</td></tr>
+        </tbody>
+    </table>
 
     <p class="section-label section-label--mt">Granting module access</p>
     <ol class="instructions__list">

@@ -155,47 +155,27 @@ if ($totalPages > 1) {
 
 <?php else: ?>
 
-<div class="card">
-    <?= $paginationHtml ?>
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th><a href="<?= $sortLink('asset_tag') ?>" class="sort-link">Asset Tag <?= $sortIcon('asset_tag') ?></a></th>
-                    <th><a href="<?= $sortLink('name') ?>" class="sort-link">Name <?= $sortIcon('name') ?></a></th>
-                    <th><a href="<?= $sortLink('type') ?>" class="sort-link">Type <?= $sortIcon('type') ?></a></th>
-                    <th><a href="<?= $sortLink('status') ?>" class="sort-link">Status <?= $sortIcon('status') ?></a></th>
-                    <th>Assigned To</th>
-                    <th>Location</th>
-                    <th><a href="<?= $sortLink('warranty_expires') ?>" class="sort-link">Warranty Expires <?= $sortIcon('warranty_expires') ?></a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($assets as $asset): ?>
-                <tr>
-                    <td>
-                        <a href="/assets/assets/details?id=<?= (int) $asset['id'] ?>" class="table-link">
-                            <?= $e($asset['asset_tag'] ?: 'ASSET-??????') ?>
-                        </a>
-                    </td>
-                    <td><?= $e($asset['name']) ?></td>
-                    <td><?= $e($asset['type'] ?? '—') ?></td>
-                    <td>
-                        <?php if (!empty($asset['status'])): ?>
-                        <span class="badge <?= $statusBadge[$asset['status']] ?? 'badge--neutral' ?>">
-                            <?= $e($asset['status']) ?>
-                        </span>
-                        <?php else: ?>—<?php endif; ?>
-                    </td>
-                    <td><?= $e($asset['assigned_name'] ?? '—') ?></td>
-                    <td><?= $e($asset['location'] ?? '—') ?></td>
-                    <td><?= $e(substr($asset['warranty_expires'] ?? '', 0, 10) ?: '—') ?></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <?= $paginationHtml ?>
+<div class="card<?= empty($assets) ? ' content-panel' : '' ?>">
+    <?php if (!empty($assets)): ?><?= $paginationHtml ?><?php endif; ?>
+    <?= DataTable::render([
+        'columns' => [
+            ['label' => 'Asset Tag',       'sort' => 'asset_tag',       'primary' => true,
+             'render' => fn($r, $e) => '<a href="/assets/assets/details?id=' . (int) $r['id'] . '" class="table-link">' . $e($r['asset_tag'] ?: 'ASSET-??????') . '</a>'],
+            ['label' => 'Name',            'key' => 'name',             'sort' => 'name'],
+            ['label' => 'Type',            'key' => 'type',             'sort' => 'type'],
+            ['label' => 'Status',          'key' => 'status',           'sort' => 'status',          'badge' => $statusBadge],
+            ['label' => 'Assigned To',     'key' => 'assigned_name'],
+            ['label' => 'Location',        'key' => 'location'],
+            ['label' => 'Warranty Expires','key' => 'warranty_expires', 'sort' => 'warranty_expires', 'date' => true],
+        ],
+        'rows'           => $assets,
+        'sort'           => $sort, 'dir' => $dir, 'qs' => $qs,
+        'has_filters'    => $search !== '' || $status !== '' || $type !== '',
+        'empty'          => ['icon' => 'fa-regular fa-laptop', 'message' => 'No assets yet.',
+                             'link' => ['href' => '/assets/assets/new', 'text' => 'Add the first asset']],
+        'filtered_empty' => 'No assets match your filters.',
+    ]) ?>
+    <?php if (!empty($assets)): ?><?= $paginationHtml ?><?php endif; ?>
 </div>
 
 <?php endif; ?>

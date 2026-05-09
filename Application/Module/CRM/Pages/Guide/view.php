@@ -245,19 +245,17 @@
     </ol>
 
     <p class="section-label section-label--mt">Stage advancement criteria</p>
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr><th>Move to this stage</th><th>When…</th></tr>
-            </thead>
-            <tbody>
-                <tr><td><span class="badge badge--info">Building</span></td><td>Discovery call completed; requirements being gathered; clear fit identified</td></tr>
-                <tr><td><span class="badge badge--info">Review</span></td><td>Solution defined and internally reviewed; ready for proposal</td></tr>
-                <tr><td><span class="badge badge--warning">Quote</span></td><td>Formal written proposal or quote delivered to the customer</td></tr>
-                <tr><td><span class="badge badge--purple">Negotiating</span></td><td>Customer has indicated intent to purchase; discussing terms</td></tr>
-            </tbody>
-        </table>
-    </div>
+    <table class="data-table">
+        <thead>
+            <tr><th>Move to this stage</th><th>When…</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><span class="badge badge--info">Building</span></td><td data-label="When…">Discovery call completed; requirements being gathered; clear fit identified</td></tr>
+            <tr><td><span class="badge badge--info">Review</span></td><td data-label="When…">Solution defined and internally reviewed; ready for proposal</td></tr>
+            <tr><td><span class="badge badge--warning">Quote</span></td><td data-label="When…">Formal written proposal or quote delivered to the customer</td></tr>
+            <tr><td><span class="badge badge--purple">Negotiating</span></td><td data-label="When…">Customer has indicated intent to purchase; discussing terms</td></tr>
+        </tbody>
+    </table>
 </div>
 
 <!-- Playbook: Closing -->

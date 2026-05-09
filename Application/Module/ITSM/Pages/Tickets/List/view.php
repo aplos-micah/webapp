@@ -150,74 +150,26 @@ if ($totalPages > 1) {
 </form>
 
 <div id="ticket-results">
-<?php if (empty($tickets) && $search === '' && $status === '' && $priority === '' && $type === ''): ?>
-
-<div class="card content-panel">
-    <div class="content-panel__empty">
-        <i class="fa-regular fa-ticket" aria-hidden="true"></i>
-        <p>No tickets yet. <a href="/itsm/tickets/new">Create the first ticket</a>.</p>
-    </div>
+<div class="card<?= empty($tickets) ? ' content-panel' : '' ?>">
+    <?php if (!empty($tickets)): ?><?= $paginationHtml ?><?php endif; ?>
+    <?= DataTable::render([
+        'columns' => [
+            ['label' => 'Ticket #',    'sort' => 'ticket_number', 'primary' => true,
+             'render' => fn($r, $e) => '<a href="/itsm/tickets/details?id=' . (int) $r['id'] . '" class="table-link">' . $e($r['ticket_number'] ?: 'TKT-??????') . '</a>'],
+            ['label' => 'Title',       'key' => 'title',          'sort' => 'title'],
+            ['label' => 'Type',        'key' => 'type',           'sort' => 'type'],
+            ['label' => 'Priority',    'key' => 'priority',       'sort' => 'priority',    'badge' => $priorityBadge],
+            ['label' => 'Status',      'key' => 'status',         'sort' => 'status',      'badge' => $statusBadge],
+            ['label' => 'Assigned To', 'key' => 'assigned_name'],
+            ['label' => 'Created',     'key' => 'created_at',     'sort' => 'created_at',  'date' => true],
+        ],
+        'rows'           => $tickets,
+        'sort'           => $sort, 'dir' => $dir, 'qs' => $qs,
+        'has_filters'    => $search !== '' || $status !== '' || $priority !== '' || $type !== '',
+        'empty'          => ['icon' => 'fa-regular fa-ticket', 'message' => 'No tickets yet.',
+                             'link' => ['href' => '/itsm/tickets/new', 'text' => 'Create the first ticket']],
+        'filtered_empty' => 'No tickets match your filters.',
+    ]) ?>
+    <?php if (!empty($tickets)): ?><?= $paginationHtml ?><?php endif; ?>
 </div>
-
-<?php elseif (empty($tickets)): ?>
-
-<div class="card content-panel">
-    <div class="content-panel__empty">
-        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-        <p>No tickets match your filters.</p>
-    </div>
-</div>
-
-<?php else: ?>
-
-<div class="card">
-    <?= $paginationHtml ?>
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th><a href="<?= $sortLink('ticket_number') ?>" class="sort-link">Ticket # <?= $sortIcon('ticket_number') ?></a></th>
-                    <th><a href="<?= $sortLink('title') ?>" class="sort-link">Title <?= $sortIcon('title') ?></a></th>
-                    <th><a href="<?= $sortLink('type') ?>" class="sort-link">Type <?= $sortIcon('type') ?></a></th>
-                    <th><a href="<?= $sortLink('priority') ?>" class="sort-link">Priority <?= $sortIcon('priority') ?></a></th>
-                    <th><a href="<?= $sortLink('status') ?>" class="sort-link">Status <?= $sortIcon('status') ?></a></th>
-                    <th>Assigned To</th>
-                    <th><a href="<?= $sortLink('created_at') ?>" class="sort-link">Created <?= $sortIcon('created_at') ?></a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($tickets as $ticket): ?>
-                <tr>
-                    <td>
-                        <a href="/itsm/tickets/details?id=<?= (int) $ticket['id'] ?>" class="table-link">
-                            <?= $e($ticket['ticket_number'] ?: 'TKT-??????') ?>
-                        </a>
-                    </td>
-                    <td><?= $e($ticket['title']) ?></td>
-                    <td><?= $e($ticket['type'] ?? '—') ?></td>
-                    <td>
-                        <?php if (!empty($ticket['priority'])): ?>
-                        <span class="badge <?= $priorityBadge[$ticket['priority']] ?? 'badge--neutral' ?>">
-                            <?= $e($ticket['priority']) ?>
-                        </span>
-                        <?php else: ?>—<?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if (!empty($ticket['status'])): ?>
-                        <span class="badge <?= $statusBadge[$ticket['status']] ?? 'badge--neutral' ?>">
-                            <?= $e($ticket['status']) ?>
-                        </span>
-                        <?php else: ?>—<?php endif; ?>
-                    </td>
-                    <td><?= $e($ticket['assigned_name'] ?? '—') ?></td>
-                    <td><?= $e(substr($ticket['created_at'] ?? '', 0, 10)) ?></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <?= $paginationHtml ?>
-</div>
-
-<?php endif; ?>
 </div>

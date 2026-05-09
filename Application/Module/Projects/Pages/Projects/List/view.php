@@ -166,55 +166,34 @@ if ($totalPages > 1) {
 
 <?php else: ?>
 
-<div class="card">
-    <?= $paginationHtml ?>
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th><a href="<?= $sortLink('name') ?>" class="sort-link">Name <?= $sortIcon('name') ?></a></th>
-                    <th><a href="<?= $sortLink('status') ?>" class="sort-link">Status <?= $sortIcon('status') ?></a></th>
-                    <th><a href="<?= $sortLink('phase') ?>" class="sort-link">Phase <?= $sortIcon('phase') ?></a></th>
-                    <th><a href="<?= $sortLink('priority') ?>" class="sort-link">Priority <?= $sortIcon('priority') ?></a></th>
-                    <th>Owner</th>
-                    <th><a href="<?= $sortLink('due_date') ?>" class="sort-link">Due Date <?= $sortIcon('due_date') ?></a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($projects as $project): ?>
-                <?php
-                $isOverdue = !empty($project['due_date'])
-                    && $project['due_date'] < date('Y-m-d')
-                    && !in_array($project['status'], ['Completed', 'Cancelled'], true);
-                ?>
-                <tr>
-                    <td>
-                        <a href="/projects/projects/details?id=<?= (int) $project['id'] ?>" class="table-link">
-                            <?= $e($project['name']) ?>
-                        </a>
-                    </td>
-                    <td>
-                        <span class="badge <?= $statusBadge[$project['status']] ?? 'badge--neutral' ?>">
-                            <?= $e($project['status']) ?>
-                        </span>
-                    </td>
-                    <td><?= $e($project['phase'] ?? '—') ?></td>
-                    <td>
-                        <span class="badge <?= $priorityBadge[$project['priority']] ?? 'badge--neutral' ?>">
-                            <?= $e($project['priority']) ?>
-                        </span>
-                    </td>
-                    <td><?= $e($project['owner_name'] ?? '—') ?></td>
-                    <td<?= $isOverdue ? ' class="text-orange"' : '' ?>>
-                        <?= $e(substr($project['due_date'] ?? '', 0, 10) ?: '—') ?>
-                        <?php if ($isOverdue): ?><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><?php endif; ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <?= $paginationHtml ?>
+<div class="card<?= empty($projects) ? ' content-panel' : '' ?>">
+    <?php if (!empty($projects)): ?><?= $paginationHtml ?><?php endif; ?>
+    <?= DataTable::render([
+        'columns' => [
+            ['label' => 'Name',     'sort' => 'name',     'primary' => true,
+             'render' => fn($r, $e) => '<a href="/projects/projects/details?id=' . (int) $r['id'] . '" class="table-link">' . $e($r['name']) . '</a>'],
+            ['label' => 'Status',   'key' => 'status',   'sort' => 'status',   'badge' => $statusBadge],
+            ['label' => 'Phase',    'key' => 'phase',    'sort' => 'phase'],
+            ['label' => 'Priority', 'key' => 'priority', 'sort' => 'priority', 'badge' => $priorityBadge],
+            ['label' => 'Owner',    'key' => 'owner_name'],
+            ['label' => 'Due Date', 'sort' => 'due_date',
+             'render' => fn($r, $e) => (function($r, $e) {
+                 $isOverdue = !empty($r['due_date']) && $r['due_date'] < date('Y-m-d')
+                     && !in_array($r['status'], ['Completed', 'Cancelled'], true);
+                 $date = $e(substr($r['due_date'] ?? '', 0, 10) ?: '—');
+                 return $isOverdue
+                     ? '<span class="text-orange">' . $date . ' <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i></span>'
+                     : $date;
+             })($r, $e)],
+        ],
+        'rows'           => $projects,
+        'sort'           => $sort, 'dir' => $dir, 'qs' => $qs,
+        'has_filters'    => $search !== '' || $status !== '' || $phase !== '' || $priority !== '',
+        'empty'          => ['icon' => 'fa-regular fa-diagram-project', 'message' => 'No projects yet.',
+                             'link' => ['href' => '/projects/projects/new', 'text' => 'Create the first project']],
+        'filtered_empty' => 'No projects match your filters.',
+    ]) ?>
+    <?php if (!empty($projects)): ?><?= $paginationHtml ?><?php endif; ?>
 </div>
 
 <?php endif; ?>

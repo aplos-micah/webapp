@@ -132,66 +132,26 @@ if ($totalPages > 1) {
 
 <div class="card">
     <?= $paginationHtml ?>
-
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th><a href="<?= $sortLink('last_name') ?>" class="sort-link">Name <?= $sortIcon('last_name') ?></a></th>
-                    <th>Account</th>
-                    <th><a href="<?= $sortLink('job_title') ?>" class="sort-link">Job Title <?= $sortIcon('job_title') ?></a></th>
-                    <th><a href="<?= $sortLink('email') ?>" class="sort-link">Email <?= $sortIcon('email') ?></a></th>
-                    <th><a href="<?= $sortLink('status') ?>" class="sort-link">Status <?= $sortIcon('status') ?></a></th>
-                    <th><a href="<?= $sortLink('lifecycle_stage') ?>" class="sort-link">Lifecycle Stage <?= $sortIcon('lifecycle_stage') ?></a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($contacts as $contact): ?>
-                <?php
-                    $fullName = trim(
-                        htmlspecialchars($contact['first_name'] ?? '', ENT_QUOTES, 'UTF-8') . ' ' .
-                        htmlspecialchars($contact['last_name']  ?? '', ENT_QUOTES, 'UTF-8')
-                    );
-                ?>
-                <tr>
-                    <td>
-                        <a href="/crm/contacts/details?id=<?= (int) $contact['id'] ?>" class="table-link">
-                            <?= $fullName ?>
-                        </a>
-                    </td>
-                    <td>
-                        <?php if (!empty($contact['account_id']) && !empty($contact['account_name'])): ?>
-                        <a href="/crm/accounts/details?id=<?= (int) $contact['account_id'] ?>" class="table-link">
-                            <?= htmlspecialchars($contact['account_name'], ENT_QUOTES, 'UTF-8') ?>
-                        </a>
-                        <?php else: ?>
-                        —
-                        <?php endif; ?>
-                    </td>
-                    <td><?= htmlspecialchars($contact['job_title']       ?? '—', ENT_QUOTES, 'UTF-8') ?></td>
-                    <td>
-                        <?php if (!empty($contact['email'])): ?>
-                        <a href="mailto:<?= htmlspecialchars($contact['email'], ENT_QUOTES, 'UTF-8') ?>" class="table-link">
-                            <?= htmlspecialchars($contact['email'], ENT_QUOTES, 'UTF-8') ?>
-                        </a>
-                        <?php else: ?>
-                        —
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if (!empty($contact['status'])): ?>
-                        <span class="badge badge--info"><?= htmlspecialchars($contact['status'], ENT_QUOTES, 'UTF-8') ?></span>
-                        <?php else: ?>
-                        —
-                        <?php endif; ?>
-                    </td>
-                    <td><?= htmlspecialchars($contact['lifecycle_stage'] ?? '—', ENT_QUOTES, 'UTF-8') ?></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-
+    <?= DataTable::render([
+        'columns' => [
+            ['label' => 'Name',            'sort' => 'last_name',      'primary' => true,
+             'render' => fn($r, $e) => '<a href="/crm/contacts/details?id=' . (int) $r['id'] . '" class="table-link">'
+                 . $e(trim(($r['first_name'] ?? '') . ' ' . ($r['last_name'] ?? ''))) . '</a>'],
+            ['label' => 'Account',
+             'render' => fn($r, $e) => !empty($r['account_id']) && !empty($r['account_name'])
+                 ? '<a href="/crm/accounts/details?id=' . (int) $r['account_id'] . '" class="table-link">' . $e($r['account_name']) . '</a>'
+                 : '—'],
+            ['label' => 'Job Title',       'key' => 'job_title',       'sort' => 'job_title'],
+            ['label' => 'Email',           'sort' => 'email',
+             'render' => fn($r, $e) => !empty($r['email'])
+                 ? '<a href="mailto:' . $e($r['email']) . '" class="table-link">' . $e($r['email']) . '</a>'
+                 : '—'],
+            ['label' => 'Status',          'key' => 'status',          'sort' => 'status',
+             'badge' => ['Active' => 'badge--info', 'Inactive' => 'badge--neutral']],
+            ['label' => 'Lifecycle Stage', 'key' => 'lifecycle_stage', 'sort' => 'lifecycle_stage'],
+        ],
+        'rows' => $contacts, 'sort' => $sort, 'dir' => $dir, 'qs' => $qs,
+    ]) ?>
     <?= $paginationHtml ?>
 </div>
 

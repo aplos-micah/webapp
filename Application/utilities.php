@@ -14,6 +14,14 @@ require_once __DIR__ . '/Objects/Sanitization.php';
 require_once __DIR__ . '/../configuration/config.php';
 require_once __DIR__ . '/Objects/DB.php';
 require_once __DIR__ . '/Objects/Container.php';
+
+spl_autoload_register(function (string $class): void {
+    $file = __DIR__ . '/UI/' . $class . '.php';
+    if (file_exists($file)) {
+        require_once $file;
+    }
+});
+
 foreach (scandir(__DIR__ . '/Module') as $_mod) {
     $_containerFile = __DIR__ . '/Module/' . $_mod . '/Container.php';
     if (is_file($_containerFile)) {

@@ -134,10 +134,24 @@ Use these before writing anything new.
 ### Tables
 | Class | Description |
 |-------|-------------|
-| `table-wrap` | Scrollable table wrapper (`overflow-x: auto`) |
-| `data-table` | Full-width styled table with navy header |
+| `table-wrap` | Scrollable table wrapper (`overflow-x: auto`) — kept for legacy and special-purpose tables |
+| `data-table` | Full-width styled table with navy header; stacks to card layout at ≤480px |
 | `table-link` | Inline anchor style inside table cells |
 | `sort-link` / `sort-icon` | Sortable column header link and chevron icon |
+
+#### Data Table Pattern
+
+**Never write `<table class="data-table">` directly in a view.** Use `DataTable::render()` instead — see **[UI_Governance.md](UI_Governance.md)**.
+
+The `DataTable` UI component handles:
+- The `<table class="data-table">` element and all children
+- `data-label` attributes on non-primary cells (mobile stacking) — do not add these manually
+- Sort link generation
+- Empty and filtered-empty states
+
+The **view** is responsible for:
+- The surrounding `<div class="card">` wrapper
+- Pagination HTML above and below the table
 
 ### Forms
 | Class | Description |

@@ -120,54 +120,48 @@
     </h2>
     <p class="instructions__p">Priority is determined by <strong>impact</strong> (how many users are affected) × <strong>urgency</strong> (how quickly the business is harmed). Set the highest applicable priority.</p>
 
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>Priority</th>
-                    <th>Impact</th>
-                    <th>Urgency</th>
-                    <th>Response Target</th>
-                    <th>Resolution Target</th>
-                    <th>Examples</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><span class="badge badge--warning">Critical</span></td>
-                    <td>All / Multiple business units</td>
-                    <td>Business stopped</td>
-                    <td>15 minutes</td>
-                    <td>4 hours</td>
-                    <td>Total outage, data breach, security compromise</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge--info">High</span></td>
-                    <td>Many users or a key system</td>
-                    <td>Business severely impacted</td>
-                    <td>1 hour</td>
-                    <td>8 hours</td>
-                    <td>Core system degraded, key team blocked</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge--neutral">Medium</span></td>
-                    <td>Some users, workaround available</td>
-                    <td>Business impacted but functioning</td>
-                    <td>4 hours</td>
-                    <td>2 business days</td>
-                    <td>Feature broken, partial outage, slow performance</td>
-                </tr>
-                <tr>
-                    <td><span class="badge badge--neutral">Low</span></td>
-                    <td>One user or cosmetic issue</td>
-                    <td>Minimal business impact</td>
-                    <td>1 business day</td>
-                    <td>5 business days</td>
-                    <td>Single-user issues, cosmetic bugs, minor requests</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Priority</th><th>Impact</th><th>Urgency</th>
+                <th>Response Target</th><th>Resolution Target</th><th>Examples</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="badge badge--warning">Critical</span></td>
+                <td data-label="Impact">All / Multiple business units</td>
+                <td data-label="Urgency">Business stopped</td>
+                <td data-label="Response Target">15 minutes</td>
+                <td data-label="Resolution Target">4 hours</td>
+                <td data-label="Examples">Total outage, data breach, security compromise</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge--info">High</span></td>
+                <td data-label="Impact">Many users or a key system</td>
+                <td data-label="Urgency">Business severely impacted</td>
+                <td data-label="Response Target">1 hour</td>
+                <td data-label="Resolution Target">8 hours</td>
+                <td data-label="Examples">Core system degraded, key team blocked</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge--neutral">Medium</span></td>
+                <td data-label="Impact">Some users, workaround available</td>
+                <td data-label="Urgency">Business impacted but functioning</td>
+                <td data-label="Response Target">4 hours</td>
+                <td data-label="Resolution Target">2 business days</td>
+                <td data-label="Examples">Feature broken, partial outage, slow performance</td>
+            </tr>
+            <tr>
+                <td><span class="badge badge--neutral">Low</span></td>
+                <td data-label="Impact">One user or cosmetic issue</td>
+                <td data-label="Urgency">Minimal business impact</td>
+                <td data-label="Response Target">1 business day</td>
+                <td data-label="Resolution Target">5 business days</td>
+                <td data-label="Examples">Single-user issues, cosmetic bugs, minor requests</td>
+            </tr>
+        </tbody>
+    </table>
 
     <p class="section-label section-label--mt">Priority override rule</p>
     <p class="instructions__p">A Critical ticket <strong>always takes precedence</strong> over anything else. If a ticket is escalated to Critical, the assignee must acknowledge within 15 minutes or the ticket is escalated to the next person in the chain.</p>

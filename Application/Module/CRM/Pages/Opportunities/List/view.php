@@ -126,49 +126,24 @@ if ($totalPages > 1) {
 
 <div class="card">
     <?= $paginationHtml ?>
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th><a href="<?= $sortLink('opportunity_name') ?>" class="sort-link">Opportunity <?= $sortIcon('opportunity_name') ?></a></th>
-                    <th>Account</th>
-                    <th><a href="<?= $sortLink('stage') ?>" class="sort-link">Stage <?= $sortIcon('stage') ?></a></th>
-                    <th><a href="<?= $sortLink('amount') ?>" class="sort-link">Amount <?= $sortIcon('amount') ?></a></th>
-                    <th><a href="<?= $sortLink('probability') ?>" class="sort-link">Prob. <?= $sortIcon('probability') ?></a></th>
-                    <th><a href="<?= $sortLink('close_date') ?>" class="sort-link">Close Date <?= $sortIcon('close_date') ?></a></th>
-                    <th><a href="<?= $sortLink('forecast_category') ?>" class="sort-link">Forecast <?= $sortIcon('forecast_category') ?></a></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($opportunities as $opp): ?>
-                <tr>
-                    <td>
-                        <a href="/crm/opportunities/details?id=<?= (int) $opp['id'] ?>" class="table-link">
-                            <?= htmlspecialchars($opp['opportunity_name'], ENT_QUOTES, 'UTF-8') ?>
-                        </a>
-                    </td>
-                    <td>
-                        <?php if (!empty($opp['account_id']) && !empty($opp['account_name'])): ?>
-                        <a href="/crm/accounts/details?id=<?= (int) $opp['account_id'] ?>" class="table-link">
-                            <?= htmlspecialchars($opp['account_name'], ENT_QUOTES, 'UTF-8') ?>
-                        </a>
-                        <?php else: ?>—<?php endif; ?>
-                    </td>
-                    <td>
-                        <?php if (!empty($opp['stage'])): ?>
-                        <?php $cls = $stageBadgeClass[$opp['stage']] ?? 'badge--neutral'; ?>
-                        <span class="badge <?= $cls ?>"><?= htmlspecialchars($opp['stage'], ENT_QUOTES, 'UTF-8') ?></span>
-                        <?php else: ?>—<?php endif; ?>
-                    </td>
-                    <td><?= $opp['amount'] !== null ? 'USD ' . number_format((float) $opp['amount'], 2) : '—' ?></td>
-                    <td><?= $opp['probability'] !== null ? (int) $opp['probability'] . '%' : '—' ?></td>
-                    <td><?= !empty($opp['close_date']) ? htmlspecialchars($opp['close_date'], ENT_QUOTES, 'UTF-8') : '—' ?></td>
-                    <td><?= !empty($opp['forecast_category']) ? htmlspecialchars($opp['forecast_category'], ENT_QUOTES, 'UTF-8') : '—' ?></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+    <?= DataTable::render([
+        'columns' => [
+            ['label' => 'Opportunity', 'sort' => 'opportunity_name', 'primary' => true,
+             'render' => fn($r, $e) => '<a href="/crm/opportunities/details?id=' . (int) $r['id'] . '" class="table-link">' . $e($r['opportunity_name']) . '</a>'],
+            ['label' => 'Account',
+             'render' => fn($r, $e) => !empty($r['account_id']) && !empty($r['account_name'])
+                 ? '<a href="/crm/accounts/details?id=' . (int) $r['account_id'] . '" class="table-link">' . $e($r['account_name']) . '</a>'
+                 : '—'],
+            ['label' => 'Stage',    'key' => 'stage',            'sort' => 'stage',            'badge' => $stageBadgeClass],
+            ['label' => 'Amount',   'sort' => 'amount',
+             'render' => fn($r, $e) => $r['amount'] !== null ? 'USD ' . number_format((float) $r['amount'], 2) : '—'],
+            ['label' => 'Prob.',    'sort' => 'probability',
+             'render' => fn($r, $e) => $r['probability'] !== null ? (int) $r['probability'] . '%' : '—'],
+            ['label' => 'Close Date','key' => 'close_date',      'sort' => 'close_date',       'date' => true],
+            ['label' => 'Forecast', 'key' => 'forecast_category','sort' => 'forecast_category'],
+        ],
+        'rows' => $opportunities, 'sort' => $sort, 'dir' => $dir, 'qs' => $qs,
+    ]) ?>
     <?= $paginationHtml ?>
 </div>
 

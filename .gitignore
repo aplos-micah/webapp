@@ -18,3 +18,5 @@ configuration/Module_Governance.md
 .gitignore
 configuration/module_recommendations.md
 zToAction_MD.md
+configuration/UI_Governance.md
+configuration/CSS_Governance.md

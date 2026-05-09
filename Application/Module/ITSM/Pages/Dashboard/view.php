@@ -275,41 +275,17 @@ $pct = fn(int $n) => $openTotal > 0 ? round(($n / $openTotal) * 100) : 0;
         <?php endif; ?>
     </h2>
 
-    <?php if (empty($unassigned)): ?>
-    <div class="content-panel__empty">
-        <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
-        <p>All open tickets are assigned.</p>
-    </div>
-    <?php else: ?>
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>Ticket #</th>
-                    <th>Title</th>
-                    <th>Type</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($unassigned as $t): ?>
-                <tr>
-                    <td>
-                        <a href="/itsm/tickets/details?id=<?= (int) $t['id'] ?>" class="table-link">
-                            <?= $e($t['ticket_number'] ?: 'TKT-??????') ?>
-                        </a>
-                    </td>
-                    <td><?= $e($t['title']) ?></td>
-                    <td><?= $e($t['type'] ?? '—') ?></td>
-                    <td><span class="badge <?= $priorityBadge[$t['priority']] ?? 'badge--neutral' ?>"><?= $e($t['priority']) ?></span></td>
-                    <td><span class="badge <?= $statusBadge[$t['status']] ?? 'badge--neutral' ?>"><?= $e($t['status']) ?></span></td>
-                    <td><?= $e(substr($t['created_at'] ?? '', 0, 10)) ?></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <?php endif; ?>
+    <?= DataTable::render([
+        'columns' => [
+            ['label' => 'Ticket #', 'primary' => true,
+             'render' => fn($r, $e) => '<a href="/itsm/tickets/details?id=' . (int) $r['id'] . '" class="table-link">' . $e($r['ticket_number'] ?: 'TKT-??????') . '</a>'],
+            ['label' => 'Title',    'key' => 'title'],
+            ['label' => 'Type',     'key' => 'type'],
+            ['label' => 'Priority', 'key' => 'priority', 'badge' => $priorityBadge],
+            ['label' => 'Status',   'key' => 'status',   'badge' => $statusBadge],
+            ['label' => 'Created',  'key' => 'created_at', 'date' => true],
+        ],
+        'rows'  => $unassigned,
+        'empty' => ['icon' => 'fa-solid fa-circle-check', 'message' => 'All open tickets are assigned.'],
+    ]) ?>
 </div>
