@@ -62,6 +62,79 @@ document.addEventListener('click', function (e) {
     });
 }());
 
+// ── Collapsible module nav groups ─────────────────────────────────────────────
+
+(function () {
+    var modules = Array.prototype.slice.call(
+        document.querySelectorAll('.side-nav__module')
+    );
+    if (!modules.length) return;
+
+    var STORAGE_KEY = 'nav-open-modules';
+
+    function moduleLabel(mod) {
+        var span = mod.querySelector('.side-nav__module-toggle span');
+        return span ? span.textContent.trim() : '';
+    }
+
+    function openModule(mod) {
+        mod.classList.add('is-open');
+        var btn = mod.querySelector('.side-nav__module-toggle');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeModule(mod) {
+        mod.classList.remove('is-open');
+        var btn = mod.querySelector('.side-nav__module-toggle');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+
+    function loadOpenSet() {
+        try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '[]'); } catch (e) { return []; }
+    }
+
+    function saveOpenSet() {
+        var open = modules
+            .filter(function (m) { return m.classList.contains('is-open'); })
+            .map(moduleLabel);
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(open)); } catch (e) {}
+    }
+
+    // Priority: always open module with active link; restore others from sessionStorage;
+    // if nothing stored and no active module, open first module
+    var openSet  = loadOpenSet();
+    var hasActive = false;
+
+    modules.forEach(function (mod) {
+        var label = moduleLabel(mod);
+        if (mod.querySelector('.side-nav__link.is-active')) {
+            openModule(mod);
+            hasActive = true;
+        } else if (openSet.indexOf(label) !== -1) {
+            openModule(mod);
+        }
+    });
+
+    if (!hasActive && openSet.length === 0) {
+        openModule(modules[0]);
+        saveOpenSet();
+    }
+
+    // Toggle on click — each module independent, save full open set
+    document.addEventListener('click', function (e) {
+        var btn = e.target.closest('.side-nav__module-toggle');
+        if (!btn) return;
+        var mod = btn.closest('.side-nav__module');
+        if (!mod) return;
+        if (mod.classList.contains('is-open')) {
+            closeModule(mod);
+        } else {
+            openModule(mod);
+        }
+        saveOpenSet();
+    });
+}());
+
 // ── Profile page — tab switching ──────────────────────────────────────────────
 
 (function () {

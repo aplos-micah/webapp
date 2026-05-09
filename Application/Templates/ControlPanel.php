@@ -23,14 +23,14 @@ $_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
     <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="/assets/css/main.css?v=6.1">
-    <link rel="stylesheet" href="/assets/css/app.css?v=6.1">
+    <link rel="stylesheet" href="/assets/css/main.css?v=7.0">
+    <link rel="stylesheet" href="/assets/css/app.css?v=7.0">
 
     <!-- htmx -->
     <script src="/assets/vendor/htmx.min.js" defer></script>
 
     <!-- App -->
-    <script src="/assets/js/app.js" defer></script>
+    <script src="/assets/js/app.js?v=7.2" defer></script>
     <?php if ($_hasModuleJs): ?>
     <script src="/assets/js/<?= htmlspecialchars($_moduleSegment, ENT_QUOTES, 'UTF-8') ?>.js" defer></script>
     <?php endif; ?>
