@@ -372,6 +372,61 @@ body.has-env-banner .side-nav {
     .side-nav__module-links  { display: block; }
 }
 
+/* ── Sidebar search input ────────────────────────────────────────────────── */
+
+.side-nav__search-item    { padding: 0.625rem 0.75rem 1.25rem 0.75rem; }
+.side-nav__dashboard-item { margin-top: 0.75rem; }
+
+.side-nav__search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.side-nav__search-icon {
+    position: absolute;
+    left: 0.625rem;
+    font-size: 0.6875rem;
+    color: rgba(214, 234, 248, 0.25);
+    pointer-events: none;
+    transition: color 150ms ease;
+}
+
+/* Scope to .side-nav to beat main.css input[type="search"] specificity */
+.side-nav .side-nav__search-input {
+    width: 100%;
+    background: rgba(214, 234, 248, 0.05);
+    border: 1px solid rgba(214, 234, 248, 0.1);
+    border-radius: 6px;
+    padding: 0.35rem 0.625rem 0.35rem 1.875rem;
+    font-size: 0.75rem;
+    color: #ffffff;
+    outline: none;
+    min-height: unset;
+    box-shadow: none;
+    appearance: none;
+    transition: border-color 150ms ease, background 150ms ease, color 150ms ease;
+}
+.side-nav .side-nav__search-input::placeholder {
+    color: rgba(214, 234, 248, 0.3);
+}
+.side-nav .side-nav__search-input:focus {
+    background: rgba(214, 234, 248, 0.09);
+    border-color: rgba(214, 234, 248, 0.25);
+    color: rgba(214, 234, 248, 0.85);
+    box-shadow: none;
+}
+.side-nav .side-nav__search-input:focus + .side-nav__search-icon,
+.side-nav__search:focus-within .side-nav__search-icon {
+    color: rgba(214, 234, 248, 0.45);
+}
+.side-nav .side-nav__search-input::-webkit-search-decoration,
+.side-nav .side-nav__search-input::-webkit-search-cancel-button { display: none; }
+
+@media (max-width: 900px) {
+    .side-nav__search-item { display: none; }
+}
+
 /* Nav link */
 .side-nav__link {
     display: flex;
@@ -610,6 +665,12 @@ body.has-env-banner .side-nav {
     .side-nav.is-open .side-nav__link span:not(.side-nav__icon) {
         display: revert;
     }
+
+    /* Restore module toggles (group labels) and search in mobile flyout */
+    .side-nav.is-open .side-nav__module-toggle { display: flex; }
+    .side-nav.is-open .side-nav__module-toggle span { display: revert; }
+    .side-nav.is-open .side-nav__chevron { display: revert; }
+    .side-nav.is-open .side-nav__search-item { display: block; }
 
     .side-nav.is-open .side-nav__link {
         justify-content: flex-start;

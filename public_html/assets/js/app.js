@@ -135,6 +135,74 @@ document.addEventListener('click', function (e) {
     });
 }());
 
+// ── Sidebar navigation search ─────────────────────────────────────────────────
+
+(function () {
+    var input = document.getElementById('nav-search');
+    if (!input) return;
+
+    var navIndex = [];
+
+    // Index module links (with parent label for context)
+    document.querySelectorAll('.side-nav__module').forEach(function (mod) {
+        var parentSpan = mod.querySelector('.side-nav__module-toggle span');
+        var parentLabel = parentSpan ? parentSpan.textContent.trim() : '';
+        mod.querySelectorAll('.side-nav__module-links li').forEach(function (li) {
+            var a = li.querySelector('.side-nav__link');
+            if (!a) return;
+            var span = a.querySelector('span');
+            navIndex.push({
+                li: li, mod: mod,
+                text: (parentLabel + ' ' + (span ? span.textContent.trim() : '')).toLowerCase(),
+            });
+        });
+    });
+
+    // Index standalone links (Dashboard, My Company, My Profile)
+    document.querySelectorAll('.side-nav__list > li > .side-nav__link').forEach(function (a) {
+        var span = a.querySelector('span');
+        navIndex.push({
+            li: a.parentElement, mod: null,
+            text: (span ? span.textContent.trim() : '').toLowerCase(),
+        });
+    });
+
+    function applySearch(q) {
+        var matchedMods = [];
+        navIndex.forEach(function (item) {
+            var matches = item.text.indexOf(q) !== -1;
+            item.li.style.display = matches ? '' : 'none';
+            if (matches && item.mod && matchedMods.indexOf(item.mod) === -1) {
+                matchedMods.push(item.mod);
+            }
+        });
+        document.querySelectorAll('.side-nav__module').forEach(function (mod) {
+            var hasMatch = matchedMods.indexOf(mod) !== -1;
+            mod.style.display = hasMatch ? '' : 'none';
+            var links = mod.querySelector('.side-nav__module-links');
+            if (links) links.style.display = hasMatch ? 'block' : '';
+        });
+    }
+
+    function clearSearch() {
+        navIndex.forEach(function (item) { item.li.style.display = ''; });
+        document.querySelectorAll('.side-nav__module').forEach(function (mod) {
+            mod.style.display = '';
+            var links = mod.querySelector('.side-nav__module-links');
+            if (links) links.style.display = '';
+        });
+    }
+
+    input.addEventListener('input', function () {
+        var q = input.value.trim().toLowerCase();
+        q ? applySearch(q) : clearSearch();
+    });
+
+    input.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { input.value = ''; clearSearch(); input.blur(); }
+    });
+}());
+
 // ── Profile page — tab switching ──────────────────────────────────────────────
 
 (function () {

@@ -24,13 +24,13 @@ $_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
 
     <!-- Styles -->
     <link rel="stylesheet" href="/assets/css/main.css?v=7.0">
-    <link rel="stylesheet" href="/assets/css/app.css?v=7.0">
+    <link rel="stylesheet" href="/assets/css/app.css?v=7.8">
 
     <!-- htmx -->
     <script src="/assets/vendor/htmx.min.js" defer></script>
 
     <!-- App -->
-    <script src="/assets/js/app.js?v=7.2" defer></script>
+    <script src="/assets/js/app.js?v=7.3" defer></script>
     <?php if ($_hasModuleJs): ?>
     <script src="/assets/js/<?= htmlspecialchars($_moduleSegment, ENT_QUOTES, 'UTF-8') ?>.js" defer></script>
     <?php endif; ?>
@@ -130,7 +130,15 @@ $_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
         <nav class="side-nav" id="side-nav" aria-label="Application">
             <ul class="side-nav__list" role="list">
 
-                <li>
+                <li class="side-nav__search-item">
+                    <div class="side-nav__search">
+                        <i class="fa-solid fa-magnifying-glass side-nav__search-icon" aria-hidden="true"></i>
+                        <input type="search" id="nav-search" class="side-nav__search-input"
+                               placeholder="Search menu…" autocomplete="off" aria-label="Search navigation">
+                    </div>
+                </li>
+
+                <li class="side-nav__dashboard-item">
                     <a href="/home" class="side-nav__link<?= $currentSlug === 'home' ? ' is-active' : '' ?>">
                         <i class="fa-solid fa-gauge-high side-nav__icon" aria-hidden="true"></i>
                         <span>Dashboard</span>
@@ -156,20 +164,25 @@ $_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
                 endforeach;
                 ?>
 
-                <li class="side-nav__group"><span>Insights</span></li>
-
-                <li>
-                    <a href="/company" class="side-nav__link<?= $currentSlug === 'company' ? ' is-active' : '' ?>">
-                        <i class="fa-solid fa-building side-nav__icon" aria-hidden="true"></i>
-                        <span>My Company</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="/profile" class="side-nav__link<?= $currentSlug === 'profile' ? ' is-active' : '' ?>">
-                        <i class="fa-solid fa-circle-user side-nav__icon" aria-hidden="true"></i>
-                        <span>My Profile</span>
-                    </a>
+                <li class="side-nav__module">
+                    <button class="side-nav__module-toggle" type="button" aria-expanded="false">
+                        <span>Insights</span>
+                        <i class="fa-solid fa-chevron-right side-nav__chevron" aria-hidden="true"></i>
+                    </button>
+                    <ul class="side-nav__module-links">
+                        <li>
+                            <a href="/company" class="side-nav__link<?= $currentSlug === 'company' ? ' is-active' : '' ?>">
+                                <i class="fa-solid fa-building side-nav__icon" aria-hidden="true"></i>
+                                <span>My Company</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/profile" class="side-nav__link<?= $currentSlug === 'profile' ? ' is-active' : '' ?>">
+                                <i class="fa-solid fa-circle-user side-nav__icon" aria-hidden="true"></i>
+                                <span>My Profile</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
 
