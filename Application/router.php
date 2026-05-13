@@ -101,7 +101,7 @@ class Router
 
         // Auth gate — specific user type required
         if ($pageConfig['requiresUserType'] !== null
-            && self::userType() !== $pageConfig['requiresUserType']) {
+            && !in_array(self::userType(), (array) $pageConfig['requiresUserType'], true)) {
             Logger::getInstance()->warning('Authorization denied', [
                 'slug'     => $slug,
                 'required' => $pageConfig['requiresUserType'],
@@ -276,7 +276,8 @@ class Router
         $moduleConfigFile = $moduleDir . '/module.php';
         if (file_exists($moduleConfigFile)) {
             $config = require $moduleConfigFile;
-            if (!empty($config['requiresUserType']) && self::userType() !== $config['requiresUserType']) {
+            if (!empty($config['requiresUserType'])
+                && !in_array(self::userType(), (array) $config['requiresUserType'], true)) {
                 Response::json(['ok' => false, 'error' => 'Unauthorized.'], 401)->send();
             }
             foreach ($config as $key => $val) {

@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'template' => 'ControlPanel.php',
+    'template'         => 'ControlPanel.php',
+    'requiresUserType' => ['admin', 'manager'],
 ];
