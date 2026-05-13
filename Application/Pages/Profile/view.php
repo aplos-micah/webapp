@@ -136,11 +136,11 @@
         <!-- Tab bar -->
         <div class="tab-bar">
             <button type="button" class="profile-tab<?= $defaultTab === 'company' ? ' profile-tab--active' : '' ?>"
-                    data-tab="company" id="tab-btn-company">
+                    data-tab-target="tab-panel-company">
                 <i class="fa-solid fa-building" aria-hidden="true"></i> Company
             </button>
             <button type="button" class="profile-tab<?= $defaultTab === 'password' ? ' profile-tab--active' : '' ?>"
-                    data-tab="password" id="tab-btn-password">
+                    data-tab-target="tab-panel-password">
                 <i class="fa-solid fa-lock" aria-hidden="true"></i> Password
             </button>
         </div>

@@ -922,6 +922,8 @@ input.list-search__input::-webkit-search-cancel-button {
     align-items: start;
 }
 
+.detail-layout--60-40 { grid-template-columns: 3fr 2fr; }
+
 .detail-layout__aside {
     display: flex;
     flex-direction: column;

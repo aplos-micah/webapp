@@ -130,6 +130,9 @@ class AdminUser
         $userType = in_array($data['user_type'] ?? '', User::TYPES, true) ? $data['user_type'] : 'user';
         $crmTier  = in_array($data['crm_tier']  ?? '', User::MODULE_TIER_VALUES, true) ? $data['crm_tier'] : 'Free';
         $isActive = (int) ($data['is_active'] ?? 0) === 1 ? 1 : 0;
+        $phone    = trim($data['phone']     ?? '') ?: null;
+        $jobTitle = trim($data['job_title'] ?? '') ?: null;
+        $timezone = trim($data['timezone']  ?? '') ?: null;
 
         if ($err = Validator::required($name, 'Name')) {
             return ['ok' => false, 'error' => $err];
@@ -148,9 +151,10 @@ class AdminUser
 
         $this->db->execute(
             'UPDATE users
-                SET name = ?, email = ?, user_type = ?, is_active = ?, updated_at = ?
+                SET name = ?, email = ?, user_type = ?, is_active = ?,
+                    phone = ?, job_title = ?, timezone = ?, updated_at = ?
               WHERE id = ?',
-            [$name, $email, $userType, $isActive, date('Y-m-d H:i:s'), $id]
+            [$name, $email, $userType, $isActive, $phone, $jobTitle, $timezone, date('Y-m-d H:i:s'), $id]
         );
 
         $this->db->execute(

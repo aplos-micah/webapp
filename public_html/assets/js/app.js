@@ -203,19 +203,27 @@ document.addEventListener('click', function (e) {
     });
 }());
 
-// ── Profile page — tab switching ──────────────────────────────────────────────
+// ── Tab switching (generic) ───────────────────────────────────────────────────
 
 (function () {
-    document.querySelectorAll('[data-tab]').forEach(function (btn) {
-        if (!btn.id || !btn.id.startsWith('tab-btn-')) return;
-        btn.addEventListener('click', function () {
-            var name = btn.dataset.tab;
-            ['company', 'password'].forEach(function (t) {
-                var panel = document.getElementById('tab-panel-' + t);
-                var tabBtn = document.getElementById('tab-btn-' + t);
-                if (panel) panel.hidden = (t !== name);
-                if (tabBtn) tabBtn.classList.toggle('profile-tab--active', t === name);
-            });
+    document.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-tab-target]');
+        if (!btn) return;
+        var bar = btn.closest('.tab-bar');
+        if (!bar) return;
+        var target    = btn.dataset.tabTarget;
+        var container = bar.parentElement;
+
+        bar.querySelectorAll('[data-tab-target]').forEach(function (b) {
+            b.classList.remove('profile-tab--active');
+        });
+        btn.classList.add('profile-tab--active');
+
+        var panelIds = Array.from(bar.querySelectorAll('[data-tab-target]'))
+            .map(function (b) { return b.dataset.tabTarget; });
+        panelIds.forEach(function (id) {
+            var p = container.querySelector('#' + id);
+            if (p) p.hidden = (id !== target);
         });
     });
 }());
