@@ -860,4 +860,16 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
 
 </div><!-- /.split-layout -->
 
-
+<!-- Activities tile -->
+<div class="card tile-card mt-lg">
+    <div class="tile-card__header">
+        <h2 class="tile-card__title">
+            <i class="fa-solid fa-list-check" aria-hidden="true"></i>
+            Activities
+        </h2>
+        <a href="/crm/activities/new?opportunity_id=<?= (int) $opp['id'] ?>" class="btn btn--ghost btn--sm">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i> Log Activity
+        </a>
+    </div>
+    <?= $activityListWidget->renderForOpportunity((int) $opp['id']) ?>
+</div>

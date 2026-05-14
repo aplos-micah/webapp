@@ -31,6 +31,9 @@ $_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
 
     <!-- App -->
     <script src="/assets/js/app.js" defer></script>
+    <?php foreach ($pageConfig['extraScripts'] ?? [] as $_es): ?>
+    <script src="<?= htmlspecialchars($_es, ENT_QUOTES, 'UTF-8') ?>" defer></script>
+    <?php endforeach; ?>
     <?php if ($_hasModuleJs): ?>
     <script src="/assets/js/<?= htmlspecialchars($_moduleSegment, ENT_QUOTES, 'UTF-8') ?>.js" defer></script>
     <?php endif; ?>

@@ -85,3 +85,5 @@ foreach ($allowed as $tile) {
         $tileOrder[] = $tile;
     }
 }
+
+$activityListWidget = CRMContainer::get('activity_list');

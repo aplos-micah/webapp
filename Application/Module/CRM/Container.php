@@ -15,6 +15,8 @@ require_once __DIR__ . '/Objects/Location.php';
 require_once __DIR__ . '/Objects/Opportunity.php';
 require_once __DIR__ . '/Objects/OpportunityProductLineItem.php';
 require_once __DIR__ . '/Objects/ProductDefinition.php';
+require_once __DIR__ . '/Objects/ActivityType.php';
+require_once __DIR__ . '/Objects/Activity.php';
 require_once __DIR__ . '/Widgets/AccountContacts.php';
 require_once __DIR__ . '/Widgets/AccountPerformance.php';
 require_once __DIR__ . '/Widgets/AccountOpportunities.php';
@@ -22,6 +24,7 @@ require_once __DIR__ . '/Widgets/AccountLocations.php';
 require_once __DIR__ . '/Widgets/DashContacts.php';
 require_once __DIR__ . '/Widgets/DashOpenDeals.php';
 require_once __DIR__ . '/Widgets/DashLeads.php';
+require_once __DIR__ . '/Widgets/ActivityList.php';
 
 class CRMContainer
 {
@@ -49,6 +52,9 @@ class CRMContainer
             'dash_contacts'         => new DashContacts($db),
             'dash_deals'            => new DashOpenDeals($db),
             'dash_leads'            => new DashLeads($db),
+            'activity_type'         => new ActivityType($db),
+            'activity'              => new Activity($db),
+            'activity_list'         => new ActivityList($db),
             default                 => throw new RuntimeException("CRMContainer: unknown service '{$id}'"),
         };
     }

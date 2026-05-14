@@ -1,3 +1,153 @@
+// ── CRM: Activity type cost pre-fill ─────────────────────────────────────────
+
+(function () {
+    var typeSelect = document.getElementById('activity_type_id');
+    var costInput  = document.getElementById('cost');
+    if (!typeSelect || !costInput) return;
+
+    typeSelect.addEventListener('change', function () {
+        var selected = typeSelect.options[typeSelect.selectedIndex];
+        var avgCost  = selected ? selected.dataset.avgCost : null;
+        if (avgCost && costInput.value === '') {
+            costInput.value = parseFloat(avgCost).toFixed(2);
+        }
+    });
+}());
+
+// ── CRM: Opportunity lookup autocomplete ──────────────────────────────────────
+
+(function () {
+    function initOppLookup(widget) {
+        var input   = widget.querySelector('.entity-lookup__input');
+        var hidden  = widget.querySelector('.entity-lookup__value');
+        var results = widget.querySelector('.entity-lookup__results');
+        if (!input || !hidden || !results) return;
+
+        if (widget.dataset.initialName) input.value = widget.dataset.initialName;
+
+        var debounceTimer = null;
+        var activeIndex   = -1;
+
+        function getOptions() { return Array.from(results.querySelectorAll('.entity-lookup__option')); }
+
+        function setActive(i) {
+            getOptions().forEach(function (el, j) { el.classList.toggle('is-active', j === i); });
+            activeIndex = i;
+        }
+
+        function selectOption(id, name) {
+            hidden.value = id; input.value = name;
+            results.hidden = true; results.innerHTML = ''; activeIndex = -1;
+        }
+
+        function renderResults(items) {
+            results.innerHTML = ''; activeIndex = -1;
+            if (!items.length) {
+                results.innerHTML = '<div class="entity-lookup__empty">No opportunities found.</div>';
+                results.hidden = false; return;
+            }
+            items.forEach(function (item) {
+                var opt = document.createElement('div');
+                opt.className = 'entity-lookup__option';
+                opt.textContent = item.name || item.opportunity_name;
+                opt.addEventListener('mousedown', function (e) { e.preventDefault(); selectOption(item.id, item.name || item.opportunity_name); });
+                results.appendChild(opt);
+            });
+            results.hidden = false;
+        }
+
+        function search(q) {
+            if (q.length < 1) { results.hidden = true; results.innerHTML = ''; return; }
+            fetch('/crm/opportunities/search?q=' + encodeURIComponent(q))
+                .then(function (r) { return r.json(); }).then(renderResults)
+                .catch(function () { results.hidden = true; });
+        }
+
+        input.addEventListener('input', function () {
+            hidden.value = '';
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(function () { search(input.value.trim()); }, 200);
+        });
+
+        input.addEventListener('keydown', function (e) {
+            var opts = getOptions();
+            if (e.key === 'ArrowDown')  { e.preventDefault(); setActive(Math.min(activeIndex + 1, opts.length - 1)); }
+            else if (e.key === 'ArrowUp')  { e.preventDefault(); setActive(Math.max(activeIndex - 1, 0)); }
+            else if (e.key === 'Enter') { e.preventDefault(); if (activeIndex >= 0 && opts[activeIndex]) { opts[activeIndex].dispatchEvent(new MouseEvent('mousedown', { bubbles: true })); } }
+            else if (e.key === 'Escape') { results.hidden = true; activeIndex = -1; }
+        });
+
+        input.addEventListener('blur',  function () { setTimeout(function () { results.hidden = true; }, 150); });
+        input.addEventListener('focus', function () { if (input.value.trim() && !hidden.value) search(input.value.trim()); });
+    }
+
+    document.querySelectorAll('.entity-lookup--opportunity').forEach(initOppLookup);
+}());
+
+// ── CRM: Activity Types — inline edit ────────────────────────────────────────
+
+(function () {
+    document.querySelectorAll('tr[data-type-id]').forEach(function (row) {
+        row.addEventListener('dblclick', function () {
+            var id      = row.dataset.typeId;
+            var editRow = document.getElementById('type-edit-' + id);
+            if (!editRow) return;
+            row.hidden     = true;
+            editRow.hidden = false;
+            var first = editRow.querySelector('.input');
+            if (first) first.focus();
+        });
+    });
+
+    document.querySelectorAll('.type-edit-cancel').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var editRow = btn.closest('.inline-edit-row');
+            if (!editRow) return;
+            editRow.hidden = true;
+            var id      = editRow.id.replace('type-edit-', '');
+            var dispRow = document.querySelector('tr[data-type-id="' + id + '"]');
+            if (dispRow) dispRow.hidden = false;
+        });
+    });
+}());
+
+// ── CRM: Dashboard — activities over time chart ───────────────────────────────
+
+(function () {
+    var canvas = document.getElementById('chart-activities-over-time');
+    if (!canvas) return;
+
+    var raw  = document.getElementById('chart-data');
+    var data = raw ? JSON.parse(raw.textContent) : { labels: [], counts: [] };
+
+    /* global Chart */
+    new Chart(canvas, {
+        type: 'bar',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                label: 'Activities',
+                data: data.counts,
+                backgroundColor: 'rgba(52, 120, 190, 0.75)',
+                borderColor:     'rgba(52, 120, 190, 1)',
+                borderWidth: 1,
+                borderRadius: 4,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1, precision: 0 }
+                }
+            }
+        }
+    });
+}());
+
 // ── CRM: related-tile drag-and-drop reordering ────────────────────────────────
 // Requires <div id="related-tiles" data-save-url="/crm/.../savelayout">
 

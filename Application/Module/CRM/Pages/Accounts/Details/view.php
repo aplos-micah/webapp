@@ -89,6 +89,12 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
                 'new'   => false,
                 'empty' => ['fa-regular fa-chart-bar', 'No performance history yet.'],
             ],
+            'activities' => [
+                'icon'  => 'fa-solid fa-list-check',
+                'label' => 'Activities',
+                'new'   => false,
+                'empty' => ['fa-regular fa-calendar-xmark', 'No activities logged yet.'],
+            ],
         ];
         foreach ($tileOrder as $key):
             $tile = $tiles[$key];
@@ -126,6 +132,8 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
             <?= $opportunitiesWidget->render((int) $account['id']) ?>
             <?php elseif ($key === 'locations'): ?>
             <?= $locationsWidget->render((int) $account['id'], '/crm/accounts/details?id=' . (int) $account['id']) ?>
+            <?php elseif ($key === 'activities'): ?>
+            <?= $activityListWidget->renderForAccount((int) $account['id']) ?>
             <?php else: ?>
             <div class="tile-card__empty">
                 <i class="<?= $tile['empty'][0] ?>" aria-hidden="true"></i>

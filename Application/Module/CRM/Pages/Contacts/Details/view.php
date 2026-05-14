@@ -113,7 +113,11 @@ $field = function(
                 <h3 class="tile-card__title"><?= $meta['label'] ?></h3>
             </div>
             <div class="tile-card__body">
+                <?php if ($tile === 'activities'): ?>
+                <?= $activityListWidget->renderForContact((int) $contact['id']) ?>
+                <?php else: ?>
                 <p class="tile-card__placeholder">No <?= strtolower($meta['label']) ?> yet.</p>
+                <?php endif; ?>
             </div>
         </div>
         <?php endforeach; ?>

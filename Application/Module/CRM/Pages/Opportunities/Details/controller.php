@@ -136,6 +136,8 @@ $competitors  = json_decode($opp['competitor']              ?? '[]', true) ?: []
 $lineItems      = $lineItemObj->findByOpportunity($id);
 $lineItemsTotal = $lineItemObj->totalForOpportunity($id);
 
+$activityListWidget = CRMContainer::get('activity_list');
+
 // Load Bill To and Ship To locations for the opportunity's account
 $locationObj  = CRMContainer::get('location');
 $accountId    = (int) ($opp['account_id'] ?? 0);

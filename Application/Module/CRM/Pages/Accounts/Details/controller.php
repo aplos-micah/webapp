@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Load the logged-in user's saved tile order
-$defaultTileOrder = ['opportunities', 'contacts', 'locations', 'leads', 'performance'];
+$defaultTileOrder = ['opportunities', 'contacts', 'locations', 'leads', 'performance', 'activities'];
 $userObj          = Container::get('user');
 $currentUser      = $userObj->findById((int) ($_SESSION['user_id'] ?? 0));
 $crmSettings      = json_decode($currentUser['module_crm_settings'] ?? '{}', true) ?: [];
@@ -109,3 +109,4 @@ $contactsWidget       = CRMContainer::get('account_contacts');
 $performanceWidget    = CRMContainer::get('account_performance');
 $opportunitiesWidget  = CRMContainer::get('account_opportunities');
 $locationsWidget      = CRMContainer::get('account_locations');
+$activityListWidget   = CRMContainer::get('activity_list');

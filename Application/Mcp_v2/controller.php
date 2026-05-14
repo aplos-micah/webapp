@@ -120,6 +120,23 @@ function mcpv2_handle_list(string $module, string $service, array $args): array
     ]));
 }
 
+function mcpv2_handle_list_filtered(string $module, string $service, array $args): array
+{
+    $search  = trim($args['search'] ?? '');
+    $limit   = min(100, max(1, (int) ($args['limit']  ?? 20)));
+    $offset  = max(0,          (int) ($args['offset'] ?? 0));
+    $filters = array_diff_key($args, array_flip(['search', 'limit', 'offset']));
+
+    $obj  = mcpv2_container($module, $service);
+    $data = $obj->findAll($limit, $offset, $search, 'activity_date', 'desc', $filters);
+
+    return tool_text_v2(json_pretty_v2([
+        'ok'   => true,
+        'data' => $data,
+        'meta' => ['total' => count($data), 'limit' => $limit, 'offset' => $offset],
+    ]));
+}
+
 function mcpv2_handle_get(string $module, string $service, array $args, string $label): array
 {
     $id = (int) ($args['id'] ?? 0);
@@ -263,6 +280,19 @@ function mcpv2_call(string $name, array $args, array $toolMap, ?array $tokenUser
     $module = $tool['_module'] ?? '';
     $label  = $tool['label']   ?? ucfirst($tool['service'] ?? '');
 
+    // Per-tool module tier check (e.g. Manager-only write operations)
+    if (!empty($tool['requiresModuleTier'])) {
+        $moduleLower  = strtolower($module);
+        $sessionTier  = $tokenUser['module_tiers'][$moduleLower] ?? ($_SESSION['module_' . $moduleLower] ?? '');
+        $sessionType  = $tokenUser['user_type'] ?? ($_SESSION['user_type'] ?? '');
+        if ($sessionTier !== $tool['requiresModuleTier'] && $sessionType !== 'admin') {
+            return tool_text_v2(json_pretty_v2([
+                'ok'    => false,
+                'error' => $tool['requiresModuleTier'] . ' module access is required for this operation.',
+            ]));
+        }
+    }
+
     return match ($tool['handler']) {
         'list' => mcpv2_handle_list(
             $module,
@@ -296,6 +326,11 @@ function mcpv2_call(string $name, array $args, array $toolMap, ?array $tokenUser
             $args,
             $tokenUser,
             $tool
+        ),
+        'list_filtered' => mcpv2_handle_list_filtered(
+            $module,
+            $tool['service'],
+            $args
         ),
         default => throw new InvalidArgumentException("Unknown handler type: {$tool['handler']}"),
     };
