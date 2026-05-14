@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $canEdit) {
 
 // Increment view count on every GET (not during edit POST)
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && !$editMode) {
-    $articleObj->incrementViewCount($id);
+    $articleObj->incrementViewCount($id, 'Web');
 }
 
 $pageTitle = $article['title'];

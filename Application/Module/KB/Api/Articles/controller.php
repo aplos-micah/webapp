@@ -17,9 +17,11 @@ $obj = KBContainer::get('article');
 $id = (int) ($_GET['id'] ?? 0);
 if ($id > 0) {
     $record = $obj->findById($id);
-    return $record
-        ? Response::json(['ok' => true, 'data' => $record])
-        : Response::json(['ok' => false, 'error' => 'Article not found.'], 404);
+    if (!$record) {
+        return Response::json(['ok' => false, 'error' => 'Article not found.'], 404);
+    }
+    $obj->incrementViewCount($id, 'Remote Application');
+    return Response::json(['ok' => true, 'data' => $record]);
 }
 
 $search        = trim($_GET['search']   ?? '');

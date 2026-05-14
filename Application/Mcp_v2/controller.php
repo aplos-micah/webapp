@@ -293,7 +293,7 @@ function mcpv2_call(string $name, array $args, array $toolMap, ?array $tokenUser
         }
     }
 
-    return match ($tool['handler']) {
+    $result = match ($tool['handler']) {
         'list' => mcpv2_handle_list(
             $module,
             $tool['service'],
@@ -334,6 +334,26 @@ function mcpv2_call(string $name, array $args, array $toolMap, ?array $tokenUser
         ),
         default => throw new InvalidArgumentException("Unknown handler type: {$tool['handler']}"),
     };
+
+    // Post-get side effect (e.g. increment view count)
+    if ($tool['handler'] === 'get' && !empty($tool['after_get'])) {
+        $afterId = (int) ($args['id'] ?? 0);
+        if ($afterId > 0) {
+            try {
+                $afterArgs = array_merge([$afterId], $tool['after_get_args'] ?? []);
+                mcpv2_container($module, $tool['service'])->{$tool['after_get']}(...$afterArgs);
+            } catch (\Throwable $afterEx) {
+                Logger::getInstance()->warning('after_get side effect failed', [
+                    'tool'    => $tool['name'] ?? '',
+                    'method'  => $tool['after_get'],
+                    'args'    => $afterArgs ?? [],
+                    'error'   => $afterEx->getMessage(),
+                ]);
+            }
+        }
+    }
+
+    return $result;
 }
 
 // ── Dispatch ──────────────────────────────────────────────────────────────────

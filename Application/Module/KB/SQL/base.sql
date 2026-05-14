@@ -19,3 +19,19 @@ CREATE TABLE IF NOT EXISTS kb_articles (
     KEY idx_kb_author   (author_id),
     CONSTRAINT fk_kb_author FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS kb_article_daily_views (
+    id           INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    article_id   INT UNSIGNED NOT NULL,
+    view_date    DATE         NOT NULL,
+    view_count   INT UNSIGNED NOT NULL DEFAULT 1,
+    source       ENUM('Web', 'Remote Application', 'AI') NOT NULL DEFAULT 'Web',
+    created_at   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP
+                              ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_article_date_source (article_id, view_date, source),
+    KEY idx_daily_views_date (view_date),
+    CONSTRAINT fk_daily_views_article
+        FOREIGN KEY (article_id) REFERENCES kb_articles (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

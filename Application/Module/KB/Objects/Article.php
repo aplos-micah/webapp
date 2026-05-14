@@ -118,12 +118,58 @@ class Article
         return ['ok' => true, 'error' => null];
     }
 
-    public function incrementViewCount(int $id): void
+    public function incrementViewCount(int $id, string $source = 'Web'): void
     {
         $this->db->execute(
             'UPDATE kb_articles SET view_count = view_count + 1 WHERE id = ?',
             [$id]
         );
+        $this->db->execute(
+            'INSERT INTO kb_article_daily_views (article_id, view_date, view_count, source)
+             VALUES (?, CURDATE(), 1, ?)
+             ON DUPLICATE KEY UPDATE view_count = view_count + 1',
+            [$id, $source]
+        );
+    }
+
+    public function dailyViewsLastTwoWeeks(): array
+    {
+        $start   = date('Y-m-d', strtotime('-13 days'));
+        $sources = ['Web', 'Remote Application', 'AI'];
+
+        $rows = $this->db->query(
+            'SELECT view_date, source, SUM(view_count) AS total
+               FROM kb_article_daily_views
+              WHERE view_date >= ?
+              GROUP BY view_date, source
+              ORDER BY view_date ASC',
+            [$start]
+        );
+
+        // Index by date + source
+        $indexed = [];
+        foreach ($rows as $row) {
+            $indexed[$row['view_date']][$row['source']] = (int) $row['total'];
+        }
+
+        // Build full 14-day series with all three sources
+        $labels = [];
+        $data   = ['Web' => [], 'Remote Application' => [], 'AI' => []];
+
+        for ($i = 13; $i >= 0; $i--) {
+            $date     = date('Y-m-d', strtotime("-{$i} days"));
+            $labels[] = date('M j', strtotime($date));
+            foreach ($sources as $src) {
+                $data[$src][] = $indexed[$date][$src] ?? 0;
+            }
+        }
+
+        return [
+            'labels' => $labels,
+            'web'    => $data['Web'],
+            'remote' => $data['Remote Application'],
+            'ai'     => $data['AI'],
+        ];
     }
 
     // =========================================================================
