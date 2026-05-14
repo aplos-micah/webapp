@@ -4,7 +4,7 @@
     <div>
         <p class="eyebrow">CRM</p>
         <h1 class="dash-header__title">User Guide</h1>
-        <p class="dash-header__sub">How to use AplosCRM to manage accounts, contacts, and opportunities</p>
+        <p class="dash-header__sub">How to use the CRM to manage accounts, contacts, opportunities, and activities</p>
     </div>
     <div>
         <a href="/crm/accounts/list" class="btn btn--secondary">
@@ -27,9 +27,13 @@
         <li><a href="#contacts" class="table-link">Contacts</a></li>
         <li><a href="#opportunities" class="table-link">Opportunities &amp; Pipeline</a></li>
         <li><a href="#products" class="table-link">Products</a></li>
+        <li><a href="#activities" class="table-link">Activities</a></li>
+        <li><a href="#activity-types" class="table-link">Activity Types (Setup)</a></li>
+        <li><a href="#dashboard" class="table-link">Dashboard</a></li>
         <li><a href="#playbook-new-account" class="table-link">Playbook — Onboarding a New Account</a></li>
         <li><a href="#playbook-pipeline" class="table-link">Playbook — Managing the Sales Pipeline</a></li>
         <li><a href="#playbook-closing" class="table-link">Playbook — Closing a Deal</a></li>
+        <li><a href="#playbook-activity" class="table-link">Playbook — Logging an Activity</a></li>
     </ul>
 </div>
 
@@ -45,6 +49,7 @@
         <div class="field-list__row"><dt>Contact</dt><dd>An individual person at an account — a buyer, influencer, or champion in a deal.</dd></div>
         <div class="field-list__row"><dt>Opportunity</dt><dd>A potential sale — a deal in progress. Contains line items (products), value, close date, and stage.</dd></div>
         <div class="field-list__row"><dt>Product</dt><dd>Items from your product catalogue that can be added as line items to opportunities.</dd></div>
+        <div class="field-list__row"><dt>Activity</dt><dd>A logged customer-facing action — a call, visit, demo, or any other type of engagement. Activities carry a cost and an outcome, and are linked to accounts, contacts, and/or opportunities.</dd></div>
     </dl>
 </div>
 
@@ -175,6 +180,88 @@
     </dl>
 </div>
 
+<!-- Activities -->
+<div class="card profile-card mb-lg" id="activities">
+    <h2 class="profile-card__title">
+        <i class="fa-solid fa-list-check" aria-hidden="true"></i>
+        Activities
+    </h2>
+    <p class="instructions__p">An activity is any customer-facing action you take — a phone call, site visit, product demo, email campaign, or training session. Logging activities gives a complete picture of the effort and cost behind each customer relationship.</p>
+
+    <p class="section-label">Activity fields</p>
+    <dl class="field-list">
+        <div class="field-list__row"><dt>Activity Type</dt><dd>Defines the kind of activity (e.g. Phone Call, Site Visit). Types are configured by managers in <strong>CRM Setup → Activity Types</strong> and carry an average cost.</dd></div>
+        <div class="field-list__row"><dt>Date</dt><dd>The date the activity took place. Required.</dd></div>
+        <div class="field-list__row"><dt>Duration</dt><dd>How long the activity took, in minutes. Optional but useful for time-based cost analysis.</dd></div>
+        <div class="field-list__row"><dt>Cost</dt><dd>The actual cost of this activity. Pre-fills from the activity type's average cost — override if the actual cost differed.</dd></div>
+        <div class="field-list__row"><dt>Outcome</dt><dd>The result of the activity. Choose one that best reflects what happened.</dd></div>
+        <div class="field-list__row"><dt>Notes</dt><dd>Free-text description of what happened, what was discussed, or what the next step is.</dd></div>
+        <div class="field-list__row"><dt>Linked To</dt><dd>At least one of Account, Contact, or Opportunity must be linked. Link all three when applicable for the most complete picture.</dd></div>
+    </dl>
+
+    <p class="section-label section-label--mt">Outcome values</p>
+    <table class="data-table">
+        <thead><tr><th>Outcome</th><th>When to use</th></tr></thead>
+        <tbody>
+            <tr><td><span class="badge badge--success">Positive</span></td><td data-label="When to use">Activity went well — relationship or deal progressed</td></tr>
+            <tr><td><span class="badge badge--neutral">Neutral</span></td><td data-label="When to use">Activity completed with no clear positive or negative result</td></tr>
+            <tr><td><span class="badge badge--danger">Negative</span></td><td data-label="When to use">Activity did not go well — note what happened in the notes field</td></tr>
+            <tr><td><span class="badge badge--success">Completed</span></td><td data-label="When to use">Task finished as planned (best for demos, training sessions)</td></tr>
+            <tr><td><span class="badge badge--neutral">No Response</span></td><td data-label="When to use">Outreach made but customer did not respond</td></tr>
+            <tr><td><span class="badge badge--warning">Follow-up Required</span></td><td data-label="When to use">Activity complete but further action is needed</td></tr>
+            <tr><td><span class="badge badge--neutral">Cancelled</span></td><td data-label="When to use">Activity was scheduled but did not take place</td></tr>
+        </tbody>
+    </table>
+
+    <p class="section-label section-label--mt">Accessing activities</p>
+    <p class="instructions__p">Activities appear in three places: the <strong>Activities list</strong> (CRM → Activities), the <strong>Activities tile</strong> on each Account, Contact, and Opportunity detail page, and the <strong>CRM Dashboard</strong>. Log a new activity from any of these locations — the linked entity is pre-filled when logging from a detail page.</p>
+</div>
+
+<!-- Activity Types -->
+<div class="card profile-card mb-lg" id="activity-types">
+    <h2 class="profile-card__title">
+        <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+        Activity Types (Setup)
+    </h2>
+    <p class="instructions__p">Activity types define the categories of work your team performs with customers. Each type carries an <strong>average cost</strong> — the typical cost to perform that kind of activity. This cost pre-fills when an activity is logged and can be adjusted per activity.</p>
+    <p class="instructions__p">Activity types are managed at <strong>CRM Setup → Activity Types</strong>. This section is accessible to <strong>Manager</strong> and <strong>Admin</strong> users only.</p>
+
+    <p class="section-label">Managing types</p>
+    <ol class="instructions__list">
+        <li>Go to <strong>CRM Setup → Activity Types</strong>.</li>
+        <li>Click <strong>Add Type</strong> to create a new type. Enter a name, optional description, and average cost.</li>
+        <li>Double-click any existing row to edit it inline.</li>
+        <li>Use the <strong>Deactivate</strong> button to retire a type — it will no longer appear in the Log Activity form but historical activities using it are preserved.</li>
+    </ol>
+
+    <p class="section-label section-label--mt">Recommended types to start with</p>
+    <dl class="field-list">
+        <div class="field-list__row"><dt>Phone Call</dt><dd>Outbound or inbound call with a customer or prospect.</dd></div>
+        <div class="field-list__row"><dt>Site Visit</dt><dd>In-person visit to a customer location. Typically the highest cost activity.</dd></div>
+        <div class="field-list__row"><dt>Product Demo</dt><dd>Live demonstration of the product or service.</dd></div>
+        <div class="field-list__row"><dt>Email Campaign</dt><dd>Coordinated outreach to a contact or account.</dd></div>
+        <div class="field-list__row"><dt>Training Session</dt><dd>Onboarding or product training delivered to a customer team.</dd></div>
+    </dl>
+</div>
+
+<!-- Dashboard -->
+<div class="card profile-card mb-lg" id="dashboard">
+    <h2 class="profile-card__title">
+        <i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
+        CRM Dashboard
+    </h2>
+    <p class="instructions__p">The CRM Dashboard (<strong>CRM → Dashboard</strong>) summarises activity for the current quarter.</p>
+
+    <dl class="field-list">
+        <div class="field-list__row"><dt>Activities This Quarter</dt><dd>Total number of activities logged in the current calendar quarter.</dd></div>
+        <div class="field-list__row"><dt>Total Spend This Quarter</dt><dd>Sum of all activity costs logged this quarter.</dd></div>
+        <div class="field-list__row"><dt>Avg Cost Per Activity</dt><dd>Total spend ÷ total activities. Gives a benchmark for cost-of-engagement.</dd></div>
+    </dl>
+
+    <p class="section-label section-label--mt">Activities by week chart</p>
+    <p class="instructions__p">The bar chart shows how many activities were logged each week of the current quarter. A dashed trend line indicates whether activity volume is increasing or decreasing. Use this to spot weeks where outreach dropped off and understand the pattern heading into the rest of the quarter.</p>
+</div>
+
 <!-- Playbook: Onboarding a New Account -->
 <h2 class="migration-heading mb-lg">
     <i class="fa-solid fa-book-open" aria-hidden="true"></i>
@@ -292,4 +379,29 @@
         <div class="field-list__row"><dt>Project Cancelled</dt><dd>The customer's internal initiative was cancelled or postponed.</dd></div>
         <div class="field-list__row"><dt>Poor Relationship</dt><dd>Relationship breakdown — review what happened and whether recovery is possible.</dd></div>
     </dl>
+</div>
+
+<!-- Playbook: Logging an Activity -->
+<div class="card profile-card mb-lg" id="playbook-activity">
+    <h2 class="profile-card__title">
+        <i class="fa-solid fa-list-check" aria-hidden="true"></i>
+        Playbook — Logging an Activity
+    </h2>
+    <p class="instructions__p">Log activities immediately after they happen — not at the end of the week. Accurate logging keeps account history current and ensures the cost data on the dashboard reflects real effort.</p>
+
+    <p class="section-label">After a customer call or visit</p>
+    <ol class="instructions__list">
+        <li>Navigate to the Account, Contact, or Opportunity detail page for the entity you were engaging with.</li>
+        <li>Click <strong>Log Activity</strong> in the Activities tile — the entity link is pre-filled.</li>
+        <li>Select the correct <strong>Activity Type</strong>. The average cost will pre-fill.</li>
+        <li>Set today's date and enter the actual duration in minutes.</li>
+        <li>Override the cost if the actual cost differed from the type average.</li>
+        <li>Select an <strong>Outcome</strong> that reflects the result.</li>
+        <li>Add brief <strong>Notes</strong> — what was discussed, any commitments made, the agreed next step.</li>
+        <li>Link to any additional entities (e.g. if the call was about a specific opportunity, link it too).</li>
+        <li>Save.</li>
+    </ol>
+
+    <p class="section-label section-label--mt">Good notes make a good record</p>
+    <p class="instructions__p">A note like <em>"Discussed renewal pricing. Customer wants 10% reduction. Following up with revised quote by Friday."</em> is far more useful than <em>"Call completed."</em> Write notes as if a colleague might take over the account tomorrow — they should be able to understand the current situation from the activity history alone.</p>
 </div>

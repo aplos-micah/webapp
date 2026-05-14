@@ -41,18 +41,22 @@
         <i class="fa-solid fa-server" aria-hidden="true"></i>
         Platform Overview
     </h2>
-    <p class="instructions__p">The Admin module gives platform administrators control over users, access, API credentials, system health, and database schema. Only users with <strong>user_type = admin</strong> can access this module.</p>
+    <p class="instructions__p">The Admin module gives platform administrators control over users, access, API credentials, system health, and database schema. Most sections require <strong>user_type = admin</strong>. A subset of pages — Users, Companies, and this Guide — are also accessible to <strong>manager</strong> users so team leads can assist with day-to-day user and company management.</p>
 
     <p class="section-label">Admin sections</p>
-    <dl class="field-list">
-        <div class="field-list__row"><dt>Users</dt><dd>Create, edit, and deactivate user accounts. Set user types and module access tiers.</dd></div>
-        <div class="field-list__row"><dt>Companies</dt><dd>Manage the company records that users can belong to.</dd></div>
-        <div class="field-list__row"><dt>OAuth Sessions</dt><dd>View and manage API client registrations and active bearer tokens.</dd></div>
-        <div class="field-list__row"><dt>System Logs</dt><dd>Inspect application logs — errors, warnings, authentication events, and security probes.</dd></div>
-        <div class="field-list__row"><dt>Migrations</dt><dd>Run database schema migrations for all installed modules.</dd></div>
-        <div class="field-list__row"><dt>Validator Tests</dt><dd>Run built-in validation checks to verify the platform is configured correctly.</dd></div>
-        <div class="field-list__row"><dt>Debug: Current User</dt><dd>Inspect the current session and database record for the logged-in user. Development tool only.</dd></div>
-    </dl>
+    <table class="data-table">
+        <thead><tr><th>Section</th><th>Description</th><th>Access</th></tr></thead>
+        <tbody>
+            <tr><td>Users</td><td data-label="Description">Create, edit, and deactivate user accounts. Set user types and module access tiers.</td><td data-label="Access"><span class="badge badge--warning">Admin</span> <span class="badge badge--info">Manager</span></td></tr>
+            <tr><td>Companies</td><td data-label="Description">Manage the company records that users can belong to.</td><td data-label="Access"><span class="badge badge--warning">Admin</span> <span class="badge badge--info">Manager</span></td></tr>
+            <tr><td>Guide</td><td data-label="Description">This document.</td><td data-label="Access"><span class="badge badge--warning">Admin</span> <span class="badge badge--info">Manager</span></td></tr>
+            <tr><td>OAuth Sessions</td><td data-label="Description">View and manage API client registrations and active bearer tokens.</td><td data-label="Access"><span class="badge badge--warning">Admin</span></td></tr>
+            <tr><td>System Logs</td><td data-label="Description">Inspect application logs — errors, warnings, authentication events, and security probes.</td><td data-label="Access"><span class="badge badge--warning">Admin</span></td></tr>
+            <tr><td>Migrations</td><td data-label="Description">Run database schema migrations for all installed modules.</td><td data-label="Access"><span class="badge badge--warning">Admin</span></td></tr>
+            <tr><td>Validator Tests</td><td data-label="Description">Run built-in validation checks to verify the platform is configured correctly.</td><td data-label="Access"><span class="badge badge--warning">Admin</span></td></tr>
+            <tr><td>Debug: Current User</td><td data-label="Description">Inspect the current session and database record for the logged-in user. Development tool only.</td><td data-label="Access"><span class="badge badge--warning">Admin</span></td></tr>
+        </tbody>
+    </table>
 </div>
 
 <!-- User Management -->

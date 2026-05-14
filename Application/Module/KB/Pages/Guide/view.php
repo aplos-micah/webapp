@@ -132,6 +132,37 @@ $pageTitle = 'Knowledge Base User Guide';
     </div>
 </div>
 
+<!-- Dashboard -->
+<div class="card content-panel mb-lg">
+    <h2 class="content-panel__title">
+        <i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
+        Dashboard
+    </h2>
+    <div class="guide-body">
+        <p>The Knowledge Base Dashboard (<strong>Knowledge Base → Dashboard</strong>) gives a quick overview of the article library's health and usage.</p>
+        <dl class="field-list">
+            <div class="field-list__row"><dt>Total Articles</dt><dd>Count of all articles across all statuses.</dd></div>
+            <div class="field-list__row"><dt>Published</dt><dd>Articles live and searchable by all KB users. This is the number that matters for knowledge coverage.</dd></div>
+            <div class="field-list__row"><dt>Drafts</dt><dd>Articles in progress. A high draft count relative to published count indicates a backlog of unfinished work.</dd></div>
+            <div class="field-list__row"><dt>Archived</dt><dd>Retired articles kept for historical reference.</dd></div>
+        </dl>
+        <p class="section-label section-label--mt">Published by Category</p>
+        <p>Shows how published articles are distributed across categories. Use this to spot gaps — if Troubleshooting has far fewer articles than FAQ, that's a signal to prioritise writing resolution articles.</p>
+        <p class="section-label section-label--mt">Most Viewed</p>
+        <p>The five published articles with the highest total view count. High-traffic articles should be reviewed regularly to ensure they stay accurate.</p>
+        <p class="section-label section-label--mt">Recently Updated</p>
+        <p>The five most recently updated published articles. Use this to see what the team has been actively maintaining.</p>
+        <p class="section-label section-label--mt">Daily Article Reads — Last 14 Days</p>
+        <p>A stacked bar chart showing how many times articles were loaded each day over the past two weeks, broken down by how they were accessed:</p>
+        <dl class="field-list">
+            <div class="field-list__row"><dt>Web</dt><dd>Read directly in the browser by a user navigating the Knowledge Base.</dd></div>
+            <div class="field-list__row"><dt>Remote Application</dt><dd>Retrieved via the REST API by an external application or integration.</dd></div>
+            <div class="field-list__row"><dt>AI</dt><dd>Retrieved by Claude via the MCP integration — typically when Claude looks up an article to answer a user question.</dd></div>
+        </dl>
+        <p>A dashed trend line shows whether overall readership is rising or falling. The daily total is shown above each bar.</p>
+    </div>
+</div>
+
 <!-- KB and ITSM Integration -->
 <div class="card content-panel mb-lg">
     <h2 class="content-panel__title">
