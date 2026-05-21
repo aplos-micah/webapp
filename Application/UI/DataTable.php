@@ -56,6 +56,8 @@ class DataTable
         $hasFilters    = $config['has_filters']    ?? false;
         $empty         = $config['empty']          ?? [];
         $filteredEmpty = $config['filtered_empty'] ?? 'No results match your filters.';
+        $download      = $config['download']       ?? true;
+        $allRows       = $config['all_rows']       ?? [];
 
         if (empty($rows)) {
             return $hasFilters
@@ -63,7 +65,12 @@ class DataTable
                 : self::emptyState($empty);
         }
 
-        return self::table($columns, $rows, $sort, $dir, $qs);
+        $tableHtml  = self::table($columns, $rows, $sort, $dir, $qs);
+        $exportRows = !empty($allRows) ? $allRows : $rows;
+        $filename   = is_string($download) ? $download : 'export';
+        $tableHtml  = self::downloadHtml($columns, $exportRows, $filename) . $tableHtml;
+
+        return $tableHtml;
     }
 
     // =========================================================================
@@ -178,6 +185,60 @@ class DataTable
              . '<i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>'
              . '<p>' . $e($message) . '</p>'
              . '</div>';
+    }
+
+    // =========================================================================
+    // Helpers
+    // =========================================================================
+
+    // =========================================================================
+    // Download
+    // =========================================================================
+
+    private static function downloadHtml(array $columns, array $allRows, string $filename): string
+    {
+        $e    = self::escaper();
+        $csv  = self::buildCsv($columns, $allRows);
+        $href = 'data:text/csv;charset=utf-8;base64,' . base64_encode($csv);
+
+        return '<div class="data-table-toolbar">'
+             . '<a href="' . $href . '" download="' . $e($filename . '.csv') . '" class="btn btn--ghost btn--sm">'
+             . '<i class="fa-solid fa-download" aria-hidden="true"></i> Download CSV'
+             . '</a>'
+             . '</div>';
+    }
+
+    private static function buildCsv(array $columns, array $rows): string
+    {
+        $lines = [];
+
+        // Header row
+        $headers = array_map(fn($col) => self::csvField($col['label'] ?? ''), $columns);
+        $lines[] = implode(',', $headers);
+
+        // Data rows
+        foreach ($rows as $row) {
+            $cells = [];
+            foreach ($columns as $col) {
+                $key   = $col['key'] ?? '';
+                $value = $row[$key]  ?? '';
+
+                if (!empty($col['date'])) {
+                    $value = substr((string) $value, 0, 10);
+                }
+
+                $cells[] = self::csvField((string) ($value ?? ''));
+            }
+            $lines[] = implode(',', $cells);
+        }
+
+        // UTF-8 BOM + CRLF line endings (Excel compatibility)
+        return "\xEF\xBB\xBF" . implode("\r\n", $lines);
+    }
+
+    private static function csvField(string $value): string
+    {
+        return '"' . str_replace('"', '""', $value) . '"';
     }
 
     // =========================================================================

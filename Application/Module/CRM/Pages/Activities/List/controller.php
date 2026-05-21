@@ -17,5 +17,6 @@ $totalPages  = max(1, (int) ceil($totalCount / ACTIVITIES_PER_PAGE));
 $currentPage = max(1, min((int) ($_GET['page'] ?? 1), $totalPages));
 $offset      = ($currentPage - 1) * ACTIVITIES_PER_PAGE;
 $activities  = $activityObj->findAll(ACTIVITIES_PER_PAGE, $offset, $search, $sort, $dir);
+$allActivities = $activityObj->findAll(10000, 0, $search, $sort, $dir);
 
 $pageTitle = 'Activities';

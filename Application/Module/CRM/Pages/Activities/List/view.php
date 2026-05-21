@@ -1,26 +1,9 @@
 <?php
-$e = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
-
+$e  = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
 $qs = fn(array $overrides) => '?' . http_build_query(array_filter(
     array_merge(['search' => $search, 'sort' => $sort, 'dir' => $dir, 'page' => $currentPage], $overrides),
     fn($v) => $v !== '' && $v !== null
 ));
-
-$sortLink = fn(string $col) => $qs(['sort' => $col, 'dir' => ($sort === $col && $dir === 'desc') ? 'asc' : 'desc', 'page' => 1]);
-$sortIcon = function(string $col) use ($sort, $dir): string {
-    if ($sort !== $col) return '<i class="fa-solid fa-sort sort-icon sort-icon--idle" aria-hidden="true"></i>';
-    return '<i class="fa-solid ' . ($dir === 'asc' ? 'fa-sort-up' : 'fa-sort-down') . ' sort-icon sort-icon--active" aria-hidden="true"></i>';
-};
-
-$outcomeBadge = [
-    'Positive'           => 'badge--success',
-    'Neutral'            => 'badge--neutral',
-    'Negative'           => 'badge--danger',
-    'Completed'          => 'badge--success',
-    'No Response'        => 'badge--neutral',
-    'Follow-up Required' => 'badge--warning',
-    'Cancelled'          => 'badge--neutral',
-];
 ?>
 
 <div class="dash-header">
@@ -55,63 +38,48 @@ $outcomeBadge = [
 </form>
 
 <div class="card">
-    <div class="table-wrap">
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th><a href="<?= $sortLink('activity_date') ?>" class="sort-link">Date <?= $sortIcon('activity_date') ?></a></th>
-                    <th>Type</th>
-                    <th>Linked To</th>
-                    <th class="col-num">Duration</th>
-                    <th><a href="<?= $sortLink('cost') ?>" class="sort-link">Cost <?= $sortIcon('cost') ?></a></th>
-                    <th><a href="<?= $sortLink('outcome') ?>" class="sort-link">Outcome <?= $sortIcon('outcome') ?></a></th>
-                    <th>Owner</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (empty($activities)): ?>
-                <tr>
-                    <td colspan="7" class="data-table__empty">
-                        <?php if ($search): ?>
-                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                        <p>No activities match "<?= $e($search) ?>".</p>
-                        <?php else: ?>
-                        <i class="fa-regular fa-calendar-xmark" aria-hidden="true"></i>
-                        <p>No activities logged yet. <a href="/crm/activities/new">Log the first one.</a></p>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-                <?php endif; ?>
-
-                <?php foreach ($activities as $a): ?>
-                <?php
-                    $links = [];
-                    if ($a['account_name'])    $links[] = '<a href="/crm/accounts/details?id='     . (int)$a['account_id']     . '">' . $e($a['account_name'])    . '</a>';
-                    if ($a['contact_name'])    $links[] = '<a href="/crm/contacts/details?id='     . (int)$a['contact_id']     . '">' . $e($a['contact_name'])    . '</a>';
-                    if ($a['opportunity_name']) $links[] = '<a href="/crm/opportunities/details?id=' . (int)$a['opportunity_id'] . '">' . $e($a['opportunity_name']) . '</a>';
-                    $badgeCls = $outcomeBadge[$a['outcome'] ?? ''] ?? 'badge--neutral';
-                ?>
-                <tr onclick="window.location='/crm/activities/details?id=<?= (int)$a['id'] ?>'" style="cursor:pointer">
-                    <td data-label="Date"><?= $e($a['activity_date']) ?></td>
-                    <td data-label="Type"><span class="badge badge--info"><?= $e($a['type_name']) ?></span></td>
-                    <td data-label="Linked To"><?= implode(', ', $links) ?></td>
-                    <td data-label="Duration" class="col-num">
-                        <?= $a['duration_minutes'] ? $e($a['duration_minutes']) . ' min' : '—' ?>
-                    </td>
-                    <td data-label="Cost" class="col-num">
-                        <?= $a['cost'] !== null ? '$' . number_format((float)$a['cost'], 2) : '—' ?>
-                    </td>
-                    <td data-label="Outcome">
-                        <?php if ($a['outcome']): ?>
-                        <span class="badge <?= $badgeCls ?>"><?= $e($a['outcome']) ?></span>
-                        <?php else: ?>—<?php endif; ?>
-                    </td>
-                    <td data-label="Owner"><?= $e($a['owner_name']) ?></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+    <?= DataTable::render([
+        'columns' => [
+            ['label' => 'Date',      'key' => 'activity_date', 'sort' => 'activity_date', 'primary' => true,
+             'href'  => fn($r) => '/crm/activities/details?id=' . (int) $r['id']],
+            ['label' => 'Type',      'key' => 'type_name',
+             'render' => fn($r, $e) => '<span class="badge badge--info">' . $e($r['type_name']) . '</span>'],
+            ['label' => 'Linked To', 'key' => 'account_name',
+             'render' => fn($r, $e) => implode(', ', array_filter([
+                 $r['account_name']     ? '<a href="/crm/accounts/details?id='      . (int)$r['account_id']     . '" class="table-link">' . $e($r['account_name'])     . '</a>' : null,
+                 $r['contact_name']     ? '<a href="/crm/contacts/details?id='      . (int)$r['contact_id']     . '" class="table-link">' . $e($r['contact_name'])     . '</a>' : null,
+                 $r['opportunity_name'] ? '<a href="/crm/opportunities/details?id=' . (int)$r['opportunity_id'] . '" class="table-link">' . $e($r['opportunity_name']) . '</a>' : null,
+             ])) ?: '—'],
+            ['label' => 'Duration',  'key' => 'duration_minutes',
+             'render' => fn($r, $e) => $r['duration_minutes'] ? $e($r['duration_minutes']) . ' min' : '—'],
+            ['label' => 'Cost',      'key' => 'cost', 'sort' => 'cost',
+             'render' => fn($r, $e) => $r['cost'] !== null ? '$' . number_format((float) $r['cost'], 2) : '—'],
+            ['label' => 'Outcome',   'key' => 'outcome', 'sort' => 'outcome',
+             'badge' => [
+                 'Positive'           => 'badge--success',
+                 'Neutral'            => 'badge--neutral',
+                 'Negative'           => 'badge--danger',
+                 'Completed'          => 'badge--success',
+                 'No Response'        => 'badge--neutral',
+                 'Follow-up Required' => 'badge--warning',
+                 'Cancelled'          => 'badge--neutral',
+             ]],
+            ['label' => 'Owner',     'key' => 'owner_name'],
+        ],
+        'rows'        => $activities,
+        'all_rows'    => $allActivities,
+        'download'    => 'activities',
+        'sort'        => $sort,
+        'dir'         => $dir,
+        'qs'          => $qs,
+        'has_filters' => $search !== '',
+        'empty'       => [
+            'icon'    => 'fa-regular fa-calendar-xmark',
+            'message' => 'No activities logged yet.',
+            'link'    => ['href' => '/crm/activities/new', 'text' => 'Log the first one.'],
+        ],
+        'filtered_empty' => 'No activities match your search.',
+    ]) ?>
 </div>
 
 <?php if ($totalPages > 1): ?>
