@@ -274,7 +274,7 @@ function initWysiwyg(root) {
         if (el._joditInstance) return;
         var preset = el.dataset.wysiwyg;
         var buttons = _wysiwyg_presets[preset] || _wysiwyg_presets.simple;
-        var editor = Jodit.make(el, {
+        var cfg = {
             buttons: buttons,
             toolbarButtonSize: 'middle',
             showCharsCounter: false,
@@ -282,7 +282,12 @@ function initWysiwyg(root) {
             showXPathInStatusbar: false,
             minHeight: 200,
             defaultFontSizePoints: 'px',
-        });
+        };
+        if (preset === 'full') {
+            cfg.uploader = { insertImageAsBase64URI: true };
+            cfg.enableDragAndDropFileToEditor = true;
+        }
+        var editor = Jodit.make(el, cfg);
         el._joditInstance = editor;
         _joditInstances.push(editor);
     });
