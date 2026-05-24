@@ -6,18 +6,20 @@ How to write, name, and place CSS in the AplosSuite platform.
 
 ## Core Rule: Platform First and Only
 
-**There are exactly two CSS files. No exceptions.**
+**There are exactly two platform CSS files. No exceptions.**
 
 | File | Purpose |
 |------|---------|
 | `public_html/assets/css/main.css` | Generic, reusable components — could be used by any product built on this platform (buttons, badges, cards, forms, tables, alerts, spacing utilities) |
 | `public_html/assets/css/app.css` | Platform shell and structural layout — nav, sidebar, page layout, stat cards, tile cards, module-specific component groups |
 
+**Vendor CSS** (e.g. `public_html/assets/vendor/jodit/jodit.min.css`) is loaded from the vendor directory and does **not** count against the two-file rule. Vendor CSS must not be modified — override vendor styles in `main.css` under a clearly marked vendor-override comment block.
+
 **Never create:**
 - A per-module CSS file (no `itsm.css`, `assets.css`, `kb.css`)
 - Inline `style=` attributes for anything that appears more than once
 - A `<style>` block inside any PHP template or view
-- A third CSS file for any reason
+- A third platform CSS file for any reason
 
 If you need a new style, it goes into one of the two files above or it does not exist.
 
@@ -164,6 +166,14 @@ The **view** is responsible for:
 | `form-actions` | Right-aligned row of submit / cancel buttons |
 | `edit-section` | Subtle background wrapper for edit-mode form fields |
 | `input` | Applied to any `<input>`, `<select>`, or `<textarea>` |
+
+#### WYSIWYG Editor (Jodit) — `RichTextArea` component
+
+The `RichTextArea` UI component renders a `<textarea data-wysiwyg>` which Jodit replaces with its own editor container. Jodit emits `.jodit-container`, `.jodit-toolbar__box`, and `.jodit-wysiwyg` — these are styled via vendor overrides at the bottom of `main.css`.
+
+- Do not write custom CSS targeting `.jodit-*` classes outside the vendor-override section of `main.css`
+- Do not render `<textarea data-wysiwyg>` directly in views — use `RichTextArea::render()` (see **[UI_Governance.md](UI_Governance.md)**)
+- Address fields, JSON fields, and structured-data textareas must remain plain — do not apply `data-wysiwyg` to them
 
 ### Lists & Data Display
 | Class | Description |

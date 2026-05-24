@@ -1350,3 +1350,24 @@ table, .table, .data-table { width: 100%; border-collapse: collapse; font-size: 
 /* ── AccountPerformance widget ───────────────────────────────────────────── */
 .section-label--mt         { margin-top: 1rem; }
 .tile-card__empty--compact { padding: 1.5rem 0 0.5rem; }
+/* ── Jodit WYSIWYG editor ────────────────────────────────────────────────── */
+.jodit-container {
+    border: 1.5px solid var(--color-sky) !important;
+    border-radius: var(--radius-md) !important;
+    font-family: var(--font-body) !important;
+}
+.jodit-container:focus-within {
+    border-color: var(--color-navy) !important;
+    box-shadow: 0 0 0 3px rgba(11, 61, 107, 0.15) !important;
+}
+.jodit-toolbar__box {
+    border-bottom: 1px solid var(--color-sky) !important;
+    border-radius: var(--radius-md) var(--radius-md) 0 0 !important;
+    background: var(--color-bg-subtle, #f9fafb) !important;
+}
+.jodit-wysiwyg {
+    font-family: var(--font-body) !important;
+    font-size: var(--fs-body) !important;
+    color: var(--color-navy) !important;
+    min-height: 200px;
+}

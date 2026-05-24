@@ -22,12 +22,18 @@ $_hasModuleJs   = $_moduleJs && file_exists($_moduleJs);
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
 
+    <!-- Jodit WYSIWYG -->
+    <link rel="stylesheet" href="/assets/vendor/jodit/jodit.min.css">
+
     <!-- Styles -->
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/app.css">
 
     <!-- htmx -->
     <script src="/assets/vendor/htmx.min.js" defer></script>
+
+    <!-- Jodit WYSIWYG -->
+    <script src="/assets/vendor/jodit/jodit.min.js" defer></script>
 
     <!-- App -->
     <script src="/assets/js/app.js" defer></script>

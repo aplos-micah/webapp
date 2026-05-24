@@ -107,11 +107,14 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label" for="description">Description</label>
-            <textarea id="description" name="description" class="input" rows="3"
-                placeholder="Brief summary of the company's business…"><?= htmlspecialchars($_POST['description'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
-        </div>
+        <?= RichTextArea::render([
+            'name'        => 'description',
+            'label'       => 'Description',
+            'value'       => $_POST['description'] ?? '',
+            'placeholder' => 'Brief summary of the company\'s business…',
+            'rows'        => 3,
+            'preset'      => 'moderate',
+        ]) ?>
     </div>
 
     <!-- Section: Addresses -->

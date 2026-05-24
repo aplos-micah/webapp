@@ -81,11 +81,14 @@
         </div>
 
         <!-- Notes -->
-        <div class="form-group">
-            <label class="form-label" for="notes">Notes</label>
-            <textarea id="notes" name="notes" class="input" rows="3"
-                      placeholder="What happened?"><?= $e($_POST['notes'] ?? '') ?></textarea>
-        </div>
+        <?= RichTextArea::render([
+            'name'        => 'notes',
+            'label'       => 'Notes',
+            'value'       => $_POST['notes'] ?? '',
+            'placeholder' => 'What happened?',
+            'rows'        => 3,
+            'preset'      => 'moderate',
+        ]) ?>
 
         <hr class="divider mb-md">
         <p class="form-hint mb-md">Link this activity to at least one of the following.</p>

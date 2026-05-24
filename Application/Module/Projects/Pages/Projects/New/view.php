@@ -38,10 +38,13 @@ $old = fn(string $k) => $e($_POST[$k] ?? '');
                 <input type="text" id="name" name="name" class="input" value="<?= $old('name') ?>" required autocomplete="off">
             </div>
 
-            <div class="form-group">
-                <label class="form-label" for="description">Description</label>
-                <textarea id="description" name="description" class="input" rows="4"><?= $old('description') ?></textarea>
-            </div>
+            <?= RichTextArea::render([
+                'name'   => 'description',
+                'label'  => 'Description',
+                'value'  => $old('description'),
+                'rows'   => 4,
+                'preset' => 'moderate',
+            ]) ?>
 
             <div class="form-row">
                 <div class="form-group form-group--grow">
@@ -70,10 +73,13 @@ $old = fn(string $k) => $e($_POST[$k] ?? '');
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="form-label" for="notes">Notes</label>
-                <textarea id="notes" name="notes" class="input" rows="4"><?= $old('notes') ?></textarea>
-            </div>
+            <?= RichTextArea::render([
+                'name'   => 'notes',
+                'label'  => 'Notes',
+                'value'  => $old('notes'),
+                'rows'   => 4,
+                'preset' => 'moderate',
+            ]) ?>
         </div>
 
         <!-- Schedule & Ownership -->

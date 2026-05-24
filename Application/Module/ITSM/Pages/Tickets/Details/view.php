@@ -103,10 +103,13 @@ $statusBadge = [
                     <input id="title" type="text" name="title" class="input"
                            value="<?= $fld($ticket['title']) ?>" required>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" for="description">Description</label>
-                    <textarea id="description" name="description" class="input" rows="6"><?= $fld($ticket['description']) ?></textarea>
-                </div>
+                <?= RichTextArea::render([
+                    'name'   => 'description',
+                    'label'  => 'Description',
+                    'value'  => $fld($ticket['description']),
+                    'rows'   => 6,
+                    'preset' => 'moderate',
+                ]) ?>
             </div>
             <?php else: ?>
             <dl class="field-list">
@@ -185,11 +188,14 @@ $statusBadge = [
             </h2>
             <?php if ($editMode): ?>
             <div class="edit-section">
-                <div class="form-group">
-                    <label class="form-label" for="resolution">Resolution Notes</label>
-                    <textarea id="resolution" name="resolution" class="input" rows="4"
-                              placeholder="How was this ticket resolved?"><?= $fld($ticket['resolution']) ?></textarea>
-                </div>
+                <?= RichTextArea::render([
+                    'name'        => 'resolution',
+                    'label'       => 'Resolution Notes',
+                    'value'       => $fld($ticket['resolution']),
+                    'placeholder' => 'How was this ticket resolved?',
+                    'rows'        => 4,
+                    'preset'      => 'moderate',
+                ]) ?>
             </div>
             <?php else: ?>
             <?php if (!empty($ticket['resolution'])): ?>

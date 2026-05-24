@@ -85,11 +85,14 @@ $sel = fn(string $f, string $opt) => (($_POST[$f] ?? '') === $opt) ? ' selected'
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label" for="product_description">Product Description</label>
-            <textarea id="product_description" name="product_description" class="input" rows="4"
-                      placeholder="Detailed features and value proposition…"><?= $v('product_description') ?></textarea>
-        </div>
+        <?= RichTextArea::render([
+            'name'        => 'product_description',
+            'label'       => 'Product Description',
+            'value'       => $v('product_description'),
+            'placeholder' => 'Detailed features and value proposition…',
+            'rows'        => 4,
+            'preset'      => 'moderate',
+        ]) ?>
     </div>
 
     <!-- Pricing & Financials -->
@@ -189,11 +192,14 @@ $sel = fn(string $f, string $opt) => (($_POST[$f] ?? '') === $opt) ? ' selected'
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="form-label" for="competitive_notes">Competitive Notes</label>
-            <textarea id="competitive_notes" name="competitive_notes" class="input" rows="4"
-                      placeholder="Comparison data against key competitors…"><?= $v('competitive_notes') ?></textarea>
-        </div>
+        <?= RichTextArea::render([
+            'name'        => 'competitive_notes',
+            'label'       => 'Competitive Notes',
+            'value'       => $v('competitive_notes'),
+            'placeholder' => 'Comparison data against key competitors…',
+            'rows'        => 4,
+            'preset'      => 'moderate',
+        ]) ?>
     </div>
 
     <div class="profile-card__footer">

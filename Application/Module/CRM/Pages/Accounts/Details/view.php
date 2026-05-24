@@ -333,10 +333,13 @@ $field = fn($v) => htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
             <p class="section-label">Description</p>
             <?php if ($editMode): ?>
             <div class="edit-section">
-                <div class="form-group">
-                    <textarea name="description" class="input" rows="4"
-                              placeholder="Brief summary of the company's business…"><?= $field($account['description']) ?></textarea>
-                </div>
+                <?= RichTextArea::render([
+                    'name'        => 'description',
+                    'value'       => $field($account['description']),
+                    'placeholder' => 'Brief summary of the company\'s business…',
+                    'rows'        => 4,
+                    'preset'      => 'moderate',
+                ]) ?>
             </div>
             <?php elseif (!empty($account['description'])): ?>
             <p class="field-text"><?= nl2br($val($account['description'])) ?></p>

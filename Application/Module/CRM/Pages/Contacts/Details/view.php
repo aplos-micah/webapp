@@ -35,7 +35,7 @@ $field = function(
             }
             echo '</select>';
         } elseif ($type === 'textarea') {
-            echo '<textarea name="' . $name . '" class="input" rows="4">' . $inputVal . '</textarea>';
+            echo RichTextArea::render(['name' => $name, 'value' => $inputVal, 'rows' => 4, 'preset' => 'moderate']);
         } else {
             $ph = $placeholder ? ' placeholder="' . htmlspecialchars($placeholder, ENT_QUOTES, 'UTF-8') . '"' : '';
             echo '<input type="' . $type . '" name="' . $name . '" class="input" value="' . $inputVal . '"' . $ph . '>';

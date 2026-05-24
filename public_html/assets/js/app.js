@@ -257,3 +257,37 @@ document.addEventListener('click', function (e) {
     });
 }());
 
+// ── WYSIWYG editor (Jodit) ────────────────────────────────────────────────────
+
+var _joditInstances = [];
+
+var _wysiwyg_presets = {
+    simple:   'bold,italic,underline,|,ul,ol,|,undo,redo',
+    moderate: 'bold,italic,underline,strikethrough,|,ul,ol,|,link,image,|,undo,redo,|,fullsize',
+    full:     'bold,italic,underline,strikethrough,|,ul,ol,|,link,image,table,hr,|,align,font,fontsize,|,undo,redo,source,|,fullsize',
+};
+
+function initWysiwyg(root) {
+    if (typeof Jodit === 'undefined') return;
+    var scope = (root instanceof Element) ? root : document;
+    scope.querySelectorAll('textarea[data-wysiwyg]').forEach(function (el) {
+        if (el._joditInstance) return;
+        var preset = el.dataset.wysiwyg;
+        var buttons = _wysiwyg_presets[preset] || _wysiwyg_presets.simple;
+        var editor = Jodit.make(el, {
+            buttons: buttons,
+            toolbarButtonSize: 'middle',
+            showCharsCounter: false,
+            showWordsCounter: false,
+            showXPathInStatusbar: false,
+            minHeight: 200,
+            defaultFontSizePoints: 'px',
+        });
+        el._joditInstance = editor;
+        _joditInstances.push(editor);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () { initWysiwyg(document); });
+document.addEventListener('htmx:afterSwap', function (e) { initWysiwyg(e.detail.target); });
+

@@ -106,10 +106,14 @@ $statusBadge = [
             <input type="text" id="serial_number" name="serial_number" class="input" value="<?= $val('serial_number') ?>" autocomplete="off">
         </div>
 
-        <div class="form-group">
-            <label class="label" for="notes">Notes</label>
-            <textarea id="notes" name="notes" class="input textarea" rows="4"><?= $val('notes') ?></textarea>
-        </div>
+        <?= RichTextArea::render([
+            'name'   => 'notes',
+            'label'  => 'Notes',
+            'value'  => $val('notes'),
+            'rows'   => 4,
+            'class'  => 'textarea',
+            'preset' => 'moderate',
+        ]) ?>
 
         <?php else: ?>
 

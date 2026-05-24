@@ -21,16 +21,17 @@ Exactly three possible JS files per module/area:
 
 | File | Loaded on | Purpose |
 |------|-----------|---------|
-| `public_html/assets/js/app.js` | Every control-panel page | Platform shell behaviour: sidebar toggle, toast auto-dismiss, shared utilities |
+| `public_html/assets/js/app.js` | Every control-panel page | Platform shell behaviour: sidebar toggle, toast auto-dismiss, WYSIWYG init, shared utilities |
 | `public_html/assets/js/{module}.js` | Pages within `/{module}/*` only | Module-specific behaviour (e.g. drag-and-drop in CRM, chart rendering) |
 | `public_html/assets/vendor/htmx.min.js` | Every control-panel page | HTMX — live search and partial page updates |
+| `public_html/assets/vendor/jodit/jodit.min.js` | Every control-panel page | Jodit WYSIWYG editor — initialized by `app.js` on `textarea[data-wysiwyg]` elements |
 
 The template auto-loads `{module}.js` if the file exists for the current module segment. No manual script tags are needed in views.
 
 **Never create:**
 - Inline `<script>` blocks in a view or template
 - A per-page JS file (no `tickets-list.js`, `asset-details.js`)
-- A second vendor JS file without explicit approval
+- A third vendor JS file without explicit approval (htmx and jodit are the two approved vendors)
 - Any ES module (`import`/`export`) — all files use plain IIFE or function scope
 
 ---
@@ -163,6 +164,7 @@ Use `var` in `app.js` for maximum compatibility with the existing codebase. New 
 | Toast auto-dismiss and close button | `app.js` |
 | Proportion bar / chart initialisation used on home dashboard | `app.js` |
 | Generic confirmation dialog | `app.js` |
+| WYSIWYG editor init (Jodit) — `initWysiwyg()` | `app.js` |
 | CRM tile drag-and-drop reordering | `crm.js` |
 | Module-specific chart or visualisation | `{module}.js` |
 | Live search (HTMX) | HTML attributes in the view — no JS file needed |

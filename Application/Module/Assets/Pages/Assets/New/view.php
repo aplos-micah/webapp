@@ -84,10 +84,14 @@ $old = fn(string $k) => $e($_POST[$k] ?? '');
                 </select>
             </div>
 
-            <div class="form-group">
-                <label class="label" for="notes">Notes</label>
-                <textarea id="notes" name="notes" class="input textarea" rows="4"><?= $old('notes') ?></textarea>
-            </div>
+            <?= RichTextArea::render([
+                'name'   => 'notes',
+                'label'  => 'Notes',
+                'value'  => $old('notes'),
+                'rows'   => 4,
+                'class'  => 'textarea',
+                'preset' => 'moderate',
+            ]) ?>
         </div>
 
         <!-- Assignment & Financials -->

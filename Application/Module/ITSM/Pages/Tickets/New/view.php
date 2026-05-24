@@ -39,11 +39,14 @@ $sel = fn(string $f, string $opt) => (($_POST[$f] ?? '') === $opt) ? ' selected'
             <input id="title" type="text" name="title" class="input"
                    value="<?= $v('title') ?>" placeholder="Brief description of the issue" required>
         </div>
-        <div class="form-group">
-            <label class="form-label" for="description">Description</label>
-            <textarea id="description" name="description" class="input" rows="5"
-                      placeholder="Detailed description, steps to reproduce, impact…"><?= $v('description') ?></textarea>
-        </div>
+        <?= RichTextArea::render([
+            'name'        => 'description',
+            'label'       => 'Description',
+            'value'       => $v('description'),
+            'placeholder' => 'Detailed description, steps to reproduce, impact…',
+            'rows'        => 5,
+            'preset'      => 'moderate',
+        ]) ?>
         <div class="form-row">
             <div class="form-group form-group--grow">
                 <label class="form-label" for="type">Type</label>

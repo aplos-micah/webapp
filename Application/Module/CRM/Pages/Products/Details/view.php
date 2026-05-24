@@ -127,10 +127,13 @@ $sel = function(string $field, string $opt) use ($product): string {
                 <label for="is_active" class="form-label form-label--inline">Active</label>
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-label" for="product_description">Description</label>
-            <textarea id="product_description" name="product_description" class="input" rows="4"><?= $fld($product['product_description']) ?></textarea>
-        </div>
+        <?= RichTextArea::render([
+            'name'   => 'product_description',
+            'label'  => 'Description',
+            'value'  => $fld($product['product_description']),
+            'rows'   => 4,
+            'preset' => 'moderate',
+        ]) ?>
     </div>
     <?php else: ?>
     <dl class="field-list">
@@ -266,10 +269,13 @@ $sel = function(string $field, string $opt) use ($product): string {
                        value="<?= $fld($product['material']) ?>">
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-label" for="competitive_notes">Competitive Notes</label>
-            <textarea id="competitive_notes" name="competitive_notes" class="input" rows="4"><?= $fld($product['competitive_notes']) ?></textarea>
-        </div>
+        <?= RichTextArea::render([
+            'name'   => 'competitive_notes',
+            'label'  => 'Competitive Notes',
+            'value'  => $fld($product['competitive_notes']),
+            'rows'   => 4,
+            'preset' => 'moderate',
+        ]) ?>
     </div>
     <?php else: ?>
     <dl class="field-list">

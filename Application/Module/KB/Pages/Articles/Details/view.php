@@ -82,10 +82,14 @@ $statusBadge = [
             <input type="text" id="tags" name="tags" class="input" value="<?= $e($article['tags'] ?? '') ?>" autocomplete="off" placeholder="Comma-separated">
         </div>
 
-        <div class="form-group">
-            <label class="label" for="content">Content</label>
-            <textarea id="content" name="content" class="input textarea" rows="20"><?= $e($article['content'] ?? '') ?></textarea>
-        </div>
+        <?= RichTextArea::render([
+            'name'   => 'content',
+            'label'  => 'Content',
+            'value'  => $article['content'] ?? '',
+            'rows'   => 20,
+            'class'  => 'textarea',
+            'preset' => 'full',
+        ]) ?>
 
         <?php else: ?>
 

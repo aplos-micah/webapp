@@ -108,10 +108,13 @@ $outcomeBadge = [
                 </select>
             </div>
         </div>
-        <div class="form-group">
-            <label class="form-label" for="notes">Notes</label>
-            <textarea id="notes" name="notes" class="input" rows="3"><?= $e($activity['notes']) ?></textarea>
-        </div>
+        <?= RichTextArea::render([
+            'name'   => 'notes',
+            'label'  => 'Notes',
+            'value'  => $activity['notes'],
+            'rows'   => 3,
+            'preset' => 'moderate',
+        ]) ?>
 
         <hr class="divider mb-md">
         <p class="form-hint mb-md">At least one link is required.</p>

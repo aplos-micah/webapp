@@ -72,10 +72,15 @@ $old = fn(string $k) => $e($_POST[$k] ?? '');
                 Content
             </h2>
 
-            <div class="form-group">
-                <label class="label" for="content">Article Body</label>
-                <textarea id="content" name="content" class="input textarea" rows="20" placeholder="Write the article here…"><?= $old('content') ?></textarea>
-            </div>
+            <?= RichTextArea::render([
+                'name'        => 'content',
+                'label'       => 'Article Body',
+                'value'       => $old('content'),
+                'placeholder' => 'Write the article here…',
+                'rows'        => 20,
+                'class'       => 'textarea',
+                'preset'      => 'full',
+            ]) ?>
         </div>
 
     </div>

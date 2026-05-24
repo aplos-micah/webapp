@@ -822,9 +822,12 @@ $activeIndex     = array_search($currentStage, $pipelineStages, true);
         </h2>
         <?php if ($editMode): ?>
         <div class="edit-section">
-            <div class="form-group">
-                <textarea name="description" class="input" rows="4"><?= $fld($opp['description']) ?></textarea>
-            </div>
+            <?= RichTextArea::render([
+                'name'   => 'description',
+                'value'  => $fld($opp['description']),
+                'rows'   => 4,
+                'preset' => 'moderate',
+            ]) ?>
         </div>
         <?php elseif (!empty($opp['description'])): ?>
         <p class="field-text"><?= nl2br($val($opp['description'])) ?></p>

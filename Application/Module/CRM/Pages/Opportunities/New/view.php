@@ -224,10 +224,13 @@ $chk = fn(string $f, string $opt) => in_array($opt, (array) ($_POST[$f] ?? []), 
             <i class="fa-solid fa-note-sticky" aria-hidden="true"></i>
             Notes
         </h2>
-        <div class="form-group">
-            <textarea name="description" class="input" rows="4"
-                      placeholder="Additional context, next steps, or internal notes…"><?= $v('description') ?></textarea>
-        </div>
+        <?= RichTextArea::render([
+            'name'        => 'description',
+            'value'       => $v('description'),
+            'placeholder' => 'Additional context, next steps, or internal notes…',
+            'rows'        => 4,
+            'preset'      => 'moderate',
+        ]) ?>
     </div>
 
     <div class="profile-card__footer">

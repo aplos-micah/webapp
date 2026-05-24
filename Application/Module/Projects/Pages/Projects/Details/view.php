@@ -102,10 +102,13 @@ $isOverdue = !empty($project['due_date'])
                     <label class="form-label" for="name">Name <span class="form-required">*</span></label>
                     <input id="name" type="text" name="name" class="input" value="<?= $e($project['name']) ?>" required>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" for="description">Description</label>
-                    <textarea id="description" name="description" class="input" rows="5"><?= $e($project['description'] ?? '') ?></textarea>
-                </div>
+                <?= RichTextArea::render([
+                    'name'   => 'description',
+                    'label'  => 'Description',
+                    'value'  => $project['description'] ?? '',
+                    'rows'   => 5,
+                    'preset' => 'moderate',
+                ]) ?>
                 <div class="form-row">
                     <div class="form-group form-group--grow">
                         <label class="form-label" for="status">Status</label>
@@ -132,10 +135,13 @@ $isOverdue = !empty($project['due_date'])
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" for="notes">Notes</label>
-                    <textarea id="notes" name="notes" class="input" rows="4"><?= $e($project['notes'] ?? '') ?></textarea>
-                </div>
+                <?= RichTextArea::render([
+                    'name'   => 'notes',
+                    'label'  => 'Notes',
+                    'value'  => $project['notes'] ?? '',
+                    'rows'   => 4,
+                    'preset' => 'moderate',
+                ]) ?>
             </div>
             <?php else: ?>
             <dl class="field-list">
