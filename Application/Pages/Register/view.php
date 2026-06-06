@@ -16,6 +16,13 @@
             <span class="login-brand__wordmark">Aplos<span class="login-brand__accent">CRM</span></span>
         </div>
 
+        <!-- Registration is currently paused. -->
+
+        <h1 class="login-card__heading">Registration is closed</h1>
+        <p class="login-card__sub">New accounts are created by an administrator. Please contact your system administrator to request access.</p>
+
+        <?php /*
+
         <h1 class="login-card__heading">Create your account</h1>
         <p class="login-card__sub">Enter your work email to get started.</p>
 
@@ -63,6 +70,8 @@
             </button>
 
         </form>
+
+        */ ?>
 
         <p class="login-card__switch">
             Already have an account? <a href="/login">Sign in</a>

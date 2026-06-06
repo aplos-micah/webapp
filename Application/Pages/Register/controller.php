@@ -1,5 +1,8 @@
 <?php
 
+// Registration is currently paused.
+/*
+
 $error   = null;
 $success = null;
 
@@ -92,3 +95,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+*/

@@ -69,9 +69,11 @@
 
         </form>
 
+        <?php /*
         <p class="login-card__switch">
             Don't have an account? <a href="/register">Create one</a>
         </p>
+        */ ?>
 
     </div>
 
