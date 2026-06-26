@@ -168,6 +168,70 @@ function mcpv2_handle_get_with_items(string $module, string $service, string $re
     return tool_text_v2(json_pretty_v2(['ok' => true, 'data' => $record]));
 }
 
+function mcpv2_handle_add_line_item(string $module, string $service, string $parentKey, array $args, string $label): array
+{
+    $parentId = (int) ($args[$parentKey] ?? 0);
+    if ($parentId <= 0) {
+        return tool_text_v2(json_pretty_v2(['ok' => false, 'error' => "{$parentKey} must be a positive integer"]));
+    }
+    unset($args[$parentKey]);
+
+    $result = mcpv2_container($module, $service)->add($parentId, $args);
+
+    return tool_text_v2(json_pretty_v2($result['ok']
+        ? ['ok' => true, 'id' => $result['id']]
+        : ['ok' => false, 'error' => $result['error']]
+    ));
+}
+
+function mcpv2_handle_update_line_item(string $module, string $service, string $parentKey, string $findMethod, array $args): array
+{
+    $id       = (int) ($args['id'] ?? 0);
+    $parentId = (int) ($args[$parentKey] ?? 0);
+    if ($id <= 0 || $parentId <= 0) {
+        return tool_text_v2(json_pretty_v2(['ok' => false, 'error' => "id and {$parentKey} must be positive integers"]));
+    }
+    unset($args['id'], $args[$parentKey]);
+
+    $obj = mcpv2_container($module, $service);
+
+    // Merge with the existing row so omitted fields are preserved (partial update) —
+    // the underlying update() method otherwise resets missing fields to defaults.
+    $current = [];
+    foreach ($obj->{$findMethod}($parentId) as $row) {
+        if ((int) $row['id'] === $id) {
+            $current = $row;
+            break;
+        }
+    }
+    if (!$current) {
+        return tool_text_v2(json_pretty_v2(['ok' => false, 'error' => 'Line item not found.']));
+    }
+
+    $result = $obj->update($id, $parentId, array_merge($current, $args));
+
+    return tool_text_v2(json_pretty_v2($result['ok']
+        ? ['ok' => true]
+        : ['ok' => false, 'error' => $result['error']]
+    ));
+}
+
+function mcpv2_handle_remove_line_item(string $module, string $service, string $parentKey, array $args): array
+{
+    $id       = (int) ($args['id'] ?? 0);
+    $parentId = (int) ($args[$parentKey] ?? 0);
+    if ($id <= 0 || $parentId <= 0) {
+        return tool_text_v2(json_pretty_v2(['ok' => false, 'error' => "id and {$parentKey} must be positive integers"]));
+    }
+
+    $removed = mcpv2_container($module, $service)->remove($id, $parentId);
+
+    return tool_text_v2(json_pretty_v2($removed
+        ? ['ok' => true]
+        : ['ok' => false, 'error' => 'Line item not found.']
+    ));
+}
+
 // ── Dynamic module scanner — builds tool list and dispatch map ────────────────
 
 $modulesRoot = dirname(__DIR__) . '/Module';
@@ -330,6 +394,26 @@ function mcpv2_call(string $name, array $args, array $toolMap, ?array $tokenUser
         'list_filtered' => mcpv2_handle_list_filtered(
             $module,
             $tool['service'],
+            $args
+        ),
+        'add_line_item' => mcpv2_handle_add_line_item(
+            $module,
+            $tool['service'],
+            $tool['parent_key'],
+            $args,
+            $label
+        ),
+        'update_line_item' => mcpv2_handle_update_line_item(
+            $module,
+            $tool['service'],
+            $tool['parent_key'],
+            $tool['find_method'],
+            $args
+        ),
+        'remove_line_item' => mcpv2_handle_remove_line_item(
+            $module,
+            $tool['service'],
+            $tool['parent_key'],
             $args
         ),
         default => throw new InvalidArgumentException("Unknown handler type: {$tool['handler']}"),
