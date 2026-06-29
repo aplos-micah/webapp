@@ -9,6 +9,7 @@ require_once __DIR__ . '/Objects/PhpMailer.php';
 require_once __DIR__ . '/Objects/NullMailer.php';
 require_once __DIR__ . '/Objects/MailerFactory.php';
 require_once __DIR__ . '/Objects/Response.php';
+require_once __DIR__ . '/Objects/Request.php';
 require_once __DIR__ . '/Objects/Validator.php';
 require_once __DIR__ . '/Objects/Sanitization.php';
 require_once __DIR__ . '/../configuration/config.php';

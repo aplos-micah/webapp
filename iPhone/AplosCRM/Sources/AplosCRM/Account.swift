@@ -58,3 +58,44 @@ struct AccountDetailResponse: Decodable {
     let ok: Bool
     let data: AccountDetail
 }
+
+struct AccountRequest: Encodable {
+    var name: String
+    var accountNumber: String?
+    var site: String?
+    var industry: String?
+    var type: String?
+    var billingAddress: String?
+    var shippingAddress: String?
+    var annualRevenue: String?
+    var employeeCount: Int?
+    var ownership: String?
+    var website: String?
+    var status: String?
+    var description: String?
+
+    enum CodingKeys: String, CodingKey {
+        case name, site, industry, type, ownership, website, status, description
+        case accountNumber = "account_number"
+        case billingAddress = "billing_address"
+        case shippingAddress = "shipping_address"
+        case annualRevenue = "annual_revenue"
+        case employeeCount = "employee_count"
+    }
+
+    init(from detail: AccountDetail? = nil) {
+        name = detail?.name ?? ""
+        accountNumber = detail?.accountNumber
+        site = detail?.site
+        industry = detail?.industry
+        type = detail?.type
+        billingAddress = detail?.billingAddress
+        shippingAddress = detail?.shippingAddress
+        annualRevenue = detail?.annualRevenue
+        employeeCount = detail?.employeeCount
+        ownership = detail?.ownership
+        website = detail?.website
+        status = detail?.status
+        description = detail?.description
+    }
+}

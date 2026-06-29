@@ -1,6 +1,36 @@
 import SwiftUI
 
 @MainActor
+final class AccountLocationsViewModel: ObservableObject {
+    @Published var locations: [Location] = []
+    @Published var errorMessage: String?
+
+    func load(accountID: Int, authManager: AuthManager) async {
+        guard let token = authManager.accessToken else { return }
+        errorMessage = nil
+        do {
+            locations = try await APIClient(accessToken: token).fetchLocations(accountID: accountID)
+        } catch APIError.unauthorized {
+            authManager.signOut()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    func delete(accountID: Int, locationID: Int, authManager: AuthManager) async {
+        guard let token = authManager.accessToken else { return }
+        do {
+            try await APIClient(accessToken: token).deleteLocation(accountID: accountID, id: locationID)
+            locations.removeAll { $0.id == locationID }
+        } catch APIError.unauthorized {
+            authManager.signOut()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+}
+
+@MainActor
 final class AccountDetailViewModel: ObservableObject {
     @Published var account: AccountDetail?
     @Published var isLoading = false
@@ -27,6 +57,9 @@ struct AccountDetailView: View {
 
     @EnvironmentObject private var authManager: AuthManager
     @StateObject private var viewModel = AccountDetailViewModel()
+    @StateObject private var locationsViewModel = AccountLocationsViewModel()
+    @State private var isEditingPresented = false
+    @State private var locationFormPresentation: LocationFormPresentation?
 
     var body: some View {
         Group {
@@ -76,6 +109,38 @@ struct AccountDetailView: View {
                         }
                     }
 
+                    Section(header: SectionHeader("Locations")) {
+                        ForEach(locationsViewModel.locations) { location in
+                            Button {
+                                locationFormPresentation = LocationFormPresentation(mode: .edit(location.id), location: location)
+                            } label: {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(location.locationName ?? "Location")
+                                        .font(AplosFont.body(15, weight: .semibold))
+                                        .foregroundStyle(Color.aplosNavy)
+                                    if let city = location.city, !city.isEmpty {
+                                        Text(city)
+                                            .font(AplosFont.body(13))
+                                            .foregroundStyle(Color.aplosMidBlue)
+                                    }
+                                }
+                            }
+                        }
+                        .onDelete { offsets in
+                            for index in offsets {
+                                let location = locationsViewModel.locations[index]
+                                Task {
+                                    await locationsViewModel.delete(accountID: accountID, locationID: location.id, authManager: authManager)
+                                }
+                            }
+                        }
+                        Button {
+                            locationFormPresentation = LocationFormPresentation(mode: .create, location: nil)
+                        } label: {
+                            Text("Add Location")
+                        }
+                    }
+
                     Section(header: SectionHeader("Activity")) {
                         LabeledRow("Last Activity", account.lastActivityAt)
                         LabeledRow("Created", account.createdAt)
@@ -88,72 +153,30 @@ struct AccountDetailView: View {
         }
         .navigationTitle(viewModel.account?.name ?? "Account")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if viewModel.account != nil {
+                    Button("Edit") { isEditingPresented = true }
+                }
+            }
+        }
+        .sheet(isPresented: $isEditingPresented) {
+            AccountFormView(mode: .edit(accountID), existing: viewModel.account) {
+                Task { await viewModel.load(id: accountID, authManager: authManager) }
+            }
+        }
+        .sheet(item: $locationFormPresentation) { presentation in
+            LocationFormView(accountID: accountID, mode: presentation.mode, existing: presentation.location) {
+                Task { await locationsViewModel.load(accountID: accountID, authManager: authManager) }
+            }
+        }
         .task { await viewModel.load(id: accountID, authManager: authManager) }
+        .task { await locationsViewModel.load(accountID: accountID, authManager: authManager) }
     }
 }
 
-private struct SectionHeader: View {
-    let title: String
-
-    init(_ title: String) {
-        self.title = title
-    }
-
-    var body: some View {
-        Text(title)
-            .font(AplosFont.headline(13, weight: .semibold))
-            .foregroundStyle(Color.aplosMidBlue)
-    }
-}
-
-private struct LabeledRow: View {
-    let label: String
-    let value: String?
-
-    init(_ label: String, _ value: String?) {
-        self.label = label
-        self.value = value
-    }
-
-    var body: some View {
-        if let value, !value.isEmpty {
-            HStack {
-                Text(label)
-                    .font(AplosFont.body(14))
-                    .foregroundStyle(Color.aplosMidBlue)
-                Spacer()
-                Text(value)
-                    .font(AplosFont.body(15))
-                    .foregroundStyle(Color.aplosNavy)
-            }
-        }
-    }
-}
-
-private struct LabeledLinkRow: View {
-    let label: String
-    let urlString: String
-
-    init(_ label: String, _ urlString: String) {
-        self.label = label
-        self.urlString = urlString
-    }
-
-    var body: some View {
-        HStack {
-            Text(label)
-                .font(AplosFont.body(14))
-                .foregroundStyle(Color.aplosMidBlue)
-            Spacer()
-            if let url = URL(string: urlString.hasPrefix("http") ? urlString : "https://\(urlString)") {
-                Link(urlString, destination: url)
-                    .font(AplosFont.body(15))
-                    .tint(Color.aplosGreen)
-                    .lineLimit(1)
-            } else {
-                Text(urlString)
-                    .font(AplosFont.body(15))
-            }
-        }
-    }
+struct LocationFormPresentation: Identifiable {
+    let mode: FormMode
+    let location: Location?
+    var id: String { mode.id }
 }

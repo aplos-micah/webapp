@@ -1,8 +1,8 @@
 import SwiftUI
 
 @MainActor
-final class AccountsListViewModel: ObservableObject {
-    @Published var accounts: [Account] = []
+final class ProductsListViewModel: ObservableObject {
+    @Published var products: [Product] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
 
@@ -13,7 +13,7 @@ final class AccountsListViewModel: ObservableObject {
         defer { isLoading = false }
 
         do {
-            accounts = try await APIClient(accessToken: token).fetchAccounts()
+            products = try await APIClient(accessToken: token).fetchProducts()
         } catch APIError.unauthorized {
             authManager.signOut()
         } catch {
@@ -22,29 +22,29 @@ final class AccountsListViewModel: ObservableObject {
     }
 }
 
-struct AccountsListView: View {
+struct ProductsListView: View {
     @EnvironmentObject private var authManager: AuthManager
-    @StateObject private var viewModel = AccountsListViewModel()
-    @State private var creatingAccount = false
+    @StateObject private var viewModel = ProductsListViewModel()
+    @State private var creatingProduct = false
 
     var body: some View {
         NavigationStack {
             Group {
-                if viewModel.isLoading && viewModel.accounts.isEmpty {
+                if viewModel.isLoading && viewModel.products.isEmpty {
                     ProgressView()
                 } else if let error = viewModel.errorMessage {
                     ContentUnavailableMessage(error: error)
-                } else if viewModel.accounts.isEmpty {
-                    ContentUnavailableMessage(error: "No accounts found.")
+                } else if viewModel.products.isEmpty {
+                    ContentUnavailableMessage(error: "No products found.")
                 } else {
-                    List(viewModel.accounts) { account in
-                        NavigationLink(value: account.id) {
+                    List(viewModel.products) { product in
+                        NavigationLink(value: product.id) {
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(account.name)
+                                Text(product.productName)
                                     .font(AplosFont.headline(17, weight: .semibold))
                                     .foregroundStyle(Color.aplosNavy)
-                                if let type = account.type, !type.isEmpty {
-                                    Text(type)
+                                if let sku = product.sku, !sku.isEmpty {
+                                    Text(sku)
                                         .font(AplosFont.body(13))
                                         .foregroundStyle(Color.aplosMidBlue)
                                 }
@@ -53,25 +53,21 @@ struct AccountsListView: View {
                     }
                     .scrollContentBackground(.hidden)
                     .background(Color.aplosIce)
-                    .navigationDestination(for: Int.self) { accountID in
-                        AccountDetailView(accountID: accountID)
+                    .navigationDestination(for: Int.self) { productID in
+                        ProductDetailView(productID: productID)
                     }
                 }
             }
-            .navigationTitle("Accounts")
+            .navigationTitle("Products")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Sign Out") { authManager.signOut() }
-                        .font(AplosFont.body(15, weight: .semibold))
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button { creatingAccount = true } label: {
+                    Button { creatingProduct = true } label: {
                         Image(systemName: "plus")
                     }
                 }
             }
-            .sheet(isPresented: $creatingAccount) {
-                AccountFormView(mode: .create) {
+            .sheet(isPresented: $creatingProduct) {
+                ProductFormView(mode: .create) {
                     Task { await viewModel.load(authManager: authManager) }
                 }
             }

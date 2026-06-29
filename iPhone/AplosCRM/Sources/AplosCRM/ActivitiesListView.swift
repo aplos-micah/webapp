@@ -1,8 +1,8 @@
 import SwiftUI
 
 @MainActor
-final class AccountsListViewModel: ObservableObject {
-    @Published var accounts: [Account] = []
+final class ActivitiesListViewModel: ObservableObject {
+    @Published var activities: [Activity] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
 
@@ -13,7 +13,7 @@ final class AccountsListViewModel: ObservableObject {
         defer { isLoading = false }
 
         do {
-            accounts = try await APIClient(accessToken: token).fetchAccounts()
+            activities = try await APIClient(accessToken: token).fetchActivities()
         } catch APIError.unauthorized {
             authManager.signOut()
         } catch {
@@ -22,56 +22,50 @@ final class AccountsListViewModel: ObservableObject {
     }
 }
 
-struct AccountsListView: View {
+struct ActivitiesListView: View {
     @EnvironmentObject private var authManager: AuthManager
-    @StateObject private var viewModel = AccountsListViewModel()
-    @State private var creatingAccount = false
+    @StateObject private var viewModel = ActivitiesListViewModel()
+    @State private var creatingActivity = false
 
     var body: some View {
         NavigationStack {
             Group {
-                if viewModel.isLoading && viewModel.accounts.isEmpty {
+                if viewModel.isLoading && viewModel.activities.isEmpty {
                     ProgressView()
                 } else if let error = viewModel.errorMessage {
                     ContentUnavailableMessage(error: error)
-                } else if viewModel.accounts.isEmpty {
-                    ContentUnavailableMessage(error: "No accounts found.")
+                } else if viewModel.activities.isEmpty {
+                    ContentUnavailableMessage(error: "No activities found.")
                 } else {
-                    List(viewModel.accounts) { account in
-                        NavigationLink(value: account.id) {
+                    List(viewModel.activities) { activity in
+                        NavigationLink(value: activity.id) {
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(account.name)
+                                Text(activity.typeName ?? "Activity")
                                     .font(AplosFont.headline(17, weight: .semibold))
                                     .foregroundStyle(Color.aplosNavy)
-                                if let type = account.type, !type.isEmpty {
-                                    Text(type)
-                                        .font(AplosFont.body(13))
-                                        .foregroundStyle(Color.aplosMidBlue)
-                                }
+                                Text(activity.accountName ?? activity.contactName ?? activity.opportunityName ?? activity.activityDate)
+                                    .font(AplosFont.body(13))
+                                    .foregroundStyle(Color.aplosMidBlue)
                             }
                         }
                     }
                     .scrollContentBackground(.hidden)
                     .background(Color.aplosIce)
-                    .navigationDestination(for: Int.self) { accountID in
-                        AccountDetailView(accountID: accountID)
+                    .navigationDestination(for: Int.self) { activityID in
+                        ActivityDetailView(activityID: activityID)
                     }
                 }
             }
-            .navigationTitle("Accounts")
+            .navigationTitle("Activities")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Sign Out") { authManager.signOut() }
-                        .font(AplosFont.body(15, weight: .semibold))
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button { creatingAccount = true } label: {
+                    Button { creatingActivity = true } label: {
                         Image(systemName: "plus")
                     }
                 }
             }
-            .sheet(isPresented: $creatingAccount) {
-                AccountFormView(mode: .create) {
+            .sheet(isPresented: $creatingActivity) {
+                ActivityFormView(mode: .create) {
                     Task { await viewModel.load(authManager: authManager) }
                 }
             }

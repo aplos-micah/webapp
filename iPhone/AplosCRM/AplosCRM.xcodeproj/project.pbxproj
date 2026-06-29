@@ -7,41 +7,93 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		102E61E7499DFD5C8086023B /* ActivityTypeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD3BAF5A09E6AC04A812F96 /* ActivityTypeDetailView.swift */; };
+		1D0DEC4582714717B5AE3606 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE4B8E40C0B185EC6154C89 /* Contact.swift */; };
 		209C4D4451FF6207F6887A01 /* AccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D18A6DAB1DD128C6503541 /* AccountDetailView.swift */; };
+		2CC85744A745A48D70F8440F /* OpportunitiesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5AE15D0F3AAD60EF90E8B41 /* OpportunitiesListView.swift */; };
+		3733F6C0823F34A559023B10 /* ProductsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4A0C42ED8EEA1FE6B42322 /* ProductsListView.swift */; };
 		43FE598331DE2BB0746F11C2 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533F46F3ABB1427C6147D69C /* Account.swift */; };
 		493FC49CB96F4E248ACA58DA /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0FC76D303F3802859FBD4C /* AuthManager.swift */; };
+		53D8D46A6EE24FB3C4964A67 /* ActivitiesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3205A66EE805DDD06911B3 /* ActivitiesListView.swift */; };
+		5812C00A9F8E6117E09998A1 /* ContactFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7B1DAB0882F9094B96DE45A /* ContactFormView.swift */; };
+		5A61276AE8C52A9EA1F5AE04 /* ProductFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EE414C510BCF72973159E2 /* ProductFormView.swift */; };
+		65506E2E7A6633747058648D /* LineItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EFC5A6464A1FE9DE84B2E3 /* LineItem.swift */; };
 		691D51368DC09D7E506110FB /* Lora-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD8C94CE18A90E25F240DB53 /* Lora-Regular.ttf */; };
+		6C087976D489BF6DCEAB869B /* ContactsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980760F81A19E7014832CAD1 /* ContactsListView.swift */; };
+		6DDBE3C422AE77095A32C4AD /* ActivityFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8664C7FDB028C1AE5B0FFF0 /* ActivityFormView.swift */; };
+		73D77C0168BC5A01A8C0AEC2 /* ActivityTypeFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDCB8DC368565AB023F48EA3 /* ActivityTypeFormView.swift */; };
+		77CAE52470CF62BF91ACE858 /* LineItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A1F6B510FFF0E2043CFBA0 /* LineItemFormView.swift */; };
 		79E5F4760B373396186AE88D /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C5F1B8A6EC1469E33ED79 /* RootView.swift */; };
 		7C91809A743B00DF84395DD7 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705A76B2914F300705896515 /* APIClient.swift */; };
 		80E460DBFF02D2F18B0F67BA /* AccountsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489268AA6F47803CCA205F69 /* AccountsListView.swift */; };
+		8D3CF02EF0EAB680D3C706BD /* Opportunity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DD401B3BFF74ED921D9AC7 /* Opportunity.swift */; };
+		9B212F214B26CB39F6EF618F /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EADF000BACB5D5F2F1B58034 /* ProductDetailView.swift */; };
 		9C2BF47117C5905B7B36F177 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038085163E349995DD1C4A2C /* KeychainStore.swift */; };
+		A6353662B27BB72B7A36BCB3 /* ActivityTypesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED028CCDE5A03DF56F46BFD /* ActivityTypesListView.swift */; };
+		A879922652F01CBCBC4F6FF7 /* OpportunityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA92CE9A2384AE583ED272BA /* OpportunityDetailView.swift */; };
 		A8AB734B2529094B7999CF9A /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4BC2D587151D7B338BC41F61 /* OpenSans-Regular.ttf */; };
+		AD84C9ED6D51CF2927BA9EB2 /* OpportunityFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE32C635FAA81861F4193EB /* OpportunityFormView.swift */; };
+		B17D0E53716AD09C8E7646A0 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078D0B03A025D2370D4637E1 /* ActivityType.swift */; };
+		B2C0A175C3BCE5C1B5291F0D /* LocationFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F6980E7CFE534EB48B5EEE /* LocationFormView.swift */; };
 		B2CFBA03D55BFFA283251807 /* AplosTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C04C4BB87F9C61085D2E50 /* AplosTheme.swift */; };
+		BB9FD9C78301F721AC35720C /* ContactDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962C169F0974D1FA86D19CA2 /* ContactDetailView.swift */; };
 		CD1BF82EB75EC4E55D62A2AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7EC63CA42556E5CCA92A8DB /* Assets.xcassets */; };
+		CE558F43E82A8EB11DF4DAE1 /* AccountFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED53BD95B0C9CE48A8E3E05 /* AccountFormView.swift */; };
+		D618857579794C10443AB9AB /* FormRowViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F735CD56045DF14B07189 /* FormRowViews.swift */; };
 		D77F95373772D1A16A6C667D /* Lora-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E29F19ABB0D0D0CA047FEACB /* Lora-Italic.ttf */; };
 		DACC704DB9D351EEA4B16DD6 /* AplosConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5615A8DFC2FE7159053F02C0 /* AplosConfig.swift */; };
 		DE1DE095D4EA2EEAB8B0121A /* AplosCRMApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC132B523B0F25BED5A99E61 /* AplosCRMApp.swift */; };
+		F1ECB7291B275A9C3430D3B1 /* ActivityDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1B80BE6D20C2153C3CCDCC /* ActivityDetailView.swift */; };
+		F21830EA627A9E16D5DDDEC7 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAE9C9C5CC0B8404078202C5 /* Activity.swift */; };
 		F3D1C5E79FCE114589E64675 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC31632ED57801DF7C4333B /* LoginView.swift */; };
+		FD7265FD7DDF38DB8365EE7F /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6185AA12C15DE8B5CEEAC6E8 /* Product.swift */; };
+		FD7A86FB8CECB954E689F0EE /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65848EA3B832875BF883D5A1 /* Location.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		038085163E349995DD1C4A2C /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		078D0B03A025D2370D4637E1 /* ActivityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityType.swift; sourceTree = "<group>"; };
+		14EFC5A6464A1FE9DE84B2E3 /* LineItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineItem.swift; sourceTree = "<group>"; };
 		22D18A6DAB1DD128C6503541 /* AccountDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailView.swift; sourceTree = "<group>"; };
 		2AC31632ED57801DF7C4333B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		2BE41B6D0B98AFE7D4A199C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		38DD401B3BFF74ED921D9AC7 /* Opportunity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Opportunity.swift; sourceTree = "<group>"; };
+		3AE32C635FAA81861F4193EB /* OpportunityFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpportunityFormView.swift; sourceTree = "<group>"; };
+		3ED53BD95B0C9CE48A8E3E05 /* AccountFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountFormView.swift; sourceTree = "<group>"; };
 		3F0FC76D303F3802859FBD4C /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		489268AA6F47803CCA205F69 /* AccountsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsListView.swift; sourceTree = "<group>"; };
 		4BC2D587151D7B338BC41F61 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		4D6F735CD56045DF14B07189 /* FormRowViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormRowViews.swift; sourceTree = "<group>"; };
+		51A1F6B510FFF0E2043CFBA0 /* LineItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineItemFormView.swift; sourceTree = "<group>"; };
+		51EE414C510BCF72973159E2 /* ProductFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductFormView.swift; sourceTree = "<group>"; };
 		533F46F3ABB1427C6147D69C /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		5615A8DFC2FE7159053F02C0 /* AplosConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AplosConfig.swift; sourceTree = "<group>"; };
+		5D1B80BE6D20C2153C3CCDCC /* ActivityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailView.swift; sourceTree = "<group>"; };
+		5D3205A66EE805DDD06911B3 /* ActivitiesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesListView.swift; sourceTree = "<group>"; };
+		6185AA12C15DE8B5CEEAC6E8 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		65848EA3B832875BF883D5A1 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		705A76B2914F300705896515 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		89C04C4BB87F9C61085D2E50 /* AplosTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AplosTheme.swift; sourceTree = "<group>"; };
+		962C169F0974D1FA86D19CA2 /* ContactDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailView.swift; sourceTree = "<group>"; };
+		980760F81A19E7014832CAD1 /* ContactsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListView.swift; sourceTree = "<group>"; };
+		A5AE15D0F3AAD60EF90E8B41 /* OpportunitiesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpportunitiesListView.swift; sourceTree = "<group>"; };
+		AA92CE9A2384AE583ED272BA /* OpportunityDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpportunityDetailView.swift; sourceTree = "<group>"; };
+		AD4A0C42ED8EEA1FE6B42322 /* ProductsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsListView.swift; sourceTree = "<group>"; };
 		AD8C94CE18A90E25F240DB53 /* Lora-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lora-Regular.ttf"; sourceTree = "<group>"; };
+		B7B1DAB0882F9094B96DE45A /* ContactFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactFormView.swift; sourceTree = "<group>"; };
+		BCD3BAF5A09E6AC04A812F96 /* ActivityTypeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTypeDetailView.swift; sourceTree = "<group>"; };
+		BED028CCDE5A03DF56F46BFD /* ActivityTypesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTypesListView.swift; sourceTree = "<group>"; };
 		C7EC63CA42556E5CCA92A8DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA345684966BBBBC59114C5C /* AplosCRM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AplosCRM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CAE9C9C5CC0B8404078202C5 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		E29F19ABB0D0D0CA047FEACB /* Lora-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lora-Italic.ttf"; sourceTree = "<group>"; };
+		E8664C7FDB028C1AE5B0FFF0 /* ActivityFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityFormView.swift; sourceTree = "<group>"; };
+		E8F6980E7CFE534EB48B5EEE /* LocationFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFormView.swift; sourceTree = "<group>"; };
+		EADF000BACB5D5F2F1B58034 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
 		EC132B523B0F25BED5A99E61 /* AplosCRMApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AplosCRMApp.swift; sourceTree = "<group>"; };
+		EDCB8DC368565AB023F48EA3 /* ActivityTypeFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTypeFormView.swift; sourceTree = "<group>"; };
 		F33C5F1B8A6EC1469E33ED79 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		FBE4B8E40C0B185EC6154C89 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -60,16 +112,42 @@
 			children = (
 				533F46F3ABB1427C6147D69C /* Account.swift */,
 				22D18A6DAB1DD128C6503541 /* AccountDetailView.swift */,
+				3ED53BD95B0C9CE48A8E3E05 /* AccountFormView.swift */,
 				489268AA6F47803CCA205F69 /* AccountsListView.swift */,
+				5D3205A66EE805DDD06911B3 /* ActivitiesListView.swift */,
+				CAE9C9C5CC0B8404078202C5 /* Activity.swift */,
+				5D1B80BE6D20C2153C3CCDCC /* ActivityDetailView.swift */,
+				E8664C7FDB028C1AE5B0FFF0 /* ActivityFormView.swift */,
+				078D0B03A025D2370D4637E1 /* ActivityType.swift */,
+				BCD3BAF5A09E6AC04A812F96 /* ActivityTypeDetailView.swift */,
+				EDCB8DC368565AB023F48EA3 /* ActivityTypeFormView.swift */,
+				BED028CCDE5A03DF56F46BFD /* ActivityTypesListView.swift */,
 				705A76B2914F300705896515 /* APIClient.swift */,
 				5615A8DFC2FE7159053F02C0 /* AplosConfig.swift */,
 				EC132B523B0F25BED5A99E61 /* AplosCRMApp.swift */,
 				89C04C4BB87F9C61085D2E50 /* AplosTheme.swift */,
 				C7EC63CA42556E5CCA92A8DB /* Assets.xcassets */,
 				3F0FC76D303F3802859FBD4C /* AuthManager.swift */,
+				FBE4B8E40C0B185EC6154C89 /* Contact.swift */,
+				962C169F0974D1FA86D19CA2 /* ContactDetailView.swift */,
+				B7B1DAB0882F9094B96DE45A /* ContactFormView.swift */,
+				980760F81A19E7014832CAD1 /* ContactsListView.swift */,
+				4D6F735CD56045DF14B07189 /* FormRowViews.swift */,
 				2BE41B6D0B98AFE7D4A199C6 /* Info.plist */,
 				038085163E349995DD1C4A2C /* KeychainStore.swift */,
+				14EFC5A6464A1FE9DE84B2E3 /* LineItem.swift */,
+				51A1F6B510FFF0E2043CFBA0 /* LineItemFormView.swift */,
+				65848EA3B832875BF883D5A1 /* Location.swift */,
+				E8F6980E7CFE534EB48B5EEE /* LocationFormView.swift */,
 				2AC31632ED57801DF7C4333B /* LoginView.swift */,
+				A5AE15D0F3AAD60EF90E8B41 /* OpportunitiesListView.swift */,
+				38DD401B3BFF74ED921D9AC7 /* Opportunity.swift */,
+				AA92CE9A2384AE583ED272BA /* OpportunityDetailView.swift */,
+				3AE32C635FAA81861F4193EB /* OpportunityFormView.swift */,
+				6185AA12C15DE8B5CEEAC6E8 /* Product.swift */,
+				EADF000BACB5D5F2F1B58034 /* ProductDetailView.swift */,
+				51EE414C510BCF72973159E2 /* ProductFormView.swift */,
+				AD4A0C42ED8EEA1FE6B42322 /* ProductsListView.swift */,
 				F33C5F1B8A6EC1469E33ED79 /* RootView.swift */,
 				7CFD0245886F797249410EDE /* Resources */,
 			);
@@ -172,13 +250,39 @@
 				7C91809A743B00DF84395DD7 /* APIClient.swift in Sources */,
 				43FE598331DE2BB0746F11C2 /* Account.swift in Sources */,
 				209C4D4451FF6207F6887A01 /* AccountDetailView.swift in Sources */,
+				CE558F43E82A8EB11DF4DAE1 /* AccountFormView.swift in Sources */,
 				80E460DBFF02D2F18B0F67BA /* AccountsListView.swift in Sources */,
+				53D8D46A6EE24FB3C4964A67 /* ActivitiesListView.swift in Sources */,
+				F21830EA627A9E16D5DDDEC7 /* Activity.swift in Sources */,
+				F1ECB7291B275A9C3430D3B1 /* ActivityDetailView.swift in Sources */,
+				6DDBE3C422AE77095A32C4AD /* ActivityFormView.swift in Sources */,
+				B17D0E53716AD09C8E7646A0 /* ActivityType.swift in Sources */,
+				102E61E7499DFD5C8086023B /* ActivityTypeDetailView.swift in Sources */,
+				73D77C0168BC5A01A8C0AEC2 /* ActivityTypeFormView.swift in Sources */,
+				A6353662B27BB72B7A36BCB3 /* ActivityTypesListView.swift in Sources */,
 				DE1DE095D4EA2EEAB8B0121A /* AplosCRMApp.swift in Sources */,
 				DACC704DB9D351EEA4B16DD6 /* AplosConfig.swift in Sources */,
 				B2CFBA03D55BFFA283251807 /* AplosTheme.swift in Sources */,
 				493FC49CB96F4E248ACA58DA /* AuthManager.swift in Sources */,
+				1D0DEC4582714717B5AE3606 /* Contact.swift in Sources */,
+				BB9FD9C78301F721AC35720C /* ContactDetailView.swift in Sources */,
+				5812C00A9F8E6117E09998A1 /* ContactFormView.swift in Sources */,
+				6C087976D489BF6DCEAB869B /* ContactsListView.swift in Sources */,
+				D618857579794C10443AB9AB /* FormRowViews.swift in Sources */,
 				9C2BF47117C5905B7B36F177 /* KeychainStore.swift in Sources */,
+				65506E2E7A6633747058648D /* LineItem.swift in Sources */,
+				77CAE52470CF62BF91ACE858 /* LineItemFormView.swift in Sources */,
+				FD7A86FB8CECB954E689F0EE /* Location.swift in Sources */,
+				B2C0A175C3BCE5C1B5291F0D /* LocationFormView.swift in Sources */,
 				F3D1C5E79FCE114589E64675 /* LoginView.swift in Sources */,
+				2CC85744A745A48D70F8440F /* OpportunitiesListView.swift in Sources */,
+				8D3CF02EF0EAB680D3C706BD /* Opportunity.swift in Sources */,
+				A879922652F01CBCBC4F6FF7 /* OpportunityDetailView.swift in Sources */,
+				AD84C9ED6D51CF2927BA9EB2 /* OpportunityFormView.swift in Sources */,
+				FD7265FD7DDF38DB8365EE7F /* Product.swift in Sources */,
+				9B212F214B26CB39F6EF618F /* ProductDetailView.swift in Sources */,
+				5A61276AE8C52A9EA1F5AE04 /* ProductFormView.swift in Sources */,
+				3733F6C0823F34A559023B10 /* ProductsListView.swift in Sources */,
 				79E5F4760B373396186AE88D /* RootView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -193,7 +297,6 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = WFX796T33B;
 				INFOPLIST_FILE = Sources/AplosCRM/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
