@@ -385,7 +385,44 @@ class Router
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        return !empty($_SESSION['user_id']);
+        if (!empty($_SESSION['user_id'])) {
+            return true;
+        }
+        return self::authenticateBearerToken();
+    }
+
+    /**
+     * Fallback auth for API clients that can't hold a session cookie (e.g. the
+     * iOS app). Validates an OAuth Bearer token and, on success, populates
+     * $_SESSION for the rest of this request so downstream userType()/module
+     * checks behave exactly as they do for a cookie-authenticated session.
+     */
+    private static function authenticateBearerToken(): bool
+    {
+        $header = $_SERVER['HTTP_AUTHORIZATION']
+            ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+            ?? (function_exists('getallheaders') ? (getallheaders()['Authorization'] ?? '') : '')
+            ?? '';
+
+        if (!str_starts_with($header, 'Bearer ')) {
+            return false;
+        }
+
+        $tokenUser = Container::get('oauth')->validateToken(substr($header, 7));
+        if ($tokenUser === null) {
+            return false;
+        }
+
+        $_SESSION['user_id']    = $tokenUser['user_id'];
+        $_SESSION['user_name']  = $tokenUser['name']  ?? '';
+        $_SESSION['user_email'] = $tokenUser['email'] ?? '';
+        $_SESSION['user_type']  = $tokenUser['user_type'] ?? 'free';
+        $_SESSION['module_access'] = $tokenUser['module_tiers'];
+        foreach ($tokenUser['module_tiers'] as $mod => $tier) {
+            $_SESSION['module_' . $mod] = $tier;
+        }
+
+        return true;
     }
 
     private static function userType(): ?string

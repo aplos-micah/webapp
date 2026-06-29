@@ -1,0 +1,323 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		43FE598331DE2BB0746F11C2 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533F46F3ABB1427C6147D69C /* Account.swift */; };
+		493FC49CB96F4E248ACA58DA /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0FC76D303F3802859FBD4C /* AuthManager.swift */; };
+		79E5F4760B373396186AE88D /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C5F1B8A6EC1469E33ED79 /* RootView.swift */; };
+		7C91809A743B00DF84395DD7 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705A76B2914F300705896515 /* APIClient.swift */; };
+		80E460DBFF02D2F18B0F67BA /* AccountsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489268AA6F47803CCA205F69 /* AccountsListView.swift */; };
+		9C2BF47117C5905B7B36F177 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038085163E349995DD1C4A2C /* KeychainStore.swift */; };
+		DACC704DB9D351EEA4B16DD6 /* AplosConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5615A8DFC2FE7159053F02C0 /* AplosConfig.swift */; };
+		DE1DE095D4EA2EEAB8B0121A /* AplosCRMApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC132B523B0F25BED5A99E61 /* AplosCRMApp.swift */; };
+		F3D1C5E79FCE114589E64675 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC31632ED57801DF7C4333B /* LoginView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		038085163E349995DD1C4A2C /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		2AC31632ED57801DF7C4333B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		2BE41B6D0B98AFE7D4A199C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3F0FC76D303F3802859FBD4C /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		489268AA6F47803CCA205F69 /* AccountsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsListView.swift; sourceTree = "<group>"; };
+		533F46F3ABB1427C6147D69C /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		5615A8DFC2FE7159053F02C0 /* AplosConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AplosConfig.swift; sourceTree = "<group>"; };
+		705A76B2914F300705896515 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		CA345684966BBBBC59114C5C /* AplosCRM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AplosCRM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC132B523B0F25BED5A99E61 /* AplosCRMApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AplosCRMApp.swift; sourceTree = "<group>"; };
+		F33C5F1B8A6EC1469E33ED79 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		21ABBD0E5F528DC7F5B855FD /* AplosCRM */ = {
+			isa = PBXGroup;
+			children = (
+				533F46F3ABB1427C6147D69C /* Account.swift */,
+				489268AA6F47803CCA205F69 /* AccountsListView.swift */,
+				705A76B2914F300705896515 /* APIClient.swift */,
+				5615A8DFC2FE7159053F02C0 /* AplosConfig.swift */,
+				EC132B523B0F25BED5A99E61 /* AplosCRMApp.swift */,
+				3F0FC76D303F3802859FBD4C /* AuthManager.swift */,
+				2BE41B6D0B98AFE7D4A199C6 /* Info.plist */,
+				038085163E349995DD1C4A2C /* KeychainStore.swift */,
+				2AC31632ED57801DF7C4333B /* LoginView.swift */,
+				F33C5F1B8A6EC1469E33ED79 /* RootView.swift */,
+			);
+			name = AplosCRM;
+			path = Sources/AplosCRM;
+			sourceTree = "<group>";
+		};
+		9884D741F37140888684C74A = {
+			isa = PBXGroup;
+			children = (
+				21ABBD0E5F528DC7F5B855FD /* AplosCRM */,
+				BDB24AB6F3CE0067589B473B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BDB24AB6F3CE0067589B473B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CA345684966BBBBC59114C5C /* AplosCRM.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C52A2D086D8F905976E03684 /* AplosCRM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 02567127E37B6BEE96E72489 /* Build configuration list for PBXNativeTarget "AplosCRM" */;
+			buildPhases = (
+				B836A70A6FBE076DC4B1F537 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AplosCRM;
+			packageProductDependencies = (
+			);
+			productName = AplosCRM;
+			productReference = CA345684966BBBBC59114C5C /* AplosCRM.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		35EC2030DC4D5C81F7DC61D1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+			};
+			buildConfigurationList = C4DA26DA5428F6FE505B4D75 /* Build configuration list for PBXProject "AplosCRM" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 9884D741F37140888684C74A;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = BDB24AB6F3CE0067589B473B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C52A2D086D8F905976E03684 /* AplosCRM */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B836A70A6FBE076DC4B1F537 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C91809A743B00DF84395DD7 /* APIClient.swift in Sources */,
+				43FE598331DE2BB0746F11C2 /* Account.swift in Sources */,
+				80E460DBFF02D2F18B0F67BA /* AccountsListView.swift in Sources */,
+				DE1DE095D4EA2EEAB8B0121A /* AplosCRMApp.swift in Sources */,
+				DACC704DB9D351EEA4B16DD6 /* AplosConfig.swift in Sources */,
+				493FC49CB96F4E248ACA58DA /* AuthManager.swift in Sources */,
+				9C2BF47117C5905B7B36F177 /* KeychainStore.swift in Sources */,
+				F3D1C5E79FCE114589E64675 /* LoginView.swift in Sources */,
+				79E5F4760B373396186AE88D /* RootView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		3A4B63EF3DBA3069040D4738 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WFX796T33B;
+				INFOPLIST_FILE = Sources/AplosCRM/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aplos.crm;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AE4FAB7833F0B691B38ECEA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D5BBE4AC4C6BDFADD17C2848 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		F4E0F8734FDED16A1C8E0B97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = WFX796T33B;
+				INFOPLIST_FILE = Sources/AplosCRM/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aplos.crm;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		02567127E37B6BEE96E72489 /* Build configuration list for PBXNativeTarget "AplosCRM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4E0F8734FDED16A1C8E0B97 /* Debug */,
+				3A4B63EF3DBA3069040D4738 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C4DA26DA5428F6FE505B4D75 /* Build configuration list for PBXProject "AplosCRM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE4FAB7833F0B691B38ECEA0 /* Debug */,
+				D5BBE4AC4C6BDFADD17C2848 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 35EC2030DC4D5C81F7DC61D1 /* Project object */;
+}

@@ -1,0 +1,30 @@
+name: AplosCRM
+options:
+  bundleIdPrefix: com.aplos
+  deploymentTarget:
+    iOS: "17.0"
+
+targets:
+  AplosCRM:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources/AplosCRM
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aplos.crm
+        MARKETING_VERSION: "1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
+    info:
+      path: Sources/AplosCRM/Info.plist
+      properties:
+        UILaunchScreen: {}
+        CFBundleURLTypes:
+          - CFBundleURLName: com.aplos.crm.oauth
+            CFBundleURLSchemes:
+              - com.aplos.crm
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
