@@ -10,10 +10,15 @@
 		209C4D4451FF6207F6887A01 /* AccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D18A6DAB1DD128C6503541 /* AccountDetailView.swift */; };
 		43FE598331DE2BB0746F11C2 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533F46F3ABB1427C6147D69C /* Account.swift */; };
 		493FC49CB96F4E248ACA58DA /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0FC76D303F3802859FBD4C /* AuthManager.swift */; };
+		691D51368DC09D7E506110FB /* Lora-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD8C94CE18A90E25F240DB53 /* Lora-Regular.ttf */; };
 		79E5F4760B373396186AE88D /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C5F1B8A6EC1469E33ED79 /* RootView.swift */; };
 		7C91809A743B00DF84395DD7 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705A76B2914F300705896515 /* APIClient.swift */; };
 		80E460DBFF02D2F18B0F67BA /* AccountsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489268AA6F47803CCA205F69 /* AccountsListView.swift */; };
 		9C2BF47117C5905B7B36F177 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 038085163E349995DD1C4A2C /* KeychainStore.swift */; };
+		A8AB734B2529094B7999CF9A /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4BC2D587151D7B338BC41F61 /* OpenSans-Regular.ttf */; };
+		B2CFBA03D55BFFA283251807 /* AplosTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89C04C4BB87F9C61085D2E50 /* AplosTheme.swift */; };
+		CD1BF82EB75EC4E55D62A2AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7EC63CA42556E5CCA92A8DB /* Assets.xcassets */; };
+		D77F95373772D1A16A6C667D /* Lora-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E29F19ABB0D0D0CA047FEACB /* Lora-Italic.ttf */; };
 		DACC704DB9D351EEA4B16DD6 /* AplosConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5615A8DFC2FE7159053F02C0 /* AplosConfig.swift */; };
 		DE1DE095D4EA2EEAB8B0121A /* AplosCRMApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC132B523B0F25BED5A99E61 /* AplosCRMApp.swift */; };
 		F3D1C5E79FCE114589E64675 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC31632ED57801DF7C4333B /* LoginView.swift */; };
@@ -26,15 +31,30 @@
 		2BE41B6D0B98AFE7D4A199C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3F0FC76D303F3802859FBD4C /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		489268AA6F47803CCA205F69 /* AccountsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsListView.swift; sourceTree = "<group>"; };
+		4BC2D587151D7B338BC41F61 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		533F46F3ABB1427C6147D69C /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		5615A8DFC2FE7159053F02C0 /* AplosConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AplosConfig.swift; sourceTree = "<group>"; };
 		705A76B2914F300705896515 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		89C04C4BB87F9C61085D2E50 /* AplosTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AplosTheme.swift; sourceTree = "<group>"; };
+		AD8C94CE18A90E25F240DB53 /* Lora-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lora-Regular.ttf"; sourceTree = "<group>"; };
+		C7EC63CA42556E5CCA92A8DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA345684966BBBBC59114C5C /* AplosCRM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AplosCRM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E29F19ABB0D0D0CA047FEACB /* Lora-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lora-Italic.ttf"; sourceTree = "<group>"; };
 		EC132B523B0F25BED5A99E61 /* AplosCRMApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AplosCRMApp.swift; sourceTree = "<group>"; };
 		F33C5F1B8A6EC1469E33ED79 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		108C928C0578365AA2A718E2 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				E29F19ABB0D0D0CA047FEACB /* Lora-Italic.ttf */,
+				AD8C94CE18A90E25F240DB53 /* Lora-Regular.ttf */,
+				4BC2D587151D7B338BC41F61 /* OpenSans-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		21ABBD0E5F528DC7F5B855FD /* AplosCRM */ = {
 			isa = PBXGroup;
 			children = (
@@ -44,14 +64,25 @@
 				705A76B2914F300705896515 /* APIClient.swift */,
 				5615A8DFC2FE7159053F02C0 /* AplosConfig.swift */,
 				EC132B523B0F25BED5A99E61 /* AplosCRMApp.swift */,
+				89C04C4BB87F9C61085D2E50 /* AplosTheme.swift */,
+				C7EC63CA42556E5CCA92A8DB /* Assets.xcassets */,
 				3F0FC76D303F3802859FBD4C /* AuthManager.swift */,
 				2BE41B6D0B98AFE7D4A199C6 /* Info.plist */,
 				038085163E349995DD1C4A2C /* KeychainStore.swift */,
 				2AC31632ED57801DF7C4333B /* LoginView.swift */,
 				F33C5F1B8A6EC1469E33ED79 /* RootView.swift */,
+				7CFD0245886F797249410EDE /* Resources */,
 			);
 			name = AplosCRM;
 			path = Sources/AplosCRM;
+			sourceTree = "<group>";
+		};
+		7CFD0245886F797249410EDE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				108C928C0578365AA2A718E2 /* Fonts */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		9884D741F37140888684C74A = {
@@ -78,6 +109,7 @@
 			buildConfigurationList = 02567127E37B6BEE96E72489 /* Build configuration list for PBXNativeTarget "AplosCRM" */;
 			buildPhases = (
 				B836A70A6FBE076DC4B1F537 /* Sources */,
+				C81F62DD12466E7F6F403705 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -118,6 +150,20 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		C81F62DD12466E7F6F403705 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CD1BF82EB75EC4E55D62A2AB /* Assets.xcassets in Resources */,
+				D77F95373772D1A16A6C667D /* Lora-Italic.ttf in Resources */,
+				691D51368DC09D7E506110FB /* Lora-Regular.ttf in Resources */,
+				A8AB734B2529094B7999CF9A /* OpenSans-Regular.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B836A70A6FBE076DC4B1F537 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -129,6 +175,7 @@
 				80E460DBFF02D2F18B0F67BA /* AccountsListView.swift in Sources */,
 				DE1DE095D4EA2EEAB8B0121A /* AplosCRMApp.swift in Sources */,
 				DACC704DB9D351EEA4B16DD6 /* AplosConfig.swift in Sources */,
+				B2CFBA03D55BFFA283251807 /* AplosTheme.swift in Sources */,
 				493FC49CB96F4E248ACA58DA /* AuthManager.swift in Sources */,
 				9C2BF47117C5905B7B36F177 /* KeychainStore.swift in Sources */,
 				F3D1C5E79FCE114589E64675 /* LoginView.swift in Sources */,

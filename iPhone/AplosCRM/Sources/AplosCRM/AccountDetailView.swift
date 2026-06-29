@@ -40,7 +40,7 @@ struct AccountDetailView: View {
                     .padding()
             } else if let account = viewModel.account {
                 Form {
-                    Section("Overview") {
+                    Section(header: SectionHeader("Overview")) {
                         LabeledRow("Name", account.name)
                         LabeledRow("Account Number", account.accountNumber)
                         LabeledRow("Type", account.type)
@@ -50,7 +50,7 @@ struct AccountDetailView: View {
                         LabeledRow("Site", account.site)
                     }
 
-                    Section("Business") {
+                    Section(header: SectionHeader("Business")) {
                         LabeledRow("Annual Revenue", account.annualRevenue.map { "$\($0)" })
                         LabeledRow("Employees", account.employeeCount.map(String.init))
                         if let website = account.website, !website.isEmpty {
@@ -59,28 +59,50 @@ struct AccountDetailView: View {
                     }
 
                     if let billing = account.billingAddress, !billing.isEmpty {
-                        Section("Billing Address") { Text(billing) }
+                        Section(header: SectionHeader("Billing Address")) {
+                            Text(billing).font(AplosFont.body(15)).foregroundStyle(Color.aplosNavy)
+                        }
                     }
 
                     if let shipping = account.shippingAddress, !shipping.isEmpty {
-                        Section("Shipping Address") { Text(shipping) }
+                        Section(header: SectionHeader("Shipping Address")) {
+                            Text(shipping).font(AplosFont.body(15)).foregroundStyle(Color.aplosNavy)
+                        }
                     }
 
                     if let description = account.description, !description.isEmpty {
-                        Section("Description") { Text(description) }
+                        Section(header: SectionHeader("Description")) {
+                            Text(description).font(AplosFont.body(15)).foregroundStyle(Color.aplosNavy)
+                        }
                     }
 
-                    Section("Activity") {
+                    Section(header: SectionHeader("Activity")) {
                         LabeledRow("Last Activity", account.lastActivityAt)
                         LabeledRow("Created", account.createdAt)
                         LabeledRow("Updated", account.updatedAt)
                     }
                 }
+                .scrollContentBackground(.hidden)
+                .background(Color.aplosIce)
             }
         }
         .navigationTitle(viewModel.account?.name ?? "Account")
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load(id: accountID, authManager: authManager) }
+    }
+}
+
+private struct SectionHeader: View {
+    let title: String
+
+    init(_ title: String) {
+        self.title = title
+    }
+
+    var body: some View {
+        Text(title)
+            .font(AplosFont.headline(13, weight: .semibold))
+            .foregroundStyle(Color.aplosMidBlue)
     }
 }
 
@@ -96,9 +118,13 @@ private struct LabeledRow: View {
     var body: some View {
         if let value, !value.isEmpty {
             HStack {
-                Text(label).foregroundStyle(.secondary)
+                Text(label)
+                    .font(AplosFont.body(14))
+                    .foregroundStyle(Color.aplosMidBlue)
                 Spacer()
                 Text(value)
+                    .font(AplosFont.body(15))
+                    .foregroundStyle(Color.aplosNavy)
             }
         }
     }
@@ -115,13 +141,18 @@ private struct LabeledLinkRow: View {
 
     var body: some View {
         HStack {
-            Text(label).foregroundStyle(.secondary)
+            Text(label)
+                .font(AplosFont.body(14))
+                .foregroundStyle(Color.aplosMidBlue)
             Spacer()
             if let url = URL(string: urlString.hasPrefix("http") ? urlString : "https://\(urlString)") {
                 Link(urlString, destination: url)
+                    .font(AplosFont.body(15))
+                    .tint(Color.aplosGreen)
                     .lineLimit(1)
             } else {
                 Text(urlString)
+                    .font(AplosFont.body(15))
             }
         }
     }

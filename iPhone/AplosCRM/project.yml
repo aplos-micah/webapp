@@ -18,13 +18,19 @@ targets:
         SWIFT_VERSION: "5.0"
         TARGETED_DEVICE_FAMILY: "1,2"
         ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     info:
       path: Sources/AplosCRM/Info.plist
       properties:
-        UILaunchScreen: {}
+        UILaunchScreen:
+          UIColorName: LaunchBackground
         CFBundleURLTypes:
           - CFBundleURLName: com.aplos.crm.oauth
             CFBundleURLSchemes:
               - com.aplos.crm
         UIApplicationSceneManifest:
           UIApplicationSupportsMultipleScenes: false
+        UIAppFonts:
+          - Lora-Regular.ttf
+          - Lora-Italic.ttf
+          - OpenSans-Regular.ttf

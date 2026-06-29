@@ -39,15 +39,19 @@ struct AccountsListView: View {
                     List(viewModel.accounts) { account in
                         NavigationLink(value: account.id) {
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(account.name).font(.headline)
+                                Text(account.name)
+                                    .font(AplosFont.headline(17, weight: .semibold))
+                                    .foregroundStyle(Color.aplosNavy)
                                 if let type = account.type, !type.isEmpty {
                                     Text(type)
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
+                                        .font(AplosFont.body(13))
+                                        .foregroundStyle(Color.aplosMidBlue)
                                 }
                             }
                         }
                     }
+                    .scrollContentBackground(.hidden)
+                    .background(Color.aplosIce)
                     .navigationDestination(for: Int.self) { accountID in
                         AccountDetailView(accountID: accountID)
                     }
@@ -57,6 +61,7 @@ struct AccountsListView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Sign Out") { authManager.signOut() }
+                        .font(AplosFont.body(15, weight: .semibold))
                 }
             }
             .refreshable { await viewModel.load(authManager: authManager) }

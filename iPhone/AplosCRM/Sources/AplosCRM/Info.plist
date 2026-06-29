@@ -29,12 +29,21 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Lora-Regular.ttf</string>
+		<string>Lora-Italic.ttf</string>
+		<string>OpenSans-Regular.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<false/>
 	</dict>
 	<key>UILaunchScreen</key>
-	<dict/>
+	<dict>
+		<key>UIColorName</key>
+		<string>LaunchBackground</string>
+	</dict>
 </dict>
 </plist>
