@@ -37,14 +37,19 @@ struct AccountsListView: View {
                     ContentUnavailableMessage(error: "No accounts found.")
                 } else {
                     List(viewModel.accounts) { account in
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(account.name).font(.headline)
-                            if let type = account.type, !type.isEmpty {
-                                Text(type)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+                        NavigationLink(value: account.id) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(account.name).font(.headline)
+                                if let type = account.type, !type.isEmpty {
+                                    Text(type)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
                             }
                         }
+                    }
+                    .navigationDestination(for: Int.self) { accountID in
+                        AccountDetailView(accountID: accountID)
                     }
                 }
             }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		209C4D4451FF6207F6887A01 /* AccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22D18A6DAB1DD128C6503541 /* AccountDetailView.swift */; };
 		43FE598331DE2BB0746F11C2 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533F46F3ABB1427C6147D69C /* Account.swift */; };
 		493FC49CB96F4E248ACA58DA /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0FC76D303F3802859FBD4C /* AuthManager.swift */; };
 		79E5F4760B373396186AE88D /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C5F1B8A6EC1469E33ED79 /* RootView.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		038085163E349995DD1C4A2C /* KeychainStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
+		22D18A6DAB1DD128C6503541 /* AccountDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailView.swift; sourceTree = "<group>"; };
 		2AC31632ED57801DF7C4333B /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		2BE41B6D0B98AFE7D4A199C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3F0FC76D303F3802859FBD4C /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
@@ -37,6 +39,7 @@
 			isa = PBXGroup;
 			children = (
 				533F46F3ABB1427C6147D69C /* Account.swift */,
+				22D18A6DAB1DD128C6503541 /* AccountDetailView.swift */,
 				489268AA6F47803CCA205F69 /* AccountsListView.swift */,
 				705A76B2914F300705896515 /* APIClient.swift */,
 				5615A8DFC2FE7159053F02C0 /* AplosConfig.swift */,
@@ -122,6 +125,7 @@
 			files = (
 				7C91809A743B00DF84395DD7 /* APIClient.swift in Sources */,
 				43FE598331DE2BB0746F11C2 /* Account.swift in Sources */,
+				209C4D4451FF6207F6887A01 /* AccountDetailView.swift in Sources */,
 				80E460DBFF02D2F18B0F67BA /* AccountsListView.swift in Sources */,
 				DE1DE095D4EA2EEAB8B0121A /* AplosCRMApp.swift in Sources */,
 				DACC704DB9D351EEA4B16DD6 /* AplosConfig.swift in Sources */,

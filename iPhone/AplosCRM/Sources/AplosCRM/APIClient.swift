@@ -21,7 +21,22 @@ struct APIClient {
             components.queryItems = [URLQueryItem(name: "search", value: search)]
         }
 
-        var request = URLRequest(url: components.url!)
+        let data = try await get(url: components.url!)
+        let decoded = try JSONDecoder().decode(AccountsResponse.self, from: data)
+        return decoded.data
+    }
+
+    func fetchAccount(id: Int) async throws -> AccountDetail {
+        var components = URLComponents(url: AplosConfig.accountsURL, resolvingAgainstBaseURL: false)!
+        components.queryItems = [URLQueryItem(name: "id", value: String(id))]
+
+        let data = try await get(url: components.url!)
+        let decoded = try JSONDecoder().decode(AccountDetailResponse.self, from: data)
+        return decoded.data
+    }
+
+    private func get(url: URL) async throws -> Data {
+        var request = URLRequest(url: url)
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
 
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -34,8 +49,6 @@ struct APIClient {
         guard http.statusCode == 200 else {
             throw APIError.server("Server returned status \(http.statusCode).")
         }
-
-        let decoded = try JSONDecoder().decode(AccountsResponse.self, from: data)
-        return decoded.data
+        return data
     }
 }
